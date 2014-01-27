@@ -35,6 +35,11 @@ int main()
 
 		window.clear();
 
+		sf::CircleShape shape(50);
+		shape.setFillColor(sf::Color(100, 100, 100));
+
+		window.draw(shape);
+
 		window.display();
 	}
 }
