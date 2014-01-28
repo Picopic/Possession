@@ -1,19 +1,23 @@
 //Engine.cpp
-
+#include "stdafx.h"
 #include "Engine.h"
-#include <iostream>
 
 Engine::Engine()
 {
+	window_width = 1280;
+	window_height = 720;
+	window_anti_aliasing = 4;
+}
+
+Engine::~Engine()
+{
+
 }
 
 bool Engine::Init()
 {
-	//Graphics AA
-	settings.antialiasingLevel = 4;
-
-	//create the window
-	window.create(sf::VideoMode(1280, 720), "Jian", sf::Style::Default, settings);
+	window_settings.antialiasingLevel = window_anti_aliasing;
+	window.create(VideoMode(window_width, window_height), "Jian", Style::Default, window_settings);
 
 	draw_manager = new DrawManager;
 
@@ -22,21 +26,20 @@ bool Engine::Init()
 
 void Engine::Run()
 {
+	//gameloop
 	while(window.isOpen())
 	{
-		//Event handling
-		sf::Event event;
+		//event handling
+		Event event;
 		while(window.pollEvent(event))
 		{
 			switch(event.type)
 			{
-			case sf::Event::Closed:
+			case Event::Closed:
 				window.close();
 				break;
-
-			case sf::Event::KeyPressed:
-				//pressing escape should shut down the program
-				if(event.key.code == sf::Keyboard::Escape)
+			case Event::KeyPressed:
+				if(event.key.code == Keyboard::Escape)
 				{
 					window.close();
 				}
@@ -44,12 +47,18 @@ void Engine::Run()
 			}
 		}
 
+		//game logic
 
-		//drawing portion of engine
+		//drawing portion of game loop
 		draw_manager->Draw(&window);
 	}
 }
 
-void Engine::CleanUp()
+void Engine::Cleanup()
 {
+	if(draw_manager != nullptr)
+	{
+		delete draw_manager;
+		draw_manager = nullptr;
+	}
 }

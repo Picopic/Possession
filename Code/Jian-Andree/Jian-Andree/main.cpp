@@ -1,11 +1,10 @@
-//main.cpp
+// main.cpp
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-#include <vector>
+
+#include "stdafx.h"
 #include "Engine.h"
 
-int main()
+int _tmain(int argc, _TCHAR* argv[])
 {
 	Engine engine;
 
@@ -14,5 +13,8 @@ int main()
 		engine.Run();
 	}
 
-	engine.CleanUp();
+	engine.Cleanup();
+
+	return 0;
 }
+

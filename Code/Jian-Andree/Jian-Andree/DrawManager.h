@@ -1,14 +1,13 @@
 //Drawmanager.h
 
-#include <SFML/Graphics.hpp>
+#pragma once
+
+using namespace sf;
 
 class DrawManager
 {
 public:
 	DrawManager();
 
-	void Draw(sf::RenderWindow *window);
-
-private:
-	sf::CircleShape shape;
+	void Draw(RenderWindow *window);
 };

@@ -1,19 +1,17 @@
 //Drawmanager.cpp
-
+#include "stdafx.h"
 #include "DrawManager.h"
+
+
 
 DrawManager::DrawManager()
 {
-	shape.setRadius(50);
-	shape.setPosition(200, 200);
+
 }
 
-void DrawManager::Draw(sf::RenderWindow *window)
+void DrawManager::Draw(RenderWindow *window)
 {
-	//clear the screen
-	window->clear();
-
-	window->draw(shape);
+	window->clear(Color(0x11,0x22,0x33,0xff));
 
 	window->display();
 }

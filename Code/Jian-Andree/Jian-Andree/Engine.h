@@ -1,20 +1,27 @@
 //Engine.h
 
-#include <SFML/Graphics.hpp>
+#pragma once
 
 #include "DrawManager.h"
 
+using namespace sf;
+
 class Engine
 {
-	sf::ContextSettings settings;
-	sf::RenderWindow window;
+public:
+	Engine();
+	~Engine();
+	
+	bool Init();
+	void Run();
+	void Cleanup();
 
 	DrawManager *draw_manager;
 
-public:
-	Engine();
-
-	bool Init();
-	void Run();
-	void CleanUp();
+private:
+	RenderWindow window;
+	ContextSettings window_settings;
+	int window_width;
+	int window_height;
+	int window_anti_aliasing;
 };
