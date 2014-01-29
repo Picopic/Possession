@@ -2,12 +2,13 @@
 
 #pragma once
 #include "Collider.h"
-class PlayerObject;
 
 enum Alignment
 {
 	FRIEND,
 	FOE,
+	FRIENDBULLET,
+	FOEBULLET,
 	ALIGNMENT_SIZE
 };
 
@@ -26,5 +27,5 @@ public:
 	~EntityManager();
 
 private:
-	PlayerObject *player;
+	
 };

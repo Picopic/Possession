@@ -1,0 +1,24 @@
+state
+bool changestate()
+-init (skapar)
+-enter(startar)
+-exit(slutar)
+-update(aktivt)
+
+statemanager
+-init(skapas)
+-update(aktivt state update)
+-setstate(arg string)
+-attach
+-detach
+
+vector<states>
+
+engine:cpp
+{
+statemanager.update
+}
+
+void update() = 0;
+virtual void update();
+virtual void update() = 0; <---- måste ärva och ändra

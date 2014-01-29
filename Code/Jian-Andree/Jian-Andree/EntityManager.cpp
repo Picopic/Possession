@@ -6,7 +6,7 @@
 
 EntityManager::EntityManager()
 {
-
+	
 }
 
 EntityManager::~EntityManager()
