@@ -1,5 +1,7 @@
 // Collider.cpp
 
+#include "stdafx.h"
+
 #include <cstdio>
 #include <cmath>
 #include "Collider.h"
