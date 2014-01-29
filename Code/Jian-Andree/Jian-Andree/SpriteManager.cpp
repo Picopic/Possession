@@ -56,14 +56,14 @@ void SpriteManager::Load(const std::string &filename, int _x, int _y, int _width
 		it->second.loadFromFile(path, IntRect(_x, _y, _width, _height));
 		it->second.setSmooth(true);
 
-		//Create a new sprite with the texture
+		//Create a new sprite with the newly created texture
 		sprites.push_back(Sprite());
 		sprites[sprites.size() - 1].setTexture(it->second);
 		sprites[sprites.size() - 1].setPosition(posx, posy);
 	}
 	else
 	{
-		//Create a new sprite with the texture
+		//Create a new sprite with the already existing texture
 		sprites.push_back(Sprite());
 		sprites[sprites.size() - 1].setTexture(it->second);
 		sprites[sprites.size() - 1].setPosition(posx, posy);

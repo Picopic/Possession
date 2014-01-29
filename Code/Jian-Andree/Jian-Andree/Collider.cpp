@@ -16,14 +16,20 @@ Collider::Collider(const Vector2 &_position, const Vector2 &_extension)
 {
 };
 
-bool Collider::Overlap(Collider &other, Vector2 &offset) {
+bool Collider::Overlap(Collider &other, Vector2 &offset) 
+{
+
 	float A = extension.x * 0.5f;
 	float B = other.extension.x * 0.5f;
 	float C = (position.x + A) - (other.position.x + B);
+
+
 	if(fabs(C) <= A + B) {
+
 		float Q = extension.y * 0.5f;
 		float P = other.extension.y * 0.5f;
 		float Z = (position.y + Q) - (other.position.y + P);
+
 		if(fabs(Z) <= Q + P) {
 			float dx = ceilf(fabs(C) - (A + B));
 			float dy = ceilf(fabs(Z) - (Q + P));
