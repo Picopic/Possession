@@ -23,8 +23,8 @@ public:
 	bool operator!=(const Vector2 &rhs);
 
 	float Length();
-	void Normalize();
+	void Normalise();
 
-	float m_x;
-	float m_y;
+	float x;
+	float y;
 };
