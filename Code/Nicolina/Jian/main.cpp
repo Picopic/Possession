@@ -6,9 +6,11 @@
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	enum Direction { Down, Left, Right, Up};
+	enum Direction { Down, Up, Left, Right};
 
 	sf::Vector2i source(1, Down);
+
+	float frameCounter = 0, switchFrame = 100, frameSpeed = 500;
 
 	sf::RenderWindow window(sf::VideoMode(1024, 640), "GAME");
 
@@ -16,6 +18,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	sf::Sprite playerSprite;
 	sf::Texture pTexture;
+	sf::Clock clock;
+
 	if(!pTexture.loadFromFile("super_cool_sprite.png"))
 		std::cout << "Error could not load image" << std::endl;
 
@@ -34,24 +38,36 @@ int _tmain(int argc, _TCHAR* argv[])
 				break;
 			case sf::Keyboard::Escape:
 				window.close();
-				break;
-			case sf::Event::KeyPressed:
-				if(event.key.code == sf::Keyboard::Up)
-					source.y = Up;
-				else if(event.key.code == sf::Keyboard::Down)
-					source.y = Down;
-				else if(event.key.code == sf::Keyboard::Right)
-					source.y = Right;
-				else if (event.key.code == sf::Keyboard::Left)
-					source.y = Left;
-					break;
-				
+				break;				
 			}
 		}
-		source.x++;
-		if(source.x * 32 >= pTexture.getSize().x)
-			source.x = 0;
 
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+					source.y = Up;
+					playerSprite.move(0, -1);
+				}
+				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+					source.y = Down;
+					playerSprite.move(0, 1);
+				}
+				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+					source.y = Right;
+					playerSprite.move(1, 0);
+				}
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+					source.y = Left;
+					playerSprite.move(-1, 0);
+				}
+
+
+		frameCounter += frameSpeed * clock.restart().asSeconds();
+		if(frameCounter >= switchFrame) {
+			frameCounter = 0;
+			source.x++;
+			if(source.x * 32 >= pTexture.getSize().x){
+				source.x = 0;
+			}
+		}
 
 		playerSprite.setTextureRect(sf::IntRect(source.x * 32, source.y * 32, 32, 32));
 		window.clear(sf::Color(0x11, 0x22, 0x33, 0xff));
