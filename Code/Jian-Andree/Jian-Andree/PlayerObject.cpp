@@ -9,12 +9,17 @@ PlayerObject::PlayerObject()
 
 }
 
-void PlayerObject::Init()
+PlayerObject::PlayerObject(Vector2 player_position, int width, int height)
 {
 
 }
 
-void PlayerObject::Update()
+void PlayerObject::Init(std::string object_type)
+{
+	
+}
+
+void PlayerObject::Update(float deltatime)
 {
 
 }

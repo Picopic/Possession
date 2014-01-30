@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <tchar.h>
-
+#include <vector>
 
 #pragma warning(disable:4099)
 #define SFML_STATIC

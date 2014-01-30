@@ -5,7 +5,6 @@
 #include <map>
 #include <string>
 
-using namespace sf;
 
 class DrawManager;
 
@@ -24,6 +23,6 @@ public:
 private:
 	DrawManager *draw_manager;
 	std::string directory;
-	std::map<std::string, Texture> textures;
-	std::vector<Sprite> sprites;
+	std::map<std::string, sf::Texture> textures;
+	std::vector<sf::Sprite> sprites;
 };

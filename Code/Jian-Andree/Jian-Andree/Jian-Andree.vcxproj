@@ -91,21 +91,31 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="DrawManager.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="FireEnemyObject.h" />
+    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Spritemanager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="WaterEnemyObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="DrawManager.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="FireEnemyObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="WaterEnemyObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -31,7 +31,7 @@ void SpriteManager::Cleanup()
 	}
 
 	//clear the dynamic arrays
-	std::map<std::string, Texture>::iterator it = textures.begin();
+	std::map<std::string, sf::Texture>::iterator it = textures.begin();
 	while(it != textures.end()) {
 		it->second.~Texture();
 		++it;
@@ -44,27 +44,27 @@ void SpriteManager::Cleanup()
 void SpriteManager::Load(const std::string &filename, int _x, int _y, int _width, int _height, int posx, int posy)
 {
 	//Do the texture already exist?
-	std::map<std::string, Texture>::iterator it = textures.find(filename);
+	std::map<std::string, sf::Texture>::iterator it = textures.find(filename);
 
 	//if we reach the end but still have not found the texture we create a new and store it
 	if(it == textures.end())
 	{
 		std::string path = directory + filename;
 
-		textures[filename] = Texture();
+		textures[filename] = sf::Texture();
 		it = textures.find(filename);
-		it->second.loadFromFile(path, IntRect(_x, _y, _width, _height));
+		it->second.loadFromFile(path, sf::IntRect(_x, _y, _width, _height));
 		it->second.setSmooth(true);
 
 		//Create a new sprite with the newly created texture
-		sprites.push_back(Sprite());
+		sprites.push_back(sf::Sprite());
 		sprites[sprites.size() - 1].setTexture(it->second);
 		sprites[sprites.size() - 1].setPosition(posx, posy);
 	}
 	else
 	{
 		//Create a new sprite with the already existing texture
-		sprites.push_back(Sprite());
+		sprites.push_back(sf::Sprite());
 		sprites[sprites.size() - 1].setTexture(it->second);
 		sprites[sprites.size() - 1].setPosition(posx, posy);
 	}

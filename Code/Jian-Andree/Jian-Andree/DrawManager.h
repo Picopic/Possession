@@ -1,13 +1,12 @@
 //Drawmanager.h
 
 #pragma once
-
-using namespace sf;
+#include "EntityManager.h"
 
 class DrawManager
 {
 public:
 	DrawManager();
 
-	void Draw(RenderWindow *window);
+	void Draw(sf::RenderWindow *window, EntityManager *entity_manager);
 };

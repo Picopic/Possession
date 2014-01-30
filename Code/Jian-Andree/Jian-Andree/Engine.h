@@ -3,8 +3,8 @@
 #pragma once
 
 #include "DrawManager.h"
+#include "EntityManager.h"
 
-using namespace sf;
 
 class Engine
 {
@@ -17,10 +17,11 @@ public:
 	void Cleanup();
 
 	DrawManager *draw_manager;
+	EntityManager *entity_manager;
 
 private:
-	RenderWindow window;
-	ContextSettings window_settings;
+	sf::RenderWindow window;
+	sf::ContextSettings window_settings;
 	int window_width;
 	int window_height;
 	int window_anti_aliasing;

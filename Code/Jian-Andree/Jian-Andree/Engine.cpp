@@ -17,29 +17,34 @@ Engine::~Engine()
 bool Engine::Init()
 {
 	window_settings.antialiasingLevel = window_anti_aliasing;
-	window.create(VideoMode(window_width, window_height), "Jian", Style::Default, window_settings);
+	window.create(sf::VideoMode(window_width, window_height), "Jian", sf::Style::Default, window_settings);
 
 	draw_manager = new DrawManager;
+
+	entity_manager = new EntityManager;
 
 	return true;
 }
 
 void Engine::Run()
 {
+	entity_manager->AttachEntity(WATERFOE, Vector2(50.0f, 300.0f), 50, 20);
+	entity_manager->AttachEntity(FIREFOE, Vector2(250.0f, 300.0f), 40, 20);
+
 	//gameloop
 	while(window.isOpen())
 	{
 		//event handling
-		Event event;
+		sf::Event event;
 		while(window.pollEvent(event))
 		{
 			switch(event.type)
 			{
-			case Event::Closed:
+			case sf::Event::Closed:
 				window.close();
 				break;
-			case Event::KeyPressed:
-				if(event.key.code == Keyboard::Escape)
+			case sf::Event::KeyPressed:
+				if(event.key.code == sf::Keyboard::Escape)
 				{
 					window.close();
 				}
@@ -50,7 +55,7 @@ void Engine::Run()
 		//game logic
 
 		//drawing portion of game loop
-		draw_manager->Draw(&window);
+		draw_manager->Draw(&window, entity_manager);
 	}
 }
 
