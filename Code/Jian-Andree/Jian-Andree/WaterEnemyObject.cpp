@@ -14,15 +14,19 @@ WaterEnemyObject::WaterEnemyObject(Vector2 enemy_position, int enemy_width, int 
 	position = enemy_position;
 	width = enemy_width;
 	height = enemy_height;
+
+	
 }
 
 void WaterEnemyObject::Init(std::string object_type)
 {
 	entity_ID = object_type;
-	//shape.setRadius(width);
-	//shape.setPosition(position.x, position.y);
+
+	shape.setRadius(width);
+	shape.setPosition(position.x, position.y);
 	
-	//shape.setFillColor(sf::Color(0,0,255));
+	shape.setFillColor(sf::Color(0,0,255));
+	
 	std::cout << "waterobject: " << position.x << std::endl;
 }
 

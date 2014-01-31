@@ -44,6 +44,4 @@ protected:
 	int height;
 
 	std::string entity_ID;
-
-	
 };

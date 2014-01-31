@@ -17,6 +17,8 @@ public:
 	void Init();
 	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height);
 	void DetachEntity(int entity_index);
+
+	void Cleanup();
 	std::vector<Entity*> game_entities;
 private:
 	

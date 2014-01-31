@@ -54,6 +54,8 @@ void Engine::Run()
 
 		//game logic
 
+		//std::cout << entity_manager->game_entities[0]->getID() << std::endl;
+
 		//drawing portion of game loop
 		draw_manager->Draw(&window, entity_manager);
 	}
