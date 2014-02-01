@@ -14,13 +14,14 @@ public:
 	EntityManager();
 	~EntityManager();
 
-	void Init();
-	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height);
+	void Init(Keyboard* keyboard);
+	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type);
 	void DetachEntity(int entity_index);
+	void Update(float deltatime);
 
 	void Cleanup();
 	std::vector<Entity*> game_entities;
 private:
 	
-	std::map<int, std::pair<Alignment, Alignment>> CollisionMap;
+	std::map<std::pair<Alignment, Alignment>, int> CollisionMap;
 };

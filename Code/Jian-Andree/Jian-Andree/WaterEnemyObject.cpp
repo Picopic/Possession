@@ -14,15 +14,20 @@ WaterEnemyObject::WaterEnemyObject(Vector2 enemy_position, int enemy_width, int 
 	position = enemy_position;
 	width = enemy_width;
 	height = enemy_height;
-
 	
+	collider = new Collider;
+	collider->position = position;
+	collider->extension = Vector2(width, height);
 }
 
-void WaterEnemyObject::Init(std::string object_type)
+void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, Type enemy_type)
 {
 	entity_ID = object_type;
 
-	shape.setRadius(width);
+	alignment = enemy_alignment;
+	type = enemy_type;
+
+	shape.setSize(sf::Vector2f(width, height));
 	shape.setPosition(position.x, position.y);
 	
 	shape.setFillColor(sf::Color(0,0,255));
@@ -32,5 +37,9 @@ void WaterEnemyObject::Init(std::string object_type)
 
 void WaterEnemyObject::Update(float deltatime)
 {
+}
 
+void WaterEnemyObject::OnCollision(Type enemy_type)
+{
+	std::cout << "Waterobject collision" << std::endl;
 }
