@@ -94,6 +94,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="FireEnemyObject.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Spritemanager.h" />
     <ClInclude Include="stdafx.h" />
@@ -107,6 +108,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="FireEnemyObject.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
