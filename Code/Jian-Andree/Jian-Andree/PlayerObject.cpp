@@ -60,9 +60,16 @@ void PlayerObject::Update(float deltatime)
 		shape.move(200 * deltatime, 0);
 		collider->position.x += 200*deltatime;
 	}
+
+	if(player_keyboard->getR())
+	{
+		
+	}
 }
 
-void PlayerObject::OnCollision(Type type)
+void PlayerObject::OnCollision(Type type, Vector2 offset)
 {
-	std::cout << "Player coll" << std::endl;
+	//shape.move(offset.x, offset.y);
+	std::cout << "x" << offset.x << std::endl;
+	std::cout << "y" << offset.y << std::endl;
 }

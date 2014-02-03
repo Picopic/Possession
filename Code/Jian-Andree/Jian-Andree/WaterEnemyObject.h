@@ -11,5 +11,5 @@ public:
 
 	void Init(std::string object_type, Alignment enemy_alignment, Type enemy_type);
 	void Update(float deltatime);
-	void OnCollision(Type enemy_type);
+	void OnCollision(Type enemy_type, Vector2 offset);
 };

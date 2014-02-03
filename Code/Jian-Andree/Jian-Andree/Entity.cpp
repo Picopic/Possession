@@ -20,9 +20,6 @@ void Entity::Init(std::string object_type, Alignment alignment, Type type)
 
 void Entity::Update(float deltatime)
 {
-	/*
-		update object here, movement etc
-	*/
 }
 
 std::string Entity::getID()
@@ -35,7 +32,7 @@ void Entity::setID(std::string new_ID)
 	entity_ID = new_ID;
 }
 
-void Entity::OnCollision(Type enemy_type)
+void Entity::OnCollision(Type collision_type, Vector2 offset)
 {
 }
 
@@ -54,7 +51,7 @@ Alignment Entity::getAlignment()
 	return alignment;
 }
 
-bool Entity::hasCollider()
+bool Entity::hasCollider() const
 {
 	return collider != nullptr;
 }

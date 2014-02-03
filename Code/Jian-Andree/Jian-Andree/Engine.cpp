@@ -97,6 +97,15 @@ void Engine::Run()
 			keyboard.setS(false);
 		}
 
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+		{
+			keyboard.setR(true);
+		}
+		else
+		{
+			keyboard.setR(false);
+		}
+
 		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop

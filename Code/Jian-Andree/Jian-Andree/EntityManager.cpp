@@ -77,9 +77,10 @@ void EntityManager::Cleanup()
 void EntityManager::Update(float deltatime)
 {
 	int count = 0;
-	for(int i = 0; i < (game_entities.size() - 1); i++)
+	for(int i = 0; i < (game_entities.size()); i++)
 	{
 		game_entities[i]->Update(deltatime);
+		//std::cout << game_entities[i]->getID() << std::endl;
 
 
 		//iterate through the collisionmap
@@ -95,8 +96,8 @@ void EntityManager::Update(float deltatime)
 					if(game_entities[i]->getCollider()->Overlap(*game_entities[j]->getCollider(), offset))
 					{
 						//std::cout << "hej" << std::endl;
-						game_entities[i]->OnCollision(game_entities[j]->getType());
-						game_entities[j]->OnCollision(game_entities[i]->getType());
+						game_entities[i]->OnCollision(game_entities[j]->getType(), offset);
+						game_entities[j]->OnCollision(game_entities[i]->getType(), offset);
 					}
 					//std::cout << game_entities[i]->getID() << std::endl;
 					//std::cout << game_entities[j]->getID() << std::endl;

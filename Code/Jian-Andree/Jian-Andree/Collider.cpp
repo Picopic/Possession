@@ -32,6 +32,8 @@ bool Collider::Overlap(Collider &other, Vector2 &offset)
 		float P = other.extension.y * 0.5f;
 		float Z = (position.y + Q) - (other.position.y + P);
 
+
+		//wut.png
 		if(fabs(Z) <= Q + P) {
 			float dx = ceilf(fabs(C) - (A + B));
 			float dy = ceilf(fabs(Z) - (Q + P));
@@ -49,6 +51,7 @@ bool Collider::Overlap(Collider &other, Vector2 &offset)
 				offset.y = dy;
 				other.position.y += dy;
 			};
+			
 			return true;
 		};
 	};

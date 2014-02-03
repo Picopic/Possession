@@ -38,10 +38,10 @@ public:
 
 	Alignment getAlignment();
 	Collider* getCollider();
-	bool hasCollider();
+	bool hasCollider() const;
 	Type getType();
 
-	virtual void OnCollision(Type enemy_type);
+	virtual void OnCollision(Type collision_type, Vector2 offset);
 
 	sf::RectangleShape shape;
 protected:

@@ -37,9 +37,14 @@ void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, 
 
 void WaterEnemyObject::Update(float deltatime)
 {
+	if(hasCollider())
+	{
+		collider->position = position;
+		shape.setPosition(position.x, position.y);
+	}
 }
 
-void WaterEnemyObject::OnCollision(Type enemy_type)
+void WaterEnemyObject::OnCollision(Type enemy_type, Vector2 offset)
 {
-	std::cout << "Waterobject collision" << std::endl;
+	
 }

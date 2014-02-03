@@ -15,7 +15,7 @@ public:
 	void getID();
 	void setID();
 
-	void OnCollision(Type type);
+	void OnCollision(Type type, Vector2 offset);
 
 private:
 	//need inputs, so a keyboard is necessary

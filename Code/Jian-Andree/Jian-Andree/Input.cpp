@@ -10,6 +10,7 @@ Keyboard::Keyboard()
 	A = false;
 	S = false;
 	D = false;
+	R = false;
 }
 
 void Keyboard::setW(bool state)
@@ -32,6 +33,11 @@ void Keyboard::setD(bool state)
 	D = state;
 }
 
+void Keyboard::setR(bool state)
+{
+	R = state;
+}
+
 bool Keyboard::getW()
 {
 	return W;
@@ -50,4 +56,9 @@ bool Keyboard::getS()
 bool Keyboard::getD()
 {
 	return D;
+}
+
+bool Keyboard::getR()
+{
+	return R;
 }
