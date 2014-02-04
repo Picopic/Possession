@@ -6,6 +6,7 @@
 #include "WaterEnemyObject.h"
 #include "FireEnemyObject.h"
 #include "PlayerObject.h"
+#include "Projectile.h"
 
 
 class EntityManager
@@ -15,7 +16,7 @@ public:
 	~EntityManager();
 
 	void Init(Keyboard* keyboard);
-	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type);
+	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type, Vector2 entity_direction);
 	void DetachEntity(int entity_index);
 	void Update(float deltatime);
 

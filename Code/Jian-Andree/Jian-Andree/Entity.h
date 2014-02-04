@@ -38,8 +38,19 @@ public:
 
 	Alignment getAlignment();
 	Collider* getCollider();
+	Vector2 getPosition();
 	bool hasCollider() const;
 	Type getType();
+
+	Vector2 getDirection();
+
+	bool CreateProjectile();
+	float getShootDelay();
+	float getDelay();
+	void setDelay(float new_delay);
+
+	bool IsFlaggedForDeath();
+
 
 	virtual void OnCollision(Type collision_type, Vector2 offset);
 
@@ -55,4 +66,15 @@ protected:
 	int height;
 
 	std::string entity_ID;
+
+	bool flagged_for_death;
+
+	//projectilehandling
+	bool create_projectile;
+	bool created_projectile;
+	int max_projectile_count;
+	float shooting_delay;
+	float delay;
+
+	Vector2 direction;
 };

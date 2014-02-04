@@ -55,3 +55,38 @@ bool Entity::hasCollider() const
 {
 	return collider != nullptr;
 }
+
+bool Entity::IsFlaggedForDeath()
+{
+	return flagged_for_death;
+}
+
+Vector2 Entity::getDirection()
+{
+	return direction;
+}
+
+bool Entity::CreateProjectile()
+{
+	return create_projectile;
+}
+
+Vector2 Entity::getPosition()
+{
+	return position;
+}
+
+float Entity::getShootDelay()
+{
+	return shooting_delay;
+}
+
+float Entity::getDelay()
+{
+	return delay;
+}
+
+void Entity::setDelay(float new_delay)
+{
+	delay = new_delay;
+}

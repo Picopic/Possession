@@ -14,6 +14,8 @@ WaterEnemyObject::WaterEnemyObject(Vector2 enemy_position, int enemy_width, int 
 	position = enemy_position;
 	width = enemy_width;
 	height = enemy_height;
+
+	flagged_for_death = false;
 	
 	collider = new Collider;
 	collider->position = position;

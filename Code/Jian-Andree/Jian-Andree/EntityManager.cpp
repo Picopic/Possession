@@ -34,9 +34,10 @@ void EntityManager::Init(Keyboard* keyboard)
 
 	game_entities.push_back(new PlayerObject(Vector2(400.0f, 0.0f), 50, 40, keyboard));
 	game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
+	game_entities[game_entities.size() - 1]->setDelay(0.3f);
 }
 
-void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
+void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type, Vector2 entity_direction)
 {
 	/*
 		create new entity, appropriate to the string that followed
@@ -55,6 +56,10 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		//game_entities.push_back(new PlayerObject(position, width, height));
 		//game_entities[game_entities.size() - 1]->Init("Player", entity_name, FIRE);
 		//break;
+	case FRIENDBULLET:
+		game_entities.push_back(new Projectile(position, width, height, entity_direction));
+		game_entities[game_entities.size() -1]->Init("PLAYER BULLET", entity_name, type);
+		break;
 	}
 	
 }
@@ -70,6 +75,8 @@ void EntityManager::Cleanup()
 {
 	for(int i = 0; i < game_entities.size(); i ++)
 	{
+		delete game_entities[i];
+		game_entities[i] = nullptr;
 		game_entities.erase(game_entities.begin() + i);
 	}
 }
@@ -80,7 +87,6 @@ void EntityManager::Update(float deltatime)
 	for(int i = 0; i < (game_entities.size()); i++)
 	{
 		game_entities[i]->Update(deltatime);
-		//std::cout << game_entities[i]->getID() << std::endl;
 
 
 		//iterate through the collisionmap
@@ -95,16 +101,32 @@ void EntityManager::Update(float deltatime)
 					Vector2 offset = Vector2(0.1f, 0.1f);
 					if(game_entities[i]->getCollider()->Overlap(*game_entities[j]->getCollider(), offset))
 					{
-						//std::cout << "hej" << std::endl;
 						game_entities[i]->OnCollision(game_entities[j]->getType(), offset);
 						game_entities[j]->OnCollision(game_entities[i]->getType(), offset);
 					}
-					//std::cout << game_entities[i]->getID() << std::endl;
-					//std::cout << game_entities[j]->getID() << std::endl;
-					//std::cout << count << std::endl;
 				}
 			}
-			
+		}
+
+		//create projectiles
+		if(game_entities[i]->getAlignment() == PLAYER)
+		{
+			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
+			{
+				AttachEntity(FRIENDBULLET, game_entities[i]->getPosition(), 10, 10, game_entities[i]->getType(), game_entities[i]->getDirection());
+			}
+		}
+		//std::cout << game_entities.size() << std::endl;
+		
+	}
+
+	for(int i = 0; i < game_entities.size(); i++)
+	{
+		if(game_entities[i]->IsFlaggedForDeath())
+		{
+			delete game_entities[i];
+			game_entities[i] = nullptr;
+			game_entities.erase(game_entities.begin() + i);
 		}
 	}
 }

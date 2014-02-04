@@ -15,6 +15,8 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	width = enemy_width;
 	height = enemy_height;
 
+	flagged_for_death = false;
+
 	collider = new Collider;
 	collider->position = position;
 	collider->extension = Vector2(width, height);

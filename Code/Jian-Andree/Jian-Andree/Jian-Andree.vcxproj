@@ -96,6 +96,7 @@
     <ClInclude Include="FireEnemyObject.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="Spritemanager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Vector2.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
