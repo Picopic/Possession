@@ -9,11 +9,33 @@ Projectile::Projectile()
 
 }
 
-Projectile::Projectile(Vector2 projectile_position, int projectile_width, int projectile_height, Vector2 projectile_direction)
+Projectile::Projectile(Entity* shooter_entity, int projectile_width, int projectile_height, Vector2 projectile_direction)
 {
-	position = projectile_position;
 	width = projectile_width;
 	height = projectile_height;
+
+	if(projectile_direction == Vector2(1, 0))
+	{
+		position.x = shooter_entity->getPosition().x + shooter_entity->getWidth();
+		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
+	}
+	else if(projectile_direction == Vector2(-1, 0))
+	{
+		position.x = shooter_entity->getPosition().x;
+		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
+	}
+	else if(projectile_direction == Vector2(0, 1))
+	{
+		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight();
+		position.x = shooter_entity->getPosition().x + (shooter_entity->getWidth()/2 - width/2);
+	}
+	else if(projectile_direction == Vector2(0, -1))
+	{
+		position.y = shooter_entity->getPosition().y;
+		position.x = shooter_entity->getPosition().x + (shooter_entity->getWidth()/2 - width/2);
+	}
+
+	
 
 	direction = projectile_direction;
 

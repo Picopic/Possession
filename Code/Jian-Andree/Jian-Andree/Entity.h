@@ -51,6 +51,9 @@ public:
 
 	bool IsFlaggedForDeath();
 
+	int getWidth();
+	int getHeight();
+
 
 	virtual void OnCollision(Type collision_type, Vector2 offset);
 

@@ -6,7 +6,7 @@ class Projectile : public Entity
 {
 public:
 	Projectile();
-	Projectile(Vector2 projectile_position, int projectile_width, int projectile_height, Vector2 projectile_direction);
+	Projectile(Entity* shooter_entity, int projectile_width, int projectile_height, Vector2 projectile_direction);
 
 	void Init(std::string object_type, Alignment alignment, Type type);
 	void Update(float deltatime);

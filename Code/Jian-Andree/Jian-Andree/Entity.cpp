@@ -90,3 +90,13 @@ void Entity::setDelay(float new_delay)
 {
 	delay = new_delay;
 }
+
+int Entity::getWidth()
+{
+	return width;
+}
+
+int Entity::getHeight()
+{
+	return height;
+}

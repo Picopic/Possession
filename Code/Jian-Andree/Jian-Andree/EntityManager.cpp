@@ -37,7 +37,7 @@ void EntityManager::Init(Keyboard* keyboard)
 	game_entities[game_entities.size() - 1]->setDelay(0.3f);
 }
 
-void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type, Vector2 entity_direction)
+void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
 {
 	/*
 		create new entity, appropriate to the string that followed
@@ -56,10 +56,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		//game_entities.push_back(new PlayerObject(position, width, height));
 		//game_entities[game_entities.size() - 1]->Init("Player", entity_name, FIRE);
 		//break;
-	case FRIENDBULLET:
-		game_entities.push_back(new Projectile(position, width, height, entity_direction));
-		game_entities[game_entities.size() -1]->Init("PLAYER BULLET", entity_name, type);
-		break;
 	}
 	
 }
@@ -69,6 +65,24 @@ void EntityManager::DetachEntity(int entity_index)
 	/*
 		Delete the entity, appropriate to the string that followed
 	*/
+}
+
+void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction)
+{
+	switch (entity_name)
+	{
+	case FRIENDBULLET:
+		game_entities.push_back(new Projectile(shooter, width, height, entity_direction));
+		game_entities[game_entities.size() -1]->Init("PLAYER BULLET", entity_name, entity_type);
+		break;
+	case FIREFOEBULLET:
+		break;
+	case WATERFOEBULLET:
+		break;
+	case WOODFOEBULLET:
+		break;
+	}
+	
 }
 
 void EntityManager::Cleanup()
@@ -113,7 +127,7 @@ void EntityManager::Update(float deltatime)
 		{
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachEntity(FRIENDBULLET, game_entities[i]->getPosition(), 10, 10, game_entities[i]->getType(), game_entities[i]->getDirection());
+				AttachProjectile(FRIENDBULLET, game_entities[i], 10, 10, game_entities[i]->getType(), game_entities[i]->getDirection());
 			}
 		}
 		//std::cout << game_entities.size() << std::endl;

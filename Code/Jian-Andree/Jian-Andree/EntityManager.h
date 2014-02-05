@@ -16,9 +16,11 @@ public:
 	~EntityManager();
 
 	void Init(Keyboard* keyboard);
-	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type, Vector2 entity_direction);
+	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type);
 	void DetachEntity(int entity_index);
 	void Update(float deltatime);
+
+	void AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction);
 
 	void Cleanup();
 	std::vector<Entity*> game_entities;
