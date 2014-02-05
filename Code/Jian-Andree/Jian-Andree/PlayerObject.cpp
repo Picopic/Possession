@@ -39,7 +39,6 @@ void PlayerObject::Init(std::string object_type, Alignment player_alignment, Typ
 	shape.setPosition(position.x, position.y);
 	
 	shape.setFillColor(sf::Color(0,255,0));
-	std::cout << "Playerobject: " << position.x << std::endl;
 }
 
 void PlayerObject::Update(float deltatime)

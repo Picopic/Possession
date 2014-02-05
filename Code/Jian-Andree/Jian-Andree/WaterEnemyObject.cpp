@@ -16,6 +16,7 @@ WaterEnemyObject::WaterEnemyObject(Vector2 enemy_position, int enemy_width, int 
 	height = enemy_height;
 
 	flagged_for_death = false;
+	hitpoints = 10;
 	
 	collider = new Collider;
 	collider->position = position;
@@ -33,8 +34,6 @@ void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, 
 	shape.setPosition(position.x, position.y);
 	
 	shape.setFillColor(sf::Color(0,0,255));
-	
-	std::cout << "waterobject: " << position.x << std::endl;
 }
 
 void WaterEnemyObject::Update(float deltatime)
@@ -44,9 +43,25 @@ void WaterEnemyObject::Update(float deltatime)
 		collider->position = position;
 		shape.setPosition(position.x, position.y);
 	}
+
+	if(hitpoints <= 0)
+	{
+		flagged_for_death = true;
+	}
 }
 
 void WaterEnemyObject::OnCollision(Type enemy_type, Vector2 offset)
 {
-	
+	if(enemy_type == WOOD)
+	{
+		hitpoints -= 3;
+	}
+	else if(enemy_type == WATER)
+	{
+		hitpoints -= 2;
+	}
+	else if(enemy_type == FIRE)
+	{
+		hitpoints--;
+	}
 }

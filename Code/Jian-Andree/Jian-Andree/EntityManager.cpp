@@ -138,6 +138,7 @@ void EntityManager::Update(float deltatime)
 	{
 		if(game_entities[i]->IsFlaggedForDeath())
 		{
+			game_entities[i]->Cleanup();
 			delete game_entities[i];
 			game_entities[i] = nullptr;
 			game_entities.erase(game_entities.begin() + i);

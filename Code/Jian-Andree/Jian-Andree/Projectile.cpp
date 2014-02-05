@@ -65,6 +65,8 @@ void Projectile::Update(float deltatime)
 	shape.move(deltatime * 300 * direction.x, deltatime * 300 * direction.y);
 	collider->position.x = shape.getPosition().x;
 	collider->position.y = shape.getPosition().y;
+	
+	//out of screen actions
 	if((shape.getPosition().x + width) < 0)
 	{
 		flagged_for_death = true;
@@ -85,5 +87,5 @@ void Projectile::Update(float deltatime)
 
 void Projectile::OnCollision(Type collision_type, Vector2 offset)
 {
-	//TODO
+	flagged_for_death = true;
 }

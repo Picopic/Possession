@@ -32,6 +32,7 @@ public:
 	Entity(Vector2 entity_position, int entity_width, int entity_height);
 	virtual void Init(std::string object_type, Alignment alignment, Type type) = 0; //initiate the object
 	virtual void Update(float deltatime) = 0; //move and/or animate the object
+	void Cleanup();
 
 	std::string getID();
 	void setID(std::string new_ID);
@@ -67,6 +68,8 @@ protected:
 
 	int width;
 	int height;
+
+	int hitpoints;
 
 	std::string entity_ID;
 

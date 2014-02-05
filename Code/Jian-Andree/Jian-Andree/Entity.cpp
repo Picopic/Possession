@@ -22,6 +22,15 @@ void Entity::Update(float deltatime)
 {
 }
 
+void Entity::Cleanup()
+{
+	if(hasCollider())
+	{
+		delete collider;
+		collider = nullptr;
+	}
+}
+
 std::string Entity::getID()
 {
 	return entity_ID;
