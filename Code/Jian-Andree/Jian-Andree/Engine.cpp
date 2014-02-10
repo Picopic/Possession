@@ -63,49 +63,6 @@ void Engine::Run()
 
 		//game logic
 
-		//horizontal movement player
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			keyboard.setA(true);
-			keyboard.setD(false);
-		}
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			keyboard.setD(true);
-			keyboard.setA(false);
-		}
-		else
-		{
-			keyboard.setA(false);
-			keyboard.setD(false);
-		}
-
-		//vertical movement player
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			keyboard.setW(true);
-			keyboard.setS(false);
-		}
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			keyboard.setS(true);
-			keyboard.setW(false);
-		}
-		else
-		{
-			keyboard.setW(false);
-			keyboard.setS(false);
-		}
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-		{
-			keyboard.setR(true);
-		}
-		else
-		{
-			keyboard.setR(false);
-		}
-
 		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop
