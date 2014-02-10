@@ -1,0 +1,41 @@
+//Enums.h
+
+#pragma once
+
+enum Alignment
+{
+	PLAYER,
+	WATERFOE,
+	WOODFOE,
+	FIREFOE,
+	FRIENDBULLET,
+	WATERFOEBULLET,
+	WOODFOEBULLET,
+	FIREFOEBULLET,
+	ALIGNMENT_SIZE
+};
+
+enum Type
+{
+	FIRE,
+	WATER,
+	WOOD,
+	TYPE_SIZE
+};
+
+enum AnimationName
+{
+	IDLE,
+	WALKLEFT,
+	WALKRIGHT,
+	ATTACKLEFT,
+	ATTACKRIGHT,
+	DEATH,
+	ANIMATION_NAME_SIZE
+};
+
+class Enums
+{
+public: 
+	Enums();
+};

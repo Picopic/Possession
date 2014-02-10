@@ -1,6 +1,7 @@
 //Drawmanager.cpp
 #include "stdafx.h"
 #include "DrawManager.h"
+#include "AnimatedSprite.h"
 
 
 
@@ -15,7 +16,7 @@ void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager)
 
 	for(int i = 0; i < entity_manager->game_entities.size(); i++)
 	{
-		window->draw(entity_manager->game_entities[i]->shape);
+		window->draw(*entity_manager->game_entities[i]->GetCurrentAnimation()->getSprite());
 	}
 
 	window->display();

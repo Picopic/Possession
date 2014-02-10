@@ -1,71 +1,88 @@
-//Spritemanager.cpp
+//SpriteManager.cpp
 
 #include "stdafx.h"
+#include "AnimatedSprite.h"
+#include "SpriteManager.h"
 
-#include "Spritemanager.h"
-
-SpriteManager::SpriteManager(DrawManager *_draw_manager)
-{
-	draw_manager = _draw_manager;
-}
-
-SpriteManager::~SpriteManager()
+SpriteManager::SpriteManager()
 {
 
 }
 
-bool SpriteManager::Initialise(const std::string &_directory)
+bool SpriteManager::Initialise(const std::string &img_directory)
 {
-	directory = _directory;
+	directory = img_directory;
 
 	return true;
 }
 
 void SpriteManager::Cleanup()
 {
-	//delete the draw manager pointer
-	if(draw_manager != nullptr)
+	std::map<std::string, sf::Texture*>::iterator it = spritesheets.begin();
+	while(it != spritesheets.end())
 	{
-		delete draw_manager;
-		draw_manager = nullptr;
+		delete it->second;
+		it->second = nullptr;
+		++it;
 	}
 
-	//clear the dynamic arrays
-	std::map<std::string, sf::Texture>::iterator it = textures.begin();
-	while(it != textures.end()) {
-		it->second.~Texture();
-		++it;
-	};
-	textures.clear();
-
-	sprites.clear();
+	spritesheets.clear();
 }
 
-void SpriteManager::Load(const std::string &filename, int _x, int _y, int _width, int _height, int posx, int posy)
+AnimatedSprite* SpriteManager::Load(const std::string &filename, int number_of_frames, int number_of_columns, int width, int height, int startx, int starty)
 {
-	//Do the texture already exist?
-	std::map<std::string, sf::Texture>::iterator it = textures.find(filename);
-
-	//if we reach the end but still have not found the texture we create a new and store it
-	if(it == textures.end())
+	std::map<std::string, sf::Texture*>::iterator it = spritesheets.find(filename);
+	if(it == spritesheets.end())
 	{
-		std::string path = directory + filename;
+		//Om det inte går att ladda in spritesheeten
+		if(!LoadImage(filename))
+		{
+			return nullptr;
+		}
 
-		textures[filename] = sf::Texture();
-		it = textures.find(filename);
-		it->second.loadFromFile(path, sf::IntRect(_x, _y, _width, _height));
-		it->second.setSmooth(true);
-
-		//Create a new sprite with the newly created texture
-		sprites.push_back(sf::Sprite());
-		sprites[sprites.size() - 1].setTexture(it->second);
-		sprites[sprites.size() - 1].setPosition(posx, posy);
+		it = spritesheets.find(filename);
 	}
-	else
+
+	AnimatedSprite* anim_sprite = new AnimatedSprite(it->second, width, height);
+	int row = 0;
+	int column = 0;
+	for(int i = 1; i <= number_of_frames; i++)
 	{
-		//Create a new sprite with the already existing texture
-		sprites.push_back(sf::Sprite());
-		sprites[sprites.size() - 1].setTexture(it->second);
-		sprites[sprites.size() - 1].setPosition(posx, posy);
+		AnimatedSprite::Frame frame;
+
+		frame.duration = 0.1f;
+		frame.x = startx + (column * width);
+		frame.y = starty + (row * height);
+		frame.w = width;
+		frame.h = height;
+		anim_sprite->AddFrame(frame);
+		
+		column ++;
+
+		if(i%number_of_columns == 0)
+		{
+			column = 0;
+			row++;
+		}
 	}
+
+	return anim_sprite;
+}
+
+/*
+ * Laddar in ett spritesheet
+ * returna false om det inte gick
+*/
+bool SpriteManager::LoadImage(const std::string &filename)
+{
+	std::string path = directory + filename;
+	sf::Texture* texture = new sf::Texture();
+	texture->loadFromFile(path);
+	if(texture == nullptr)
+	{
+		return false;
+	}
+
+	spritesheets.insert(std::pair<std::string, sf::Texture*>(filename, texture));
+	return true;
 }

@@ -11,6 +11,8 @@ WaterEnemyObject::WaterEnemyObject()
 
 WaterEnemyObject::WaterEnemyObject(Vector2 enemy_position, int enemy_width, int enemy_height)
 {
+	current_animation = nullptr;
+
 	position = enemy_position;
 	width = enemy_width;
 	height = enemy_height;
@@ -50,18 +52,26 @@ void WaterEnemyObject::Update(float deltatime)
 	}
 }
 
-void WaterEnemyObject::OnCollision(Type enemy_type, Vector2 offset)
+void WaterEnemyObject::OnCollision(Type enemy_type, Vector2 offset, Alignment enemy_alignment)
 {
-	if(enemy_type == WOOD)
+	if(enemy_alignment == FRIENDBULLET)
 	{
-		hitpoints -= 3;
+		if(enemy_type == WOOD)
+			{
+				hitpoints -= 3;
+			}
+			else if(enemy_type == WATER)
+			{
+				hitpoints -= 2;
+			}
+			else if(enemy_type == FIRE)
+			{
+				hitpoints--;
+			}
 	}
-	else if(enemy_type == WATER)
+	else if(enemy_alignment == PLAYER)
 	{
-		hitpoints -= 2;
+
 	}
-	else if(enemy_type == FIRE)
-	{
-		hitpoints--;
-	}
+	
 }

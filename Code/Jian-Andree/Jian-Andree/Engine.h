@@ -4,7 +4,9 @@
 
 #include "DrawManager.h"
 #include "EntityManager.h"
-#include "Input.h"
+#include "Spritemanager.h"
+#include "AnimationManager.h"
+#include "Enums.h"
 
 
 class Engine
@@ -19,7 +21,7 @@ public:
 
 	DrawManager *draw_manager;
 	EntityManager *entity_manager;
-	Keyboard keyboard;
+	SpriteManager *sprite_manager;
 
 private:
 	void UpdateDeltatime();

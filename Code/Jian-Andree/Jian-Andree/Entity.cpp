@@ -2,6 +2,8 @@
 
 #include "stdafx.h"
 
+
+
 #include "Entity.h"
 
 Entity::Entity()
@@ -41,7 +43,7 @@ void Entity::setID(std::string new_ID)
 	entity_ID = new_ID;
 }
 
-void Entity::OnCollision(Type collision_type, Vector2 offset)
+void Entity::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
 }
 
@@ -108,4 +110,32 @@ int Entity::getWidth()
 int Entity::getHeight()
 {
 	return height;
+}
+
+void Entity::AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite)
+{
+	animations.insert(std::pair<AnimationName, AnimatedSprite*>(animation_name, anim_sprite));
+	if(current_animation == nullptr)
+	{
+		auto it = animations.find(animation_name);
+		current_animation = it->second;
+	}
+}
+
+AnimatedSprite* Entity::GetCurrentAnimation()
+{
+	return current_animation;
+}
+
+void Entity::SetCurrentAnimation(AnimationName animation_name)
+{
+	auto it = animations.find(animation_name);
+	if(it == animations.end())
+	{
+
+	}
+	else
+	{
+		current_animation = it->second;
+	}
 }

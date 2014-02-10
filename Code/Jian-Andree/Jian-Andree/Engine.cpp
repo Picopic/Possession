@@ -20,8 +20,11 @@ bool Engine::Init()
 	window.create(sf::VideoMode(window_width, window_height), "Jian", sf::Style::Default, window_settings);
 
 	draw_manager = new DrawManager;
-
-	entity_manager = new EntityManager;
+	
+	sprite_manager = new SpriteManager;
+	sprite_manager->Initialise("../data/Spritesheets/");
+	
+	entity_manager = new EntityManager(sprite_manager);
 
 	previous_time = game_clock.restart();
 
@@ -33,9 +36,8 @@ bool Engine::Init()
 
 void Engine::Run()
 {
-	entity_manager->Init(&keyboard);
-	entity_manager->AttachEntity(WATERFOE, Vector2(50.0f, 300.0f), 50, 20, WATER);
-	entity_manager->AttachEntity(FIREFOE, Vector2(250.0f, 300.0f), 40, 20, FIRE);
+	entity_manager->Init();
+	entity_manager->AttachEntity(FIREFOE, Vector2(600, 400), 210, 210, FIRE);
 
 	//gameloop
 	while(window.isOpen())
@@ -67,6 +69,8 @@ void Engine::Run()
 
 		//drawing portion of game loop
 		draw_manager->Draw(&window, entity_manager);
+
+		//std::cout << entity_manager->game_entities.size() << std::endl;
 	}
 }
 
@@ -76,6 +80,16 @@ void Engine::Cleanup()
 	{
 		delete draw_manager;
 		draw_manager = nullptr;
+	}
+	if(entity_manager != nullptr)
+	{
+		delete entity_manager;
+		entity_manager = nullptr;
+	}
+	if(sprite_manager != nullptr)
+	{
+		delete sprite_manager;
+		sprite_manager = nullptr;
 	}
 }
 

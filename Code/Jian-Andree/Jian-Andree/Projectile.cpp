@@ -11,6 +11,8 @@ Projectile::Projectile()
 
 Projectile::Projectile(Entity* shooter_entity, int projectile_width, int projectile_height, Vector2 projectile_direction)
 {
+	current_animation = nullptr;
+
 	width = projectile_width;
 	height = projectile_height;
 
@@ -35,8 +37,6 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 		position.x = shooter_entity->getPosition().x + (shooter_entity->getWidth()/2 - width/2);
 	}
 
-	
-
 	direction = projectile_direction;
 
 	flagged_for_death = false;
@@ -53,39 +53,46 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 	alignment = projectile_alignment;
 	type = projectile_type;
 
-	shape.setSize(sf::Vector2f(width, height));
-	shape.setPosition(position.x, position.y);
+	current_animation->getSprite()->setPosition(position.x, position.y);
 	
-	shape.setFillColor(sf::Color(0xE5, 0x68, 0x2B));
-	//std::cout << "projectile x: " << direction.x << "\tprojectile y: " << direction.y << std::endl;
+	//which animation?
+	if(direction.x == 1)
+	{
+	}
+	else
+	{
+	}
 }
 
 void Projectile::Update(float deltatime)
 {
-	shape.move(deltatime * 300 * direction.x, deltatime * 300 * direction.y);
-	collider->position.x = shape.getPosition().x;
-	collider->position.y = shape.getPosition().y;
+	current_animation->Update(deltatime);
+	current_animation->getSprite()->move(direction.x * 300 * deltatime, deltatime * 300 * direction.y);
+	position.x += deltatime * 300 * direction.x;
+
+	collider->position.x = position.x;
+	collider->position.y = position.y;
 	
 	//out of screen actions
-	if((shape.getPosition().x + width) < 0)
+	if((position.x + width) < 0)
 	{
 		flagged_for_death = true;
 	}
-	else if(shape.getPosition().x > 1280)
+	else if(position.x > 1280)
 	{
 		flagged_for_death = true;
 	}
-	else if((shape.getPosition().y + height) < 0)
+	else if((position.y + height) < 0)
 	{
 		flagged_for_death = true;
 	}
-	else if(shape.getPosition().y > 720)
+	else if(position.y > 720)
 	{
 		flagged_for_death = true;
 	}
 }
 
-void Projectile::OnCollision(Type collision_type, Vector2 offset)
+void Projectile::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
 	flagged_for_death = true;
 }

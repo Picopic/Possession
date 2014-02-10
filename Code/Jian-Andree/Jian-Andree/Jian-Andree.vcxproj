@@ -88,13 +88,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="DrawManager.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="FireEnemyObject.h" />
-    <ClInclude Include="Input.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Spritemanager.h" />
@@ -103,13 +104,14 @@
     <ClInclude Include="WaterEnemyObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="DrawManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="Enums.cpp" />
     <ClCompile Include="FireEnemyObject.cpp" />
-    <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="Projectile.cpp" />
