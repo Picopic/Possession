@@ -23,6 +23,14 @@ int _tmain(int argc, _TCHAR* argv[])
 	background.setTexture(Ibackground);
 	background.setPosition(0, 0);
 
+	//Blå Bakgrundsmark:
+	Texture Ibackground3;
+	Sprite  background3;
+
+	Ibackground3.loadFromFile("../bin/BG3.png");
+	background3.setTexture(Ibackground3);
+	background3.setPosition(0,0);
+
 	//Bakgrundshorisontgrejs:
 	Texture Ibackground2;
 	Sprite background2;
@@ -69,7 +77,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//Set.Origin is where the middle on Sven is.
 	//Set.Position tells Sven where on the screen to start off.
-	shape.setFillColor(Color(0x99, 0x30, 0x70, 0xff));
+	shape.setFillColor(Color(0xff, 0x30, 0x55, 0x70));
 	shape.setOutlineColor(Color(0x80, 0x20, 0x50, 0xff));
 	shape.setOutlineThickness(5.0f);
 	shape.setOrigin((30/2), (30/2));
@@ -93,6 +101,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			};
 		};
 
+		
+
 		//And here comes the player movement
 		if(Keyboard::isKeyPressed(Keyboard::Escape)) {
 			window.close();
@@ -110,8 +120,7 @@ int _tmain(int argc, _TCHAR* argv[])
 			//q-=0.2;
 			//camera:
 			left=true;
-			//molnens koordinater mx:
-			//mx-=0.1;
+
 			//kan inte gå ur vänster vägg:
 			if (playerXaxe<(0+48)){
 			playerXaxe=(0+48);
@@ -129,12 +138,12 @@ int _tmain(int argc, _TCHAR* argv[])
 			//q+=0.2;
 			//camera:
 			left=false;
-			//molnens koordinater mx:
-			//mx+=0.1;
+			
 			//kan inte gå utanför högra kanten:
 			if (playerXaxe>2468){
 			playerXaxe=2468;
 			}
+			
 		};
 
 		//Camera focus/movement:
@@ -147,8 +156,8 @@ int _tmain(int argc, _TCHAR* argv[])
 		//hur långt inann kameran hänger med åt höger:
 		else if (cameraXaxe<(playerXaxe-70)){
 			cameraXaxe=(playerXaxe-70);
-			//molnens position
-			cloudXaxe+=0.35;
+			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
+			cloudXaxe+=0.3;
 			//background2 position:
 			background2Xaxe+=0.30;
 		}
@@ -161,11 +170,15 @@ int _tmain(int argc, _TCHAR* argv[])
 		//hur långt innan kameran hänger med åt vänster
 		else if (cameraXaxe>(playerXaxe+300)){
 			cameraXaxe=(playerXaxe+300);
-			//molnens position:
-			cloudXaxe-=0.35;
+			//molnens positionaccelererar el saktas ner beroende åt vilket håll man går:
+			cloudXaxe-=0.34;
 			//background2 position:
 			background2Xaxe-=0.30;
 		};
+
+		if(cloudXaxe<=-1280){
+			cloudXaxe=1280;
+		}
 
 		std::cout << cameraXaxe << " " << cameraYaxe << std::endl;
 
@@ -176,15 +189,22 @@ int _tmain(int argc, _TCHAR* argv[])
 		window.clear(Color(0x99, 0x99, 0x99, 0xff));
 		shape.setPosition(playerXaxe, playerYaxe);
 		shape3.setPosition(cameraXaxe, cameraYaxe);
-		moln.setPosition(cloudXaxe,0);
+		moln.setPosition(cloudXaxe-=0.05,0);
 		background2.setPosition(background2Xaxe,0);
+		background3.setPosition(1020,0);
 
 		window.draw(moln);
 		window.draw(background2);
-		window.draw(background);
 
-		window.draw(shape);
+		window.draw(background);
+		//För att nästa spelplansdel inte ska spawna förrän man går dit:
+		if(playerXaxe>=582){		
+			window.draw(background3);
+		}
 		window.draw(shape3);
+		window.draw(shape);
+		
+		
 		window.display();
 		
 	};
