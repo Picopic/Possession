@@ -46,7 +46,7 @@ void PlayerObject::Update(float deltatime)
 	//Vertical movement
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		current_animation->getSprite()->move(0, -400 * deltatime);
+		current_animation->getSprite()->move(0, -200 * deltatime);
 		if(!created_projectile)
 		{
 			if(direction.x == 1)
@@ -61,13 +61,13 @@ void PlayerObject::Update(float deltatime)
 			}
 		}
 
-		collider->position.y -= 400 * deltatime;
-		position.y -= 400*deltatime;
+		collider->position.y -= 200 * deltatime;
+		position.y -= 200*deltatime;
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		current_animation->getSprite()->move(0, 400 * deltatime);
+		current_animation->getSprite()->move(0, 200 * deltatime);
 		if(!created_projectile)
 		{
 			if(direction.x == 1)
@@ -83,33 +83,33 @@ void PlayerObject::Update(float deltatime)
 		}
 		
 
-		collider->position.y += 400*deltatime;
-		position.y += 400*deltatime;
+		collider->position.y += 200*deltatime;
+		position.y += 200*deltatime;
 	}
 	//horizontal movement
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		current_animation->getSprite()->move(-400 * deltatime, 0);
+		current_animation->getSprite()->move(-200 * deltatime, 0);
 		if(!created_projectile)
 		{
 			SetCurrentAnimation(WALKLEFT);
 			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
-		collider->position.x -= 400*deltatime;
-		position.x -= 400*deltatime;
+		collider->position.x -= 200*deltatime;
+		position.x -= 200*deltatime;
 		direction.y = 0;
 		direction.x = -1;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		current_animation->getSprite()->move(400 * deltatime, 0);
+		current_animation->getSprite()->move(200 * deltatime, 0);
 		if(!created_projectile)
 		{
 			SetCurrentAnimation(WALKRIGHT);
 			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
-		collider->position.x += 400*deltatime;
-		position.x += 400*deltatime;
+		collider->position.x += 200*deltatime;
+		position.x += 200*deltatime;
 		direction.y = 0;
 		direction.x = 1;
 	}
@@ -117,7 +117,15 @@ void PlayerObject::Update(float deltatime)
 	{
 		if(!created_projectile)
 		{
-			SetCurrentAnimation(IDLE);
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(IDLERIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(IDLELEFT);
+			}
+			
 			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
 	}

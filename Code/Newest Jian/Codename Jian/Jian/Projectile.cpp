@@ -26,6 +26,7 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 		position.x = shooter_entity->getPosition().x;
 		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
 	}
+	/*
 	else if(projectile_direction == Vector2(0, 1))
 	{
 		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight();
@@ -36,6 +37,7 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 		position.y = shooter_entity->getPosition().y;
 		position.x = shooter_entity->getPosition().x + (shooter_entity->getWidth()/2 - width/2);
 	}
+	*/
 
 	direction = projectile_direction;
 
@@ -53,6 +55,8 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 	alignment = projectile_alignment;
 	type = projectile_type;
 
+	start_pos = position;
+
 	current_animation->getSprite()->setPosition(position.x, position.y);
 	
 	//which animation?
@@ -67,18 +71,21 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 void Projectile::Update(float deltatime)
 {
 	current_animation->Update(deltatime);
-	current_animation->getSprite()->move(direction.x * 300 * deltatime, deltatime * 300 * direction.y);
 	position.x += deltatime * 300 * direction.x;
 
-	collider->position.x = position.x;
-	collider->position.y = position.y;
 	
+	if(hasCollider())
+	{
+		collider->position = position;
+		current_animation->getSprite()->setPosition(collider->position.x, collider->position.y);
+	}
+
 	//out of screen actions
-	if((position.x + width) < 0)
+	if((position.x + width) < (start_pos.x - 640))
 	{
 		flagged_for_death = true;
 	}
-	else if(position.x > 1280)
+	else if(position.x > (start_pos.x + 640))
 	{
 		flagged_for_death = true;
 	}

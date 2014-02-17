@@ -40,10 +40,11 @@ void EntityManager::Init()
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FRIENDBULLET, FIREFOE), 14));
 
 	game_entities.push_back(new PlayerObject(Vector2(400.0f, 0.0f), 210, 210));
-	game_entities[game_entities.size() - 1]->AddAnimation(IDLE, sprite_manager->Load("Placeholder Spritesheet MC 210p new.png", 3, 4, 210, 210, 0, 0));
-	game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("Placeholder Spritesheet MC 210p new.png", 4, 4, 210, 210, 0, 630));
-	game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("Placeholder Spritesheet MC 210p new.png", 4, 4, 210, 210, 0, 210));
-	game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("Placeholder Spritesheet MC 210p new.png", 4, 4, 210, 210, 0, 420));
+	game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
+	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1680));
+	game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 840));
+	game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2100));
+	game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
 	game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
 	game_entities[game_entities.size() - 1]->setDelay(0.4f);
 }
@@ -61,7 +62,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		break;
 	case FIREFOE:
 		game_entities.push_back(new FireEnemyObject(position, width, height));
-		game_entities[game_entities.size()-1]->AddAnimation(IDLE, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 0));
+		game_entities[game_entities.size()-1]->AddAnimation(IDLERIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 0));
 		game_entities[game_entities.size()-1]->AddAnimation(DEATH, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 840));
 		game_entities[game_entities.size()-1]->Init("Fire enemy", entity_name, type);
 		break;
@@ -115,7 +116,7 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 			game_entities[game_entities.size() - 1]->AddAnimation(DEATH, sprite_manager->Load("Placeholder Projectiles.png", 5, 4, 65, 65, 0, 65));
 		}
 
-		game_entities[game_entities.size() -1]->Init("PLAYER BULLET", entity_name, entity_type);
+		game_entities[game_entities.size() -1]->Init("FIREFOE BULLET", entity_name, entity_type);
 		break;
 	case WATERFOEBULLET:
 		break;
@@ -167,7 +168,7 @@ void EntityManager::Update(float deltatime)
 		{
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FRIENDBULLET, game_entities[i], 10, 10, game_entities[i]->getType(), game_entities[i]->getDirection());
+				AttachProjectile(FRIENDBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
 				game_entities.at(i)->resetShootDelay();
 			}
 		}
@@ -175,7 +176,7 @@ void EntityManager::Update(float deltatime)
 		{
 			if(game_entities[i]->getShootDelay() >= 2.0f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FIREFOEBULLET, game_entities[i], 10, 10, game_entities[i]->getType(), game_entities[i]->getDirection()); 
+				AttachProjectile(FIREFOEBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection()); 
 				game_entities.at(i)->resetShootDelay();
 			}
 		}
@@ -190,5 +191,10 @@ void EntityManager::Update(float deltatime)
 			game_entities[i] = nullptr;
 			game_entities.erase(game_entities.begin() + i);
 		}
+	}
+
+	if(game_entities.size() == 1)
+	{
+		AttachEntity(FIREFOE, Vector2(800, 300), 210, 210, FIRE);
 	}
 }

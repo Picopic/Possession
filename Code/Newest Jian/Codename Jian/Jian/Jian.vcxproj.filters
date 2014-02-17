@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Managers">
       <UniqueIdentifier>{be2e541d-89dd-44c0-b7ad-5b71572af1e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Entities">
+      <UniqueIdentifier>{fc81a88b-e56a-4565-9638-cb35f3b2a2dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -69,18 +72,6 @@
     <ClCompile Include="StartMenuState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="FireEnemyObject.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerObject.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="WaterEnemyObject.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="DrawManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
@@ -108,8 +99,20 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="FireEnemyObject.cpp">
+      <Filter>Source Files\Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerObject.cpp">
+      <Filter>Source Files\Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterEnemyObject.cpp">
+      <Filter>Source Files\Objects\Entities</Filter>
+    </ClCompile>
     <ClCompile Include="Projectile.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,7 +204,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Enums.h">
-      <Filter>Header Files\Objects</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

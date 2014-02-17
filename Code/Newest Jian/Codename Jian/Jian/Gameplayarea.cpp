@@ -20,12 +20,12 @@ void Gameplayarea::setPosition(sf::Vector2f pos){
 }
 
 void Gameplayarea::draw(sf::RenderWindow* window){
-		sprite.setPosition(position);
+	sprite.setPosition(position);
 	window->draw(sprite);
 }
 	
 bool Gameplayarea::initialize(){
-	texture.loadFromFile("../bin/BG.png");
+	texture.loadFromFile("../data/background/Placeholder Play Area Big.png");
 	sprite.setTexture(texture);
 
 	return true;

@@ -65,10 +65,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size()-1]->AddAnimation(DEATH, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 840));
 		game_entities[game_entities.size()-1]->Init("Fire enemy", entity_name, type);
 		break;
-	//case PLAYER:
-		//game_entities.push_back(new PlayerObject(position, width, height));
-		//game_entities[game_entities.size() - 1]->Init("Player", entity_name, FIRE);
-		//break;
 	}
 	
 }
@@ -76,7 +72,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 void EntityManager::DetachEntity(int entity_index)
 {
 	/*
-		Delete the entity, appropriate to the string that followed
+		Delete the entity, appropriate to the index that followed
 	*/
 }
 
@@ -153,7 +149,7 @@ void EntityManager::Update(float deltatime)
 		{
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FRIENDBULLET, game_entities[i], 10, 10, game_entities[i]->getType(), game_entities[i]->getDirection());
+				AttachProjectile(FRIENDBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
 			}
 		}
 		
@@ -168,5 +164,10 @@ void EntityManager::Update(float deltatime)
 			game_entities[i] = nullptr;
 			game_entities.erase(game_entities.begin() + i);
 		}
+	}
+
+	if(game_entities.size() == 1)
+	{
+		AttachEntity(FIREFOE, Vector2(700, 0), 210, 210, FIRE);
 	}
 }

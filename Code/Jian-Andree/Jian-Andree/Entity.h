@@ -67,9 +67,13 @@ protected:
 	float delay;
 	Vector2 direction;
 
+	//movement
+	float time;
+	float velocity;
+
 	//Animations
 	AnimatedSprite* current_animation;
 	std::map<AnimationName, AnimatedSprite*> animations;
-	float time;
+	float death_animation_time;
 	void SetCurrentAnimation(AnimationName animation_name);
 };

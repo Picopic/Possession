@@ -87,19 +87,12 @@ bool GameState::Update(){
 			m_window->close();
 		};
 		
-		
-		//if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-			//player.moveY(-0.8);
 			//kan inte gå över horisontlinjen:
 			if (entity_manager->game_entities.at(0)->getPosition().y < 240){
 				Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
 				vect.y = 240;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			};
-		//};
-
-		//if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-			//player.moveX(-0.4);
 
 			//kan inte gå ur vänster vägg:
 			if (entity_manager->game_entities.at(0)->getPosition().x < 50){
@@ -107,20 +100,13 @@ bool GameState::Update(){
 				vect.x = 50;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			};
-		//};
 
-		//if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			//player.moveY(+0.8);
 			//kan inte gå under nedre kant:
 			if (entity_manager->game_entities.at(0)->getPosition().y > 640-65){
 				Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
 				vect.y = 640-65;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			};
-		//};
-
-		//if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			//player.moveX(+0.4);
 
 			//kan inte gå ur höger vägg:
 			if (entity_manager->game_entities.at(0)->getPosition().x > 2485+2560){
@@ -129,7 +115,6 @@ bool GameState::Update(){
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			}
 			
-		//};
 
 		
 		//Camera focus/movement:

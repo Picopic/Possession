@@ -22,7 +22,12 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 
 	hitpoints = 5;
 
+	//movement
+	velocity = 200;
+	direction = Vector2(1, 1);
+
 	time = 0.0f;
+	death_animation_time = 0.0f;
 
 	collider = new Collider;
 	collider->position = position;
@@ -42,11 +47,21 @@ void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 
 void FireEnemyObject::Update(float deltatime)
 {
+	time += deltatime;
+	if(time < 2.0f)
+	{
+		position.y += direction.y * deltatime * velocity;
+	}
+	else
+	{
+		direction.y = -direction.y;
+		time = 0.0f;
+	}
 	current_animation->Update(deltatime);
 	if(hasCollider())
 	{
-		position = collider->position;
-		shape.setPosition(position.x, position.y);
+		collider->position = position;
+		current_animation->getSprite()->setPosition(collider->position.x, collider->position.y);
 	}
 	if(hitpoints <= 0 && !dead)
 	{
@@ -54,13 +69,13 @@ void FireEnemyObject::Update(float deltatime)
 		SetCurrentAnimation(DEATH);
 		current_animation->getSprite()->setPosition(position.x, position.y);
 		Cleanup();
-		time += deltatime;
+		death_animation_time += deltatime;
 	}
 	if(dead)
 	{
-		time += deltatime;
+		death_animation_time += deltatime;
 	}
-	if(time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+	if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 	{
 		flagged_for_death = true;
 	}

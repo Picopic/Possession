@@ -68,6 +68,11 @@ protected:
 	float shooting_delay;
 	float delay;
 	Vector2 direction;
+	Vector2 start_pos;
+
+	//movement
+	float movement_time;
+	float velocity;
 
 	//Animations
 	AnimatedSprite* current_animation;
