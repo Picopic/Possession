@@ -24,6 +24,8 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	shooting_delay = 0.001f;
 	delay = 0.01f;
 
+	velocity = 200;
+
 	collider = new Collider;
 	collider->position = position;
 	collider->extension = Vector2(width, height);
@@ -41,12 +43,13 @@ void PlayerObject::Init(std::string object_type, Alignment player_alignment, Typ
 
 void PlayerObject::Update(float deltatime)
 {
+	//Update the animation (switching frames etc)
 	current_animation->Update(deltatime);
 
 	//Vertical movement
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		current_animation->getSprite()->move(0, -200 * deltatime);
+		current_animation->getSprite()->move(0, -velocity * deltatime);
 		if(!created_projectile)
 		{
 			if(direction.x == 1)
@@ -61,13 +64,13 @@ void PlayerObject::Update(float deltatime)
 			}
 		}
 
-		collider->position.y -= 200 * deltatime;
-		position.y -= 200*deltatime;
+		collider->position.y -= velocity * deltatime;
+		position.y -= velocity*deltatime;
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		current_animation->getSprite()->move(0, 200 * deltatime);
+		current_animation->getSprite()->move(0, velocity * deltatime);
 		if(!created_projectile)
 		{
 			if(direction.x == 1)
@@ -83,33 +86,33 @@ void PlayerObject::Update(float deltatime)
 		}
 		
 
-		collider->position.y += 200*deltatime;
-		position.y += 200*deltatime;
+		collider->position.y += velocity*deltatime;
+		position.y += velocity*deltatime;
 	}
 	//horizontal movement
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		current_animation->getSprite()->move(-200 * deltatime, 0);
+		current_animation->getSprite()->move(-velocity * deltatime, 0);
 		if(!created_projectile)
 		{
 			SetCurrentAnimation(WALKLEFT);
 			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
-		collider->position.x -= 200*deltatime;
-		position.x -= 200*deltatime;
+		collider->position.x -= velocity*deltatime;
+		position.x -= velocity*deltatime;
 		direction.y = 0;
 		direction.x = -1;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		current_animation->getSprite()->move(200 * deltatime, 0);
+		current_animation->getSprite()->move(velocity * deltatime, 0);
 		if(!created_projectile)
 		{
 			SetCurrentAnimation(WALKRIGHT);
 			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
-		collider->position.x += 200*deltatime;
-		position.x += 200*deltatime;
+		collider->position.x += velocity*deltatime;
+		position.x += velocity*deltatime;
 		direction.y = 0;
 		direction.x = 1;
 	}
