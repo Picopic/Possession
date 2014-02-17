@@ -133,11 +133,11 @@ bool GameState::Update(){
 			camera.setPosition(vect);
 
 			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
-			cloud.moveX (0.1);
-			cloud2.moveX (0.1);
+			cloud.moveX (0.08);
+			cloud2.moveX (0.08);
 			//cloud2.getPosition().x + 0.3;
 			//background2 position:
-			paralax.moveX(0.1);
+			paralax.moveX(0.07);
 		}
 		
 		//std::cout << camera.getPosition().x << " " << player.getPosition().x << std::endl;
@@ -155,8 +155,8 @@ bool GameState::Update(){
 			camera.setPosition(vect);
 
 			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
-			cloud.moveX (-0.14);
-			cloud2.moveX (-0.14);
+			cloud.moveX (-0.15);
+			cloud2.moveX (-0.15);
 			//cloud2.getPosition().x + 0.3;
 			//background2 position:
 			paralax.moveX(-0.1);

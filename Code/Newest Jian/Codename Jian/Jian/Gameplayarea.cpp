@@ -25,7 +25,7 @@ void Gameplayarea::draw(sf::RenderWindow* window){
 }
 	
 bool Gameplayarea::initialize(){
-	texture.loadFromFile("../data/background/Placeholder Play Area Big.png");
+	texture.loadFromFile("../data/background/BG.png");
 	sprite.setTexture(texture);
 
 	return true;

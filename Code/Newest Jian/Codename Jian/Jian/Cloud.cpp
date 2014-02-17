@@ -26,7 +26,7 @@ void Cloud::draw(sf::RenderWindow* window){
 }
 	
 bool Cloud::initialize(){
-	texture.loadFromFile("../bin/M.png");
+	texture.loadFromFile("../data/background/M.png");
 	sprite.setTexture(texture);
 	return true;
 

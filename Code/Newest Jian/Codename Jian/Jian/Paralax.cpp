@@ -27,7 +27,7 @@ void Paralax::draw(sf::RenderWindow* window){
 }
 	
 bool Paralax::initialize(){
-	texture.loadFromFile("../bin/BG2.png");
+	texture.loadFromFile("../data/background/BG2.png");
 	sprite.setTexture(texture);
 
 	return true;
