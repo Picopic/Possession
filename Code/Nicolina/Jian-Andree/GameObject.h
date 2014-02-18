@@ -1,3 +1,0 @@
-//GameObject.h
-
-class GameOb
