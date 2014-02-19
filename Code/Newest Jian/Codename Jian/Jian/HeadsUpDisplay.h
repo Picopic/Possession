@@ -14,6 +14,9 @@ public:
 	void DrawHUD(sf::RenderWindow* window);
 	void Update(float deltatime);
 
+	//move the HUD with the designated x and y values
+	void Move(float x, float y);
+
 private:
 	AnimatedSprite* hud_arrow;
 	std::vector<AnimatedSprite*> symbols;

@@ -18,6 +18,7 @@ GameState::~GameState(){
 bool GameState::Initialize(){
 
 	camera.setPosition(sf::Vector2f(1024/2, 640/2));
+	cameras_last_position = camera.getPosition();
 		
 	cloud.setPosition(sf::Vector2f(0, 0));
 	cloud.initialize();
@@ -221,10 +222,10 @@ bool GameState::Update(){
 				//std::cout << gameplayarea2.getPosition().x << std::endl;
 			};
 			
-		//player.draw(m_window);
-		entity_manager->Update(deltatime);
+		HUD->Move((camera.getPosition().x-cameras_last_position.x), 0);
+		cameras_last_position = camera.getPosition();
 
-		entity_manager->game_entities.at(0)->getPosition();
+		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop
 		draw_manager->Draw(m_window, entity_manager, HUD);

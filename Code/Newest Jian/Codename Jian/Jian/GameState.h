@@ -48,6 +48,7 @@ private:
 	sf::Time previous_time;
 	float deltatime;
 
+	sf::Vector2f cameras_last_position;
 	Camera camera;
 	Cloud cloud;
 	Cloud cloud2;

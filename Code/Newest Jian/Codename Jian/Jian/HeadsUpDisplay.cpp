@@ -150,3 +150,30 @@ void HeadsUpDisplay::Update(float deltatime)
 		wood_points[i]->Update(deltatime);
 	}
 }
+
+void HeadsUpDisplay::Move(float x, float y)
+{
+	//arrow
+	hud_arrow->getSprite()->move(x, y);
+	
+	//symbols
+	for(int i = 0; i < symbols.size(); i++)
+	{
+		symbols[i]->getSprite()->move(x, y);
+	}
+	//fire
+	for(int i = 0; i < fire_points.size(); i++)
+	{
+		fire_points[i]->getSprite()->move(x, y);
+	}
+	//water
+	for(int i = 0; i < water_points.size(); i++)
+	{
+		water_points[i]->getSprite()->move(x, y);
+	}
+	//wood
+	for(int i = 0; i < wood_points.size(); i++)
+	{
+		wood_points[i]->getSprite()->move(x, y);
+	}
+}
