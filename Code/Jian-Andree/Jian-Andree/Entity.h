@@ -12,7 +12,7 @@ public:
 	Entity();
 	Entity(Vector2 entity_position, int entity_width, int entity_height);
 	virtual void Init(std::string object_type, Alignment alignment, Type type) = 0; //initiate the object
-	virtual void Update(float deltatime) = 0; //apply logic to object
+	virtual void Update(float deltatime, Entity* player) = 0; //apply logic to object
 	void Cleanup();
 
 	std::string getID();
@@ -38,6 +38,7 @@ public:
 
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);
 	AnimatedSprite* GetCurrentAnimation();
+	AnimationName GetCurrentAnimationsName();
 
 	virtual void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
@@ -52,7 +53,12 @@ protected:
 	int width;
 	int height;
 
+	//health for enemies
 	int hitpoints;
+	//health for player
+	int fire_elements;
+	int water_elements;
+	int wood_elements;
 
 	std::string entity_ID;
 
@@ -77,6 +83,7 @@ protected:
 
 	//Animations
 	AnimatedSprite* current_animation;
+	AnimationName current_animations_name;
 	std::map<AnimationName, AnimatedSprite*> animations;
 	float death_animation_time;
 	void SetCurrentAnimation(AnimationName animation_name);

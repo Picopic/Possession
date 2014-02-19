@@ -9,7 +9,7 @@ public:
 	Projectile(Entity* shooter_entity, int projectile_width, int projectile_height, Vector2 projectile_direction);
 
 	void Init(std::string object_type, Alignment alignment, Type type);
-	void Update(float deltatime);
+	void Update(float deltatime, Entity* player);
 
 	void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
 

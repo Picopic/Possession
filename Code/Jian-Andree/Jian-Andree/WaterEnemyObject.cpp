@@ -38,7 +38,7 @@ void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, 
 	shape.setFillColor(sf::Color(0,0,255));
 }
 
-void WaterEnemyObject::Update(float deltatime)
+void WaterEnemyObject::Update(float deltatime, Entity* player)
 {
 	if(hasCollider())
 	{

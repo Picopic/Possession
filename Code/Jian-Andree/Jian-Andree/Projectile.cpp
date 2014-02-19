@@ -29,6 +29,8 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 
 	direction = projectile_direction;
 
+	dead = false;
+	death_animation_time = 0.0f;
 	flagged_for_death = false;
 	create_projectile = false;
 
@@ -54,12 +56,16 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 	}
 }
 
-void Projectile::Update(float deltatime)
+void Projectile::Update(float deltatime, Entity* player)
 {
 	current_animation->Update(deltatime);
-	position.x += deltatime * 300 * direction.x;
+	
+	if(hasCollider())
+	{
+		position.x += deltatime * 300 * direction.x;
+		collider->position = position;
+	}
 
-	collider->position = position;
 	current_animation->getSprite()->setPosition(position.x, position.y);
 
 	//out of screen actions
@@ -79,9 +85,32 @@ void Projectile::Update(float deltatime)
 	{
 		flagged_for_death = true;
 	}
+
+	if(dead)
+	{
+		if(collider != nullptr)
+		{
+			delete collider;
+			collider = nullptr;
+		}
+		death_animation_time += deltatime;
+		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+		{
+			flagged_for_death = true;
+		}
+	}
 }
 
 void Projectile::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
-	flagged_for_death = true;
+	dead = true;
+	if(direction.x == 1)
+	{
+		SetCurrentAnimation(DEATHRIGHT);
+	}
+	else
+	{
+		SetCurrentAnimation(DEATHLEFT);
+	}
+	
 }

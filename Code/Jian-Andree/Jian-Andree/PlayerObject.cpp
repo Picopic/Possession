@@ -21,8 +21,12 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	entity_offset_x = 50;
 	entity_offset_y = 30;
 
-	//shooting
+	//death
+	dead = false;
 	flagged_for_death = false;
+	death_animation_time = 0.0f;
+
+	//shooting
 	create_projectile = false;
 	created_projectile = false;
 	shooting_delay = 0.001f;
@@ -31,6 +35,10 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	//element change
 	element_changed = false;
 	element_changed_delay = 0.0f;
+
+	fire_elements = 1;
+	water_elements = 1;
+	wood_elements = 1;
 
 	movement_time = 0.0f;
 	velocity = 200;
@@ -51,132 +59,218 @@ void PlayerObject::Init(std::string object_type, Alignment player_alignment, Typ
 	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
-void PlayerObject::Update(float deltatime) 
+void PlayerObject::Update(float deltatime, Entity* player) 
 {
 	current_animation->Update(deltatime);
 
-	//Vertical movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if(!dead)
 	{
-		if(!created_projectile)
+		//Vertical movement
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
-			if(direction.x == 1)
+			if(!created_projectile)
 			{
-				SetCurrentAnimation(WALKRIGHT);
+				if(direction.x == 1)
+				{
+					SetCurrentAnimation(WALKRIGHT);
+				}
+				else
+				{
+					SetCurrentAnimation(WALKLEFT);
+				}
 			}
-			else
+			position.y -= velocity*deltatime;
+		}
+
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		{
+			if(!created_projectile)
+			{
+				if(direction.x == 1)
+				{
+					SetCurrentAnimation(WALKRIGHT);
+				}
+				else
+				{
+					SetCurrentAnimation(WALKLEFT);
+				}
+			}
+			position.y += velocity*deltatime;
+		}
+
+		//horizontal movement
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			if(!created_projectile)
 			{
 				SetCurrentAnimation(WALKLEFT);
 			}
+			position.x -= velocity*deltatime;
+			direction.y = 0;
+			direction.x = -1;
 		}
-		position.y -= velocity*deltatime;
-	}
-
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-	{
-		if(!created_projectile)
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			if(direction.x == 1)
+			if(!created_projectile)
 			{
 				SetCurrentAnimation(WALKRIGHT);
 			}
-			else
+			position.x += velocity*deltatime;
+			direction.y = 0;
+			direction.x = 1;
+		}
+		else
+		{
+			if(!created_projectile)
 			{
-				SetCurrentAnimation(WALKLEFT);
+				if(direction.x == 1)
+				{
+					SetCurrentAnimation(IDLERIGHT);
+				}
+				else
+				{
+					SetCurrentAnimation(IDLELEFT);
+				}
 			}
 		}
-		position.y += velocity*deltatime;
+
+		//Shooting
+		if(created_projectile)
+		{
+			shooting_delay += deltatime;
+		}
+
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			create_projectile = true;
+			created_projectile = true;
+			SetCurrentAnimation(ATTACKRIGHT);
+		}
+		else
+		{
+			create_projectile = false;
+		}
+
+		if(shooting_delay > delay)
+		{
+			shooting_delay = 0.001f;
+			created_projectile = false;
+		}
+
+		//end of shooting
+
+		//Elemental swap
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed)
+		{
+			element_changed = true;
+
+			NextElement();
+		}
+		if(element_changed)
+		{
+			element_changed_delay += deltatime;
+			if(element_changed_delay > 0.5f)
+			{
+				element_changed = false;
+				element_changed_delay = 0.0f;
+			}
+		}
 	}
 
-	//horizontal movement
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		if(!created_projectile)
-		{
-			SetCurrentAnimation(WALKLEFT);
-		}
-		position.x -= velocity*deltatime;
-		direction.y = 0;
-		direction.x = -1;
-	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		if(!created_projectile)
-		{
-			SetCurrentAnimation(WALKRIGHT);
-		}
-		position.x += velocity*deltatime;
-		direction.y = 0;
-		direction.x = 1;
-	}
+	//death
 	else
 	{
-		if(!created_projectile)
+		if(collider != nullptr)
 		{
-			if(direction.x == 1)
-			{
-				SetCurrentAnimation(IDLERIGHT);
-			}
-			else
-			{
-				SetCurrentAnimation(IDLELEFT);
-			}
+			delete collider;
+			collider = nullptr;
+		}
+		death_animation_time += deltatime;
+		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+		{
+			flagged_for_death = true;
 		}
 	}
 
-	//Shooting
-	if(created_projectile)
+	//Lastly update the collider and the sprites position
+	if(hasCollider())
 	{
-		shooting_delay += deltatime;
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
 	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	{
-		create_projectile = true;
-		created_projectile = true;
-		SetCurrentAnimation(ATTACKRIGHT);
-	}
-	else
-	{
-		create_projectile = false;
-	}
-
-	if(shooting_delay > delay)
-	{
-		shooting_delay = 0.001f;
-		created_projectile = false;
-	}
-
-	//end of shooting
-
-	//Elemental swap
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed)
-	{
-		element_changed = true;
-
-		NextElement();
-	}
-	if(element_changed)
-	{
-		element_changed_delay += deltatime;
-		if(element_changed_delay > 0.5f)
-		{
-			element_changed = false;
-			element_changed_delay = 0.0f;
-		}
-	}
-
-	collider->position.x = position.x + entity_offset_x;
-	collider->position.y = position.y + entity_offset_y;
 	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
-void PlayerObject::OnCollision(Type type, Vector2 offset, Alignment enemy_alignment)
+void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment collision_alignment)
 {
-	//shape.move(offset.x, offset.y);
-	std::cout << "x" << offset.x << std::endl;
-	std::cout << "y" << offset.y << std::endl;
-	
+	if (collision_alignment == FRIENDBULLET || collision_alignment == PLAYER)
+	{
+
+	}
+	else
+	{
+		switch (collision_type)
+		{
+		case FIRE:
+			
+			if(type == FIRE)
+			{
+				fire_elements -= 2;
+				if(fire_elements <= 0) NextElement();
+			}
+			else if(type == WATER)
+			{
+				water_elements--;
+				if(water_elements <= 0) NextElement();
+			}
+			else if(type == WOOD)
+			{
+				wood_elements -= 3;
+				if(wood_elements <= 0) NextElement();
+			}
+
+			break;
+		case WATER:
+
+			if(type == FIRE)
+			{
+				fire_elements -= 3;
+				if(fire_elements <= 0) NextElement();
+			}
+			else if(type == WATER)
+			{
+				water_elements -= 2;
+				if(water_elements <= 0) NextElement();
+			}
+			else if(type == WOOD)
+			{
+				wood_elements--;
+				if(wood_elements <= 0) NextElement();
+			}
+
+			break;
+		case WOOD:
+
+			if(type == FIRE)
+			{
+				fire_elements--;
+				if(fire_elements <= 0) NextElement();
+			}
+			else if(type == WATER)
+			{
+				water_elements -= 3;
+				if(water_elements <= 0) NextElement();
+			}
+			else if(type == WOOD)
+			{
+				wood_elements -= 2;
+				if(wood_elements <= 0) NextElement();
+			}
+
+			break;
+		}
+	}
+		
 }
 
 void PlayerObject::NextElement()
@@ -184,13 +278,71 @@ void PlayerObject::NextElement()
 	switch(type)
 	{
 	case FIRE:
-		type = WOOD;
+		if(wood_elements > 0)
+		{
+			type = WOOD;
+		}
+		else if(water_elements > 0)
+		{
+			type = WATER;
+		}
+		else
+		{
+			dead = true;
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(DEATHRIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(DEATHLEFT);
+			}
+		}
+		
 		break;
 	case WATER:
-		type = FIRE;
+		if(fire_elements > 0)
+		{
+			type = FIRE;
+		}
+		else if(wood_elements > 0)
+		{
+			type = WOOD;
+		}
+		else
+		{
+			dead = true;
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(DEATHRIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(DEATHLEFT);
+			}
+		}
 		break;
 	case WOOD:
-		type = WATER;
+		if(water_elements > 0)
+		{
+			type = WATER;
+		}
+		else if(fire_elements > 0)
+		{
+			type = FIRE;
+		}
+		else
+		{
+			dead = true;
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(DEATHRIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(DEATHLEFT);
+			}
+		}
 		break;
 	}
 }

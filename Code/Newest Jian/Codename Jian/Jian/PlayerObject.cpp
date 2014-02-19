@@ -89,7 +89,7 @@ void PlayerObject::Update(float deltatime)
 	}
 
 	//horizontal movement
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		if(!created_projectile)
 		{

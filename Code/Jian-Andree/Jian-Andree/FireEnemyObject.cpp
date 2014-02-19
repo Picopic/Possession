@@ -25,13 +25,15 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	//shooting
 	delay = 0.0f;
 	shooting_delay = 0.001f;
+	create_projectile = false;
+	created_projectile = false;
 
 	//collision
 	entity_offset_x = 50;
 	entity_offset_y = 40;
 
 	//movement
-	velocity = 200;
+	velocity = 50;
 	direction = Vector2(-1, 1);
 
 	movement_time = 0.0f;
@@ -54,39 +56,21 @@ void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
-void FireEnemyObject::Update(float deltatime)
+void FireEnemyObject::Update(float deltatime, Entity* player)
 {
-	if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
-	{
-		movement_time += deltatime;
-		if(movement_time < 2.0f)
-		{
-			position.y += direction.y * deltatime * velocity;
-			SetCurrentAnimation(WALKLEFT);
-		}
-		else
-		{
-			direction.y = -direction.y;
-			movement_time = 0.0f;
-		}
-	}
-	else
-	{
-		
-	}
-
+	//Firstly update the animation
 	current_animation->Update(deltatime);
-
-	//Update the sprites position if there is a collider
-	if(hasCollider())
+	//movement
+	if(current_animations_name != ATTACKLEFT || current_animations_name != ATTACKRIGHT)
 	{
-		collider->position.x = position.x + entity_offset_x;
-		collider->position.y = position.y + entity_offset_y;
-		current_animation->getSprite()->setPosition(position.x, position.y);
+		//
+		
+		//
 	}
+	
 
-	//Attack animation
-
+	//Attack
+	
 	if(created_projectile)
 	{
 		shooting_delay += deltatime;
@@ -108,12 +92,14 @@ void FireEnemyObject::Update(float deltatime)
 		shooting_delay = 0.001f;
 		created_projectile = false;
 	}
+	
 
-	//Death animation
+	//Death
 	if(hitpoints <= 0 && !dead)
 	{
 		dead = true;
-		SetCurrentAnimation(DEATH);
+		SetCurrentAnimation(DEATHLEFT);
+		current_animations_name = DEATHLEFT;
 		current_animation->getSprite()->setPosition(position.x, position.y);
 		Cleanup();
 		death_animation_time += deltatime;
@@ -121,10 +107,19 @@ void FireEnemyObject::Update(float deltatime)
 	if(dead)
 	{
 		death_animation_time += deltatime;
+		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+		{
+			flagged_for_death = true;
+		}
 	}
-	if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+	
+
+	//Lastly update the sprites position if there is a collider
+	if(hasCollider())
 	{
-		flagged_for_death = true;
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
+		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
 }
 
@@ -146,4 +141,24 @@ void FireEnemyObject::OnCollision(Type enemy_type, Vector2 offset, Alignment ene
 		}
 	}
 	
+}
+
+bool FireEnemyObject::AttackRaycast(Entity* player)
+{
+	if(player->getPosition().y > (position.y + 30) > (player->getPosition().y + player->getHeight()))
+	{
+		if((player->getPosition().x - position.x) < 0 && direction.x == 1)
+		{
+			return true;
+		}
+		else if((player->getPosition().x - position.x) > 0 && direction.x == -1)
+		{
+			return true;
+		}
+		
+	}
+	else
+	{
+		return false;
+	}
 }

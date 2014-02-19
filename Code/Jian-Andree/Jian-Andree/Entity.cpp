@@ -20,7 +20,7 @@ void Entity::Init(std::string object_type, Alignment alignment, Type type)
 
 }
 
-void Entity::Update(float deltatime)
+void Entity::Update(float deltatime, Entity* player)
 {
 }
 
@@ -119,6 +119,7 @@ void Entity::AddAnimation(AnimationName animation_name, AnimatedSprite* anim_spr
 	{
 		auto it = animations.find(animation_name);
 		current_animation = it->second;
+		current_animations_name = it->first;
 	}
 }
 
@@ -137,5 +138,11 @@ void Entity::SetCurrentAnimation(AnimationName animation_name)
 	else
 	{
 		current_animation = it->second;
+		current_animations_name = it->first;
 	}
+}
+
+AnimationName Entity::GetCurrentAnimationsName()
+{
+	return current_animations_name;
 }

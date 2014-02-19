@@ -10,7 +10,7 @@ public:
 	PlayerObject(Vector2 player_position, int width, int height);
 
 	void Init(std::string object_type, Alignment player_alignment, Type player_type);
-	void Update(float deltatime);
+	void Update(float deltatime, Entity* player);
 	void getID();
 	void setID();
 

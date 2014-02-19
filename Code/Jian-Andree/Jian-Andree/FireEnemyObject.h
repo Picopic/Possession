@@ -10,7 +10,10 @@ class FireEnemyObject : public Entity
 	FireEnemyObject(Vector2 enemy_position, int width, int height);
 
 	void Init(std::string object_type, Alignment enemy_alignment, Type enemy_type);
-	void Update(float deltatime);
+	void Update(float deltatime, Entity* player);
 
 	void OnCollision(Type enemy_type, Vector2 offset, Alignment enemy_alignment);
+
+private:
+	bool AttackRaycast(Entity* player);
 };
