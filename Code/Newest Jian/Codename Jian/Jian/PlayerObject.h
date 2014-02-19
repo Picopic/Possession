@@ -16,5 +16,8 @@ public:
 
 	void OnCollision(Type type, Vector2 offset, Alignment enemy_alignment);
 
+	void NextElement();
 private:
+	bool element_changed;
+	float element_changed_delay;
 };

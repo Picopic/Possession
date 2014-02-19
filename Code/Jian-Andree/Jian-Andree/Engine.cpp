@@ -26,6 +26,12 @@ bool Engine::Init()
 	
 	entity_manager = new EntityManager(sprite_manager);
 
+	HUD = new HeadsUpDisplay;
+	if(!HUD->Initialise(sprite_manager))
+	{
+		return false;
+	}
+
 	previous_time = game_clock.restart();
 
 	deltatime = 0.01f;
@@ -37,7 +43,7 @@ bool Engine::Init()
 void Engine::Run()
 {
 	entity_manager->Init();
-	entity_manager->AttachEntity(FIREFOE, Vector2(600, 0), 210, 210, FIRE);
+	entity_manager->AttachEntity(FIREFOE, Vector2(600, 0), 100, 80, FIRE);
 
 	//gameloop
 	while(window.isOpen())
@@ -64,11 +70,10 @@ void Engine::Run()
 		UpdateDeltatime();
 
 		//game logic
-
 		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop
-		draw_manager->Draw(&window, entity_manager);
+		draw_manager->Draw(&window, entity_manager, HUD);
 
 		//std::cout << entity_manager->game_entities.size() << std::endl;
 	}
@@ -83,13 +88,21 @@ void Engine::Cleanup()
 	}
 	if(entity_manager != nullptr)
 	{
+		entity_manager->Cleanup();
 		delete entity_manager;
 		entity_manager = nullptr;
 	}
 	if(sprite_manager != nullptr)
 	{
+		sprite_manager->Cleanup();
 		delete sprite_manager;
 		sprite_manager = nullptr;
+	}
+	if(HUD != nullptr)
+	{
+		HUD->Cleanup();
+		delete HUD;
+		HUD = nullptr;
 	}
 }
 

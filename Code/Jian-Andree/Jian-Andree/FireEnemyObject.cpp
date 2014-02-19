@@ -22,15 +22,24 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 
 	hitpoints = 5;
 
+	//shooting
+	delay = 0.0f;
+	shooting_delay = 0.001f;
+
+	//collision
+	entity_offset_x = 50;
+	entity_offset_y = 40;
+
 	//movement
 	velocity = 200;
-	direction = Vector2(1, 1);
+	direction = Vector2(-1, 1);
 
-	time = 0.0f;
+	movement_time = 0.0f;
 	death_animation_time = 0.0f;
 
 	collider = new Collider;
-	collider->position = position;
+	collider->position.x = position.x + entity_offset_x;
+	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 
 }
@@ -47,22 +56,60 @@ void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 
 void FireEnemyObject::Update(float deltatime)
 {
-	time += deltatime;
-	if(time < 2.0f)
+	if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 	{
-		position.y += direction.y * deltatime * velocity;
+		movement_time += deltatime;
+		if(movement_time < 2.0f)
+		{
+			position.y += direction.y * deltatime * velocity;
+			SetCurrentAnimation(WALKLEFT);
+		}
+		else
+		{
+			direction.y = -direction.y;
+			movement_time = 0.0f;
+		}
 	}
 	else
 	{
-		direction.y = -direction.y;
-		time = 0.0f;
+		
 	}
+
 	current_animation->Update(deltatime);
+
+	//Update the sprites position if there is a collider
 	if(hasCollider())
 	{
-		collider->position = position;
-		current_animation->getSprite()->setPosition(collider->position.x, collider->position.y);
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
+		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
+
+	//Attack animation
+
+	if(created_projectile)
+	{
+		shooting_delay += deltatime;
+	}
+
+	if(shooting_delay == 0.001f && !created_projectile)
+	{
+		create_projectile = true;
+		created_projectile = true;
+		SetCurrentAnimation(ATTACKLEFT);
+	}
+	else
+	{
+		create_projectile = false;
+	}
+
+	if(shooting_delay > delay)
+	{
+		shooting_delay = 0.001f;
+		created_projectile = false;
+	}
+
+	//Death animation
 	if(hitpoints <= 0 && !dead)
 	{
 		dead = true;

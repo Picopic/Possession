@@ -34,6 +34,12 @@
     <Filter Include="Source Files\Objects\Entities">
       <UniqueIdentifier>{fc81a88b-e56a-4565-9638-cb35f3b2a2dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\HUD">
+      <UniqueIdentifier>{782a8693-b4b8-4f05-a097-8a4262aab6dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{a9b5d123-8105-487e-a025-385232ab219e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -114,6 +120,9 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Source Files\Objects\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="HeadsUpDisplay.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -158,9 +167,6 @@
     <ClInclude Include="FireEnemyObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -172,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationManager.h">
-      <Filter>Header Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="DrawManager.h">
       <Filter>Header Files\Managers</Filter>
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="Enums.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeadsUpDisplay.h">
+      <Filter>Header Files\HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

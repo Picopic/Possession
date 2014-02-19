@@ -25,7 +25,8 @@ enum Type
 
 enum AnimationName
 {
-	IDLE,
+	IDLERIGHT,
+	IDLELEFT,
 	WALKLEFT,
 	WALKRIGHT,
 	ATTACKLEFT,

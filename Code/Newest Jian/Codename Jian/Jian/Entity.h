@@ -70,6 +70,10 @@ protected:
 	Vector2 direction;
 	Vector2 start_pos;
 
+	//Collisionbox
+	float entity_offset_x;
+	float entity_offset_y;
+
 	//movement
 	float movement_time;
 	float velocity;
@@ -77,6 +81,6 @@ protected:
 	//Animations
 	AnimatedSprite* current_animation;
 	std::map<AnimationName, AnimatedSprite*> animations;
-	float time;
+	float death_animation_time;
 	void SetCurrentAnimation(AnimationName animation_name);
 };

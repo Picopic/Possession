@@ -67,8 +67,12 @@ protected:
 	float delay;
 	Vector2 direction;
 
+	//Collisionbox
+	float entity_offset_x;
+	float entity_offset_y;
+
 	//movement
-	float time;
+	float movement_time;
 	float velocity;
 
 	//Animations

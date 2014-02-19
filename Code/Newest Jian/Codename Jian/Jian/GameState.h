@@ -12,6 +12,7 @@
 #include "DrawManager.h"
 #include "SpriteManager.h"
 #include "EntityManager.h"
+#include "HeadsUpDisplay.h"
 
 class GameState:public State{
 public:
@@ -58,7 +59,5 @@ private:
 	DrawManager *draw_manager;
 	SpriteManager *sprite_manager;
 	EntityManager *entity_manager;
-
-	
-
+	HeadsUpDisplay *HUD;
 };

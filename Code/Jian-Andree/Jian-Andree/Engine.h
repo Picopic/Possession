@@ -6,6 +6,7 @@
 #include "EntityManager.h"
 #include "Spritemanager.h"
 #include "AnimationManager.h"
+#include "HeadsUpDisplay.h"
 #include "Enums.h"
 
 
@@ -22,6 +23,7 @@ public:
 	DrawManager *draw_manager;
 	EntityManager *entity_manager;
 	SpriteManager *sprite_manager;
+	HeadsUpDisplay *HUD;
 
 private:
 	void UpdateDeltatime();

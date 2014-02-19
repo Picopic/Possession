@@ -44,10 +44,16 @@ bool GameState::Initialize(){
 	
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
+
+	HUD = new HeadsUpDisplay;
+	if(!HUD->Initialise(sprite_manager))
+	{
+		return false;
+	}
 	
 	entity_manager = new EntityManager(sprite_manager);
 	entity_manager->Init();
-	entity_manager->AttachEntity(FIREFOE, Vector2(600, 400), 210, 210, FIRE);
+	entity_manager->AttachEntity(FIREFOE, Vector2(600, 200), 100, 80, FIRE);
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
@@ -221,8 +227,7 @@ bool GameState::Update(){
 		entity_manager->game_entities.at(0)->getPosition();
 
 		//drawing portion of game loop
-		draw_manager->Draw(m_window, entity_manager);
-		m_window->display();
+		draw_manager->Draw(m_window, entity_manager, HUD);
 
 	//};
 
