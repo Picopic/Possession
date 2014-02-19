@@ -18,14 +18,26 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	width = player_width;
 	height = player_height;
 
+	entity_offset_x = 50;
+	entity_offset_y = 30;
+
+	//shooting
 	flagged_for_death = false;
 	create_projectile = false;
 	created_projectile = false;
 	shooting_delay = 0.001f;
 	delay = 0.01f;
 
+	//element change
+	element_changed = false;
+	element_changed_delay = 0.0f;
+
+	movement_time = 0.0f;
+	velocity = 200;
+
 	collider = new Collider;
-	collider->position = position;
+	collider->position.x = position.x + entity_offset_x;
+	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 }
 
@@ -39,77 +51,61 @@ void PlayerObject::Init(std::string object_type, Alignment player_alignment, Typ
 	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
-void PlayerObject::Update(float deltatime)
+void PlayerObject::Update(float deltatime) 
 {
 	current_animation->Update(deltatime);
 
 	//Vertical movement
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 	{
-		current_animation->getSprite()->move(0, -200 * deltatime);
 		if(!created_projectile)
 		{
 			if(direction.x == 1)
 			{
 				SetCurrentAnimation(WALKRIGHT);
-				current_animation->getSprite()->setPosition(position.x, position.y);
 			}
 			else
 			{
 				SetCurrentAnimation(WALKLEFT);
-				current_animation->getSprite()->setPosition(position.x, position.y);
 			}
 		}
-
-		collider->position.y -= 200 * deltatime;
-		position.y -= 200*deltatime;
+		position.y -= velocity*deltatime;
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		current_animation->getSprite()->move(0, 200 * deltatime);
 		if(!created_projectile)
 		{
 			if(direction.x == 1)
 			{
 				SetCurrentAnimation(WALKRIGHT);
-				current_animation->getSprite()->setPosition(position.x, position.y);
 			}
 			else
 			{
 				SetCurrentAnimation(WALKLEFT);
-				current_animation->getSprite()->setPosition(position.x, position.y);
 			}
 		}
-		
-
-		collider->position.y += 200*deltatime;
-		position.y += 200*deltatime;
+		position.y += velocity*deltatime;
 	}
+
 	//horizontal movement
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
-		current_animation->getSprite()->move(-200 * deltatime, 0);
 		if(!created_projectile)
 		{
 			SetCurrentAnimation(WALKLEFT);
-			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
-		collider->position.x -= 200*deltatime;
-		position.x -= 200*deltatime;
+		position.x -= velocity*deltatime;
 		direction.y = 0;
 		direction.x = -1;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
-		current_animation->getSprite()->move(200 * deltatime, 0);
 		if(!created_projectile)
 		{
 			SetCurrentAnimation(WALKRIGHT);
-			current_animation->getSprite()->setPosition(position.x, position.y);
 		}
-		collider->position.x += 200*deltatime;
-		position.x += 200*deltatime;
+		position.x += velocity*deltatime;
 		direction.y = 0;
 		direction.x = 1;
 	}
@@ -117,22 +113,28 @@ void PlayerObject::Update(float deltatime)
 	{
 		if(!created_projectile)
 		{
-			SetCurrentAnimation(IDLE);
-			current_animation->getSprite()->setPosition(position.x, position.y);
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(IDLERIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(IDLELEFT);
+			}
 		}
 	}
 
+	//Shooting
 	if(created_projectile)
 	{
 		shooting_delay += deltatime;
 	}
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
 		create_projectile = true;
 		created_projectile = true;
 		SetCurrentAnimation(ATTACKRIGHT);
-		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
 	else
 	{
@@ -144,6 +146,29 @@ void PlayerObject::Update(float deltatime)
 		shooting_delay = 0.001f;
 		created_projectile = false;
 	}
+
+	//end of shooting
+
+	//Elemental swap
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed)
+	{
+		element_changed = true;
+
+		NextElement();
+	}
+	if(element_changed)
+	{
+		element_changed_delay += deltatime;
+		if(element_changed_delay > 0.5f)
+		{
+			element_changed = false;
+			element_changed_delay = 0.0f;
+		}
+	}
+
+	collider->position.x = position.x + entity_offset_x;
+	collider->position.y = position.y + entity_offset_y;
+	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
 void PlayerObject::OnCollision(Type type, Vector2 offset, Alignment enemy_alignment)
@@ -152,4 +177,20 @@ void PlayerObject::OnCollision(Type type, Vector2 offset, Alignment enemy_alignm
 	std::cout << "x" << offset.x << std::endl;
 	std::cout << "y" << offset.y << std::endl;
 	
+}
+
+void PlayerObject::NextElement()
+{
+	switch(type)
+	{
+	case FIRE:
+		type = WOOD;
+		break;
+	case WATER:
+		type = FIRE;
+		break;
+	case WOOD:
+		type = WATER;
+		break;
+	}
 }

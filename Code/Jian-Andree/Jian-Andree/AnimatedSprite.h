@@ -11,7 +11,7 @@ public:
 		int x,y,w,h;
 	};
 
-	AnimatedSprite(sf::Texture* spritesheet, int width, int height);
+	AnimatedSprite(sf::Texture* spritesheet, int width, int height, int x, int y);
 
 	sf::Sprite* getSprite();
 

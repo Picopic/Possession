@@ -4,12 +4,12 @@
 
 #include "AnimatedSprite.h"
 
-AnimatedSprite::AnimatedSprite(sf::Texture* animation_spritesheet, int sprite_width, int sprite_height)
+AnimatedSprite::AnimatedSprite(sf::Texture* animation_spritesheet, int sprite_width, int sprite_height, int texture_x, int texture_y)
 {
 	time = 0.0f;
 	current_frame = 0;
-	x = 0;
-	y = 0;
+	x = texture_x;
+	y = texture_y;
 	width = sprite_width;
 	height = sprite_height;
 	spritesheet = animation_spritesheet;

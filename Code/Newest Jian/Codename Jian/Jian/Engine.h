@@ -5,8 +5,9 @@
 #include "DrawManager.h"
 #include "EntityManager.h"
 #include "Spritemanager.h"
-#include "AnimationManager.h"
 #include "Enums.h"
+
+#include "HeadsUpDisplay.h"
 
 
 class Engine
@@ -22,6 +23,7 @@ public:
 	DrawManager *draw_manager;
 	EntityManager *entity_manager;
 	SpriteManager *sprite_manager;
+	HeadsUpDisplay *HUD;
 
 private:
 	void UpdateDeltatime();

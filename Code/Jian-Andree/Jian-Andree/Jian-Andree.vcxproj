@@ -96,6 +96,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FireEnemyObject.h" />
+    <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Spritemanager.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Enums.cpp" />
     <ClCompile Include="FireEnemyObject.cpp" />
+    <ClCompile Include="HeadsUpDisplay.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="Projectile.cpp" />

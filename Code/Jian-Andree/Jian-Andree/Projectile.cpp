@@ -16,25 +16,15 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 	width = projectile_width;
 	height = projectile_height;
 
-	if(projectile_direction == Vector2(1, 0))
+	if(projectile_direction.x == 1)
 	{
 		position.x = shooter_entity->getPosition().x + shooter_entity->getWidth();
 		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
 	}
-	else if(projectile_direction == Vector2(-1, 0))
+	else if(projectile_direction.x == -1)
 	{
 		position.x = shooter_entity->getPosition().x;
 		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
-	}
-	else if(projectile_direction == Vector2(0, 1))
-	{
-		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight();
-		position.x = shooter_entity->getPosition().x + (shooter_entity->getWidth()/2 - width/2);
-	}
-	else if(projectile_direction == Vector2(0, -1))
-	{
-		position.y = shooter_entity->getPosition().y;
-		position.x = shooter_entity->getPosition().x + (shooter_entity->getWidth()/2 - width/2);
 	}
 
 	direction = projectile_direction;
@@ -67,12 +57,11 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 void Projectile::Update(float deltatime)
 {
 	current_animation->Update(deltatime);
-	current_animation->getSprite()->move(direction.x * 300 * deltatime, deltatime * 300 * direction.y);
 	position.x += deltatime * 300 * direction.x;
 
-	collider->position.x = position.x;
-	collider->position.y = position.y;
-	
+	collider->position = position;
+	current_animation->getSprite()->setPosition(position.x, position.y);
+
 	//out of screen actions
 	if((position.x + width) < 0)
 	{
