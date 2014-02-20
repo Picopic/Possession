@@ -119,7 +119,7 @@ void PlayerObject::Update(float deltatime, Entity* player)
 			direction.y = 0;
 			direction.x = 1;
 		}
-		else
+		else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		{
 			if(!created_projectile)
 			{

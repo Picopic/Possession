@@ -15,6 +15,8 @@ public:
 	virtual void Update(float deltatime) = 0; //apply logic to object
 	void Cleanup();
 
+	
+
 	std::string getID();
 	void setID(std::string new_ID);
 
@@ -40,6 +42,7 @@ public:
 
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);
 	AnimatedSprite* GetCurrentAnimation();
+	AnimationName GetCurrentAnimationsName();
 
 	virtual void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
@@ -80,6 +83,7 @@ protected:
 
 	//Animations
 	AnimatedSprite* current_animation;
+	AnimationName current_animations_name;
 	std::map<AnimationName, AnimatedSprite*> animations;
 	float death_animation_time;
 	void SetCurrentAnimation(AnimationName animation_name);

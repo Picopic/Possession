@@ -43,6 +43,7 @@ bool Engine::Init()
 void Engine::Run()
 {
 	entity_manager->Init();
+	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), 50, 110, FIRE);
 	entity_manager->AttachEntity(FIREFOE, Vector2(600, 0), 100, 80, FIRE);
 
 	//gameloop

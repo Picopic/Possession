@@ -6,7 +6,6 @@ class HeadsUpDisplay
 {
 public:
 	HeadsUpDisplay();
-	~HeadsUpDisplay();
 
 	bool Initialise(SpriteManager* sprite_mgr);
 	void Cleanup();
@@ -17,16 +16,22 @@ public:
 	//move the HUD with the designated x and y values
 	void Move(float x, float y);
 
+	//Add/delete Elemental point
+	void AddElementalPoint(Type element_type);
+	void DeleteElementalPoint(Type element_type);
+
 private:
 	AnimatedSprite* hud_arrow;
 	std::vector<AnimatedSprite*> symbols;
 
-	AnimatedSprite* fire_template;
-	AnimatedSprite* water_template;
-	AnimatedSprite* wood_template;
+	SpriteManager* sprite_manager;
 
 	std::vector<AnimatedSprite*> fire_points;
 	std::vector<AnimatedSprite*> water_points;
 	std::vector<AnimatedSprite*> wood_points;
+
+	float current_fire_pos;
+	float current_water_pos;
+	float current_wood_pos;
 };
 

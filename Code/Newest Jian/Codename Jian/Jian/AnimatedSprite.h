@@ -10,6 +10,7 @@ public:
 		float duration;
 		int x,y,w,h;
 	};
+	AnimatedSprite();
 
 	AnimatedSprite(sf::Texture* spritesheet, int width, int height, int x, int y);
 

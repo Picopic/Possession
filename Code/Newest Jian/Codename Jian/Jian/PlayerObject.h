@@ -3,6 +3,7 @@
 #pragma once
 #include "Entity.h"
 
+
 class PlayerObject : public Entity
 {
 public:
@@ -14,10 +15,16 @@ public:
 	void getID();
 	void setID();
 
+
 	void OnCollision(Type type, Vector2 offset, Alignment enemy_alignment);
 
 	void NextElement();
 private:
+	//health
+	int fire_elements;
+	int water_elements;
+	int wood_elements;
+
 	bool element_changed;
 	float element_changed_delay;
 };

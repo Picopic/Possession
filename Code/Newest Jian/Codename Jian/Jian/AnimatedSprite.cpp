@@ -4,6 +4,11 @@
 
 #include "AnimatedSprite.h"
 
+AnimatedSprite::AnimatedSprite()
+{
+
+}
+
 AnimatedSprite::AnimatedSprite(sf::Texture* animation_spritesheet, int sprite_width, int sprite_height, int texture_x, int texture_y)
 {
 	time = 0.0f;

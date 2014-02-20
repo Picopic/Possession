@@ -56,44 +56,19 @@ void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 
 void FireEnemyObject::Update(float deltatime)
 {
-	/*
-	if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
-	{
-		std::cout << movement_time << std::endl;
-		movement_time += deltatime;
-		if(movement_time < 1.0f)
-		{
-			position.y += direction.y * deltatime * velocity;
-			SetCurrentAnimation(WALKLEFT);
-		}
-		else
-		{
-			direction.y = -direction.y;
-			movement_time = 0.0f;
-		}
-	}
-	else
-	{
-		
-	}
-	*/
-	if(shooting_delay > 0.7)
-	{
-		SetCurrentAnimation(IDLELEFT);
-	}
-
+	//Firstly update the animation
 	current_animation->Update(deltatime);
-
-	//Update the sprites position if there is a collider
-	if(hasCollider())
+	//movement
+	if(current_animations_name != ATTACKLEFT || current_animations_name != ATTACKRIGHT)
 	{
-		collider->position.x = position.x + entity_offset_x;
-		collider->position.y = position.y + entity_offset_y;
-		current_animation->getSprite()->setPosition(position.x, position.y);
+		//
+		
+		//
 	}
+	
 
-	//Attack animation
-
+	//Attack
+	
 	if(created_projectile)
 	{
 		shooting_delay += deltatime;
@@ -101,7 +76,6 @@ void FireEnemyObject::Update(float deltatime)
 
 	if(shooting_delay == 0.001f && !created_projectile)
 	{
-		create_projectile = true;
 		created_projectile = true;
 		SetCurrentAnimation(ATTACKLEFT);
 	}
@@ -110,17 +84,32 @@ void FireEnemyObject::Update(float deltatime)
 		create_projectile = false;
 	}
 
+	if(shooting_delay > current_animation->GetFrameDuration() * current_animation->GetNumberOfFrames())
+	{
+		create_projectile = true;
+		if(direction.x == 1)
+		{
+			SetCurrentAnimation(IDLERIGHT);
+		}
+		else
+		{
+			SetCurrentAnimation(IDLELEFT);
+		}
+	}
+
 	if(shooting_delay > delay)
 	{
 		shooting_delay = 0.001f;
 		created_projectile = false;
 	}
+	
 
-	//Death animation
+	//Death
 	if(hitpoints <= 0 && !dead)
 	{
 		dead = true;
-		SetCurrentAnimation(DEATH);
+		SetCurrentAnimation(DEATHLEFT);
+		current_animations_name = DEATHLEFT;
 		current_animation->getSprite()->setPosition(position.x, position.y);
 		Cleanup();
 		death_animation_time += deltatime;
@@ -128,10 +117,18 @@ void FireEnemyObject::Update(float deltatime)
 	if(dead)
 	{
 		death_animation_time += deltatime;
+		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+		{
+			flagged_for_death = true;
+		}
 	}
-	if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+
+	//Lastly update the sprites position if there is a collider
+	if(hasCollider())
 	{
-		flagged_for_death = true;
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
+		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
 
 }

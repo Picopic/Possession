@@ -39,16 +39,7 @@ void EntityManager::Init()
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FRIENDBULLET, WOODFOE), 13));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FRIENDBULLET, FIREFOE), 14));
 
-	game_entities.push_back(new PlayerObject(Vector2(400.0f, 0.0f), 50, 110));
-	game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
-	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1680));
-	game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 840));
-	game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 2100));
-	game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
-	game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2940));
-	game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1260));
-	game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
-	game_entities[game_entities.size() - 1]->setDelay(0.4f);
+	
 }
 
 void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
@@ -58,6 +49,18 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	*/
 	switch(entity_name)
 	{
+	case PLAYER:
+		game_entities.push_back(new PlayerObject(position, width, height));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1680));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 840));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 2100));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2940));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1260));
+		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
+		game_entities[game_entities.size() - 1]->setDelay(0.4f);
+		break;
 	case WATERFOE:
 		game_entities.push_back(new WaterEnemyObject(position, width, height));
 		game_entities[game_entities.size()-1]->Init("Water enemy", entity_name, type);
@@ -219,6 +222,6 @@ void EntityManager::Update(float deltatime)
 
 	if(game_entities.size() == 1)
 	{
-		AttachEntity(FIREFOE, Vector2(700, 0), 100, 80, FIRE);
+		AttachEntity(FIREFOE, Vector2(200 + rand() % 400, rand() % 200), 100, 80, FIRE);
 	}
 }

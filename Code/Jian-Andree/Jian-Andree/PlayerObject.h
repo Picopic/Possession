@@ -18,6 +18,10 @@ public:
 
 	void NextElement();
 private:
+	//health
+	int fire_elements;
+	int water_elements;
+	int wood_elements;
 
 	bool element_changed;
 	float element_changed_delay;

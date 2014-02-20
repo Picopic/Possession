@@ -3,6 +3,7 @@
 #include "stdafx.h"
 
 #include "Enums.h"
+#include "Vector2.h"
 
 #include "AnimatedSprite.h"
 #include "SpriteManager.h"
@@ -10,14 +11,13 @@
 
 HeadsUpDisplay::HeadsUpDisplay()
 {
-}
 
-HeadsUpDisplay::~HeadsUpDisplay()
-{
 }
 
 bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 {
+	sprite_manager = sprite_mgr;
+
 	hud_arrow = sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 195, 0);
 	if(hud_arrow == nullptr)	return false;
 
@@ -28,14 +28,6 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	symbols.push_back(sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 130, 0));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
 
-	fire_template = sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 65, 65);
-	if(fire_template == nullptr) return false;
-	water_template = sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 0, 65);
-	if(water_template == nullptr) return false;
-	wood_template = sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 130, 65);
-	if(wood_template == nullptr) return false;
-
-
 	//Give them their positions
 	hud_arrow->getSprite()->setPosition(20, 80);
 
@@ -43,7 +35,13 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	{
 		symbols[i]->getSprite()->setPosition(80, 80 + (i * 65));
 	}
-
+	
+	//
+	current_fire_pos = 80;
+	current_water_pos = 80;
+	current_wood_pos = 80;
+	//
+	
 	Update(0);
 
 	return true;
@@ -51,25 +49,16 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 
 void HeadsUpDisplay::Cleanup()
 {
+	if(sprite_manager != nullptr)
+	{
+		delete sprite_manager;
+		sprite_manager = nullptr;
+	}
+
 	if(hud_arrow != nullptr)
 	{
 		delete hud_arrow;
 		hud_arrow = nullptr;
-	}
-	if(fire_template != nullptr)
-	{
-		delete fire_template;
-		fire_template = nullptr;
-	}
-	if(water_template != nullptr)
-	{
-		delete water_template;
-		water_template = nullptr;
-	}
-	if(wood_template != nullptr)
-	{
-		delete wood_template;
-		wood_template = nullptr;
 	}
 
 	//symbols
@@ -175,5 +164,40 @@ void HeadsUpDisplay::Move(float x, float y)
 	for(int i = 0; i < wood_points.size(); i++)
 	{
 		wood_points[i]->getSprite()->move(x, y);
+	}
+}
+
+void HeadsUpDisplay::AddElementalPoint(Type Elemental_type)
+{
+	switch(Elemental_type)
+	{
+	case FIRE:
+		fire_points.push_back(sprite_manager->Load("Placeholder HUD .png", 1, 1, 65, 65, 65, 65));
+		fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + 50, 145);
+		current_fire_pos += 50;
+		break;
+	case WATER:
+		water_points.push_back(sprite_manager->Load("Placeholder HUD .png", 1, 1, 65, 65, 0, 65));
+		water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + 50, 80);
+		current_water_pos += 50;
+		break;
+	case WOOD:
+		wood_points.push_back(sprite_manager->Load("Placeholder HUD .png", 1, 1, 65, 65, 130, 65));
+		wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + 50, 210);
+		current_wood_pos += 50;
+		break;
+	}
+}
+
+void HeadsUpDisplay::DeleteElementalPoint(Type element_type)
+{
+	switch (element_type)
+	{
+	case FIRE:
+		break;
+	case WATER:
+		break;
+	case WOOD:
+		break;
 	}
 }

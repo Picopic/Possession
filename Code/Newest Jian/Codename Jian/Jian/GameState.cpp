@@ -51,9 +51,14 @@ bool GameState::Initialize(){
 	{
 		return false;
 	}
+
+	HUD->AddElementalPoint(FIRE);
+	HUD->AddElementalPoint(FIRE);
+	HUD->AddElementalPoint(FIRE);
 	
 	entity_manager = new EntityManager(sprite_manager);
 	entity_manager->Init();
+	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), 50, 110, FIRE);
 	entity_manager->AttachEntity(FIREFOE, Vector2(600, 200), 100, 80, FIRE);
 
 	previous_time = game_clock.restart();

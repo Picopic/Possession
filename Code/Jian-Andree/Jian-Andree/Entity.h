@@ -55,10 +55,6 @@ protected:
 
 	//health for enemies
 	int hitpoints;
-	//health for player
-	int fire_elements;
-	int water_elements;
-	int wood_elements;
 
 	std::string entity_ID;
 

@@ -19,14 +19,15 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 	if(projectile_direction.x == 1)
 	{
 		position.x = shooter_entity->getPosition().x + shooter_entity->getWidth();
-		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
+		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2);
 	}
 	else if(projectile_direction.x == -1)
 	{
 		position.x = shooter_entity->getPosition().x;
-		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2 - height/2);
+		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2);
 	}
 
+	start_pos = position;
 	direction = projectile_direction;
 
 	dead = false;
@@ -68,11 +69,11 @@ void Projectile::Update(float deltatime)
 	current_animation->getSprite()->setPosition(position.x, position.y);
 
 	//out of screen actions
-	if((position.x + width) < 0)
+	if((position.x + width) < (start_pos.x-680))
 	{
 		flagged_for_death = true;
 	}
-	else if(position.x > 1280)
+	else if(position.x > (start_pos.x+680))
 	{
 		flagged_for_death = true;
 	}
@@ -102,5 +103,12 @@ void Projectile::Update(float deltatime)
 void Projectile::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
 	dead = true;
-	SetCurrentAnimation(DEATH);
+	if(direction.x == 1)
+	{
+		SetCurrentAnimation(DEATHRIGHT);
+	}
+	else
+	{
+		SetCurrentAnimation(DEATHLEFT);
+	}
 }
