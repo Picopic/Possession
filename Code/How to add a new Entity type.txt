@@ -1,0 +1,7 @@
+Firstly put the name of the entity in the collisiontable and put all of its collision with the "alt-22" sign
+
+secondly add the name of the entity in the "Enums.h" file under "Alignment"
+
+Thirdly add the previously named collisions in the collisionmap (which is in the Init() function in the entitymanager)
+
+Lastly you add the animations/sprites etc in the AttachEntity() function
