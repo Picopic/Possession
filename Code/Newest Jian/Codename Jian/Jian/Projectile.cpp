@@ -87,11 +87,6 @@ void Projectile::Update(float deltatime)
 	}
 	if(dead)
 	{
-		if(collider != nullptr)
-		{
-			delete collider;
-			collider = nullptr;
-		}
 		death_animation_time += deltatime;
 		if(death_animation_time > 0.5)
 		{
@@ -103,6 +98,13 @@ void Projectile::Update(float deltatime)
 void Projectile::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
 	dead = true;
+
+	if(collider != nullptr)
+	{
+		delete collider;
+		collider = nullptr;
+	}
+
 	if(direction.x == 1)
 	{
 		SetCurrentAnimation(DEATHRIGHT);

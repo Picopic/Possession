@@ -52,9 +52,18 @@ bool GameState::Initialize(){
 		return false;
 	}
 
-	HUD->AddElementalPoint(FIRE);
-	HUD->AddElementalPoint(FIRE);
-	HUD->AddElementalPoint(FIRE);
+	for(int i = 0; i < 3; i++)
+	{
+		HUD->AddElementalPoint(FIRE);
+	}
+	for(int i = 0; i < 3; i++)
+	{
+		HUD->AddElementalPoint(WATER);
+	}
+	for(int i = 0; i < 3; i++)
+	{
+		HUD->AddElementalPoint(WOOD);
+	}
 	
 	entity_manager = new EntityManager(sprite_manager);
 	entity_manager->Init();
@@ -92,7 +101,65 @@ bool GameState::Update(){
 			};
 		};
 
-		
+		//player related HUD changes
+		if(entity_manager->game_entities[0]->getAlignment() == PLAYER)
+		{
+			if(entity_manager->game_entities[0]->ChangedElement())
+			{
+				HUD->MoveArrow(entity_manager->game_entities[0]->GetArrow());
+			}
+
+			//Add element points?
+			if(entity_manager->game_entities[0]->AddElementPoints())
+			{
+				if(entity_manager->game_entities[0]->GetAddFire() > 0)
+				{
+					for(int i = 0; i < entity_manager->game_entities[0]->GetAddFire(); i++)
+					{
+						HUD->AddElementalPoint(FIRE);
+					}
+				}
+				else if(entity_manager->game_entities[0]->GetAddWater() > 0)
+				{
+					for(int i = 0; i < entity_manager->game_entities[0]->GetAddWater(); i++)
+					{
+						HUD->AddElementalPoint(WATER);
+					}
+				}
+				else if(entity_manager->game_entities[0]->GetAddWood() > 0)
+				{
+					for(int i = 0; i < entity_manager->game_entities[0]->GetAddWood(); i++)
+					{
+						HUD->AddElementalPoint(WOOD);
+					}
+				}
+			}
+			//Delete element points?
+			if(entity_manager->game_entities[0]->DeleteElementPoints())
+			{
+				if(entity_manager->game_entities[0]->GetDestroyFire() > 0)
+				{
+					for(int i = 0; i < entity_manager->game_entities[0]->GetDestroyFire(); i++)
+					{
+						HUD->DeleteElementalPoint(FIRE);
+					}
+				}
+				else if(entity_manager->game_entities[0]->GetDestroyWater() > 0)
+				{
+					for(int i = 0; i < entity_manager->game_entities[0]->GetDestroyWater(); i++)
+					{
+						HUD->DeleteElementalPoint(WATER);
+					}
+				}
+				else if(entity_manager->game_entities[0]->GetDestroyWood() > 0)
+				{
+					for(int i = 0; i < entity_manager->game_entities[0]->GetDestroyWood(); i++)
+					{
+						HUD->DeleteElementalPoint(WOOD);
+					}
+				}
+			}
+		}
 
 		//And here comes the player movement
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {

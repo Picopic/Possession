@@ -16,6 +16,9 @@ public:
 	//move the HUD with the designated x and y values
 	void Move(float x, float y);
 
+	//Move the arrow to the designated Type
+	void MoveArrow(Type type);
+
 	//Add/delete Elemental point
 	void AddElementalPoint(Type element_type);
 	void DeleteElementalPoint(Type element_type);

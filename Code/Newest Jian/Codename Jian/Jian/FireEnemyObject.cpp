@@ -25,10 +25,13 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	//shooting
 	delay = 0.0f;
 	shooting_delay = 0.001f;
+	created_projectile = false;
+	create_projectile = false;
 
 	//collision
 	entity_offset_x = 50;
 	entity_offset_y = 40;
+	can_collide = true;
 
 	//movement
 	velocity = 200;
@@ -69,6 +72,7 @@ void FireEnemyObject::Update(float deltatime)
 
 	//Attack
 	
+	
 	if(created_projectile)
 	{
 		shooting_delay += deltatime;
@@ -76,17 +80,24 @@ void FireEnemyObject::Update(float deltatime)
 
 	if(shooting_delay == 0.001f && !created_projectile)
 	{
+		create_projectile = true;
 		created_projectile = true;
 		SetCurrentAnimation(ATTACKLEFT);
+		current_animations_name = ATTACKLEFT;
 	}
 	else
 	{
 		create_projectile = false;
 	}
 
-	if(shooting_delay > current_animation->GetFrameDuration() * current_animation->GetNumberOfFrames())
+	if(shooting_delay > delay)
 	{
-		create_projectile = true;
+		shooting_delay = 0.001f;
+		created_projectile = false;
+	}
+	
+	if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+	{
 		if(direction.x == 1)
 		{
 			SetCurrentAnimation(IDLERIGHT);
@@ -96,13 +107,6 @@ void FireEnemyObject::Update(float deltatime)
 			SetCurrentAnimation(IDLELEFT);
 		}
 	}
-
-	if(shooting_delay > delay)
-	{
-		shooting_delay = 0.001f;
-		created_projectile = false;
-	}
-	
 
 	//Death
 	if(hitpoints <= 0 && !dead)

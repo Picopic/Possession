@@ -182,8 +182,11 @@ void EntityManager::Update(float deltatime)
 					Vector2 offset = Vector2(0.1f, 0.1f);
 					if(game_entities[i]->getCollider()->Overlap(*game_entities[j]->getCollider(), offset))
 					{
-						game_entities[i]->OnCollision(game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
-						game_entities[j]->OnCollision(game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
+						if(game_entities[i]->CanCollide() && game_entities[j]->CanCollide())
+						{
+							game_entities[i]->OnCollision(game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
+							game_entities[j]->OnCollision(game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
+						}
 					}
 				}
 			}

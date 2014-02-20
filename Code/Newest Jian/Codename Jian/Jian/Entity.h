@@ -15,31 +15,49 @@ public:
 	virtual void Update(float deltatime) = 0; //apply logic to object
 	void Cleanup();
 
-	
+	//HUD changing functions
+	bool AddElementPoints();
+	bool DeleteElementPoints();
+	int GetAddFire();
+	int GetAddWater();
+	int GetAddWood();
+	int GetDestroyFire();
+	int GetDestroyWater();
+	int GetDestroyWood();
+	Type GetArrow();
+	bool ChangedElement();
 
 	std::string getID();
 	void setID(std::string new_ID);
 
+	//unorganised
 	Alignment getAlignment();
 	Collider* getCollider();
 	Vector2 getPosition();
 	void setPosition(Vector2 pos);
-	bool hasCollider() const;
 	Type getType();
+	
+	//collision
+	bool hasCollider() const;
+	bool CanCollide();
 
 	Vector2 getDirection();
 
+	//Shooting
 	bool CreateProjectile();
 	float getShootDelay();
 	float getDelay();
 	void setDelay(float new_delay);
 	void resetShootDelay();
 
+	//death
 	bool IsFlaggedForDeath();
 
+	//access
 	int getWidth();
 	int getHeight();
 
+	//animations
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);
 	AnimatedSprite* GetCurrentAnimation();
 	AnimationName GetCurrentAnimationsName();
@@ -76,10 +94,23 @@ protected:
 	//Collisionbox
 	float entity_offset_x;
 	float entity_offset_y;
+	bool can_collide;
+	float collision_refresh_timer;
 
 	//movement
 	float movement_time;
 	float velocity;
+
+	//HUD changes
+	bool add_element;
+	int add_fire;
+	int add_water;
+	int add_wood;
+	int destroy_fire;
+	int destroy_water;
+	int destroy_wood;
+	Type arrow;
+	bool changed_element;
 
 	//Animations
 	AnimatedSprite* current_animation;

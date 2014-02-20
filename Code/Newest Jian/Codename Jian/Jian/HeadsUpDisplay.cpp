@@ -194,10 +194,44 @@ void HeadsUpDisplay::DeleteElementalPoint(Type element_type)
 	switch (element_type)
 	{
 	case FIRE:
+		if(fire_points.size() > 0)
+		{
+			delete fire_points[fire_points.size() - 1];
+			fire_points[fire_points.size() - 1] = nullptr;
+			fire_points.erase(fire_points.begin() + (fire_points.size() - 1));
+		}
 		break;
 	case WATER:
+		if(water_points.size() > 0)
+		{
+			delete water_points[water_points.size() - 1];
+			water_points[water_points.size() - 1] = nullptr;
+			water_points.erase(water_points.begin() + (water_points.size() - 1));
+		}
 		break;
 	case WOOD:
+		if(wood_points.size() > 0)
+		{
+			delete wood_points[wood_points.size() - 1];
+			wood_points[wood_points.size() - 1] = nullptr;
+			wood_points.erase(wood_points.begin() + (wood_points.size() - 1));
+		}
+		break;
+	}
+}
+
+void HeadsUpDisplay::MoveArrow(Type type)
+{
+	switch(type)
+	{
+	case FIRE:
+		hud_arrow->getSprite()->setPosition(20, 145);
+		break;
+	case WATER:
+		hud_arrow->getSprite()->setPosition(20, 80);
+		break;
+	case WOOD:
+		hud_arrow->getSprite()->setPosition(20, 210);
 		break;
 	}
 }

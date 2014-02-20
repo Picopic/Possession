@@ -18,8 +18,11 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	width = player_width;
 	height = player_height;
 
+	//collision variables
 	entity_offset_x = 50;
 	entity_offset_y = 30;
+	can_collide = true;
+	collision_refresh_timer = 0.0f;
 
 	//death
 	dead = false;
@@ -36,9 +39,15 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	element_changed = false;
 	element_changed_delay = 0.0f;
 
-	fire_elements = 1;
-	water_elements = 1;
-	wood_elements = 1;
+	//HUD changing variables
+	add_element = false;
+	destroy_fire = 0;
+	destroy_water = 0;
+	destroy_wood = 0;
+
+	fire_elements = 3;
+	water_elements = 3;
+	wood_elements = 3;
 
 	movement_time = 0.0f;
 	velocity = 200;
@@ -55,16 +64,38 @@ void PlayerObject::Init(std::string object_type, Alignment player_alignment, Typ
 
 	alignment = player_alignment;
 	type = player_type;
+	arrow = type;
 
 	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
 void PlayerObject::Update(float deltatime)
 {
+	changed_element = false;
+
+	destroy_fire = 0;
+	destroy_water = 0;
+	destroy_wood = 0;
+
 	current_animation->Update(deltatime);
+
+	add_element = false;
 
 	if(!dead)
 	{
+		//collision timer
+		if(!can_collide)
+		{
+			collision_refresh_timer += deltatime;
+			
+			//can collide again
+			if(collision_refresh_timer > 0.3)
+			{
+				can_collide = true;
+				collision_refresh_timer = 0.0f;
+			}
+		}
+
 		//Vertical movement
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 		{
@@ -179,6 +210,7 @@ void PlayerObject::Update(float deltatime)
 		//adding elemental points (just a button press for testing)
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 		{
+			add_element = true;
 		}
 	}
 
@@ -209,6 +241,8 @@ void PlayerObject::Update(float deltatime)
 //COLLISION
 void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment collision_alignment)
 {
+	can_collide = false;
+
 	if (collision_alignment == FRIENDBULLET || collision_alignment == PLAYER)
 	{
 
@@ -222,17 +256,21 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 			if(type == FIRE)
 			{
 				fire_elements -= 2;
+				destroy_fire = 2;
 				
 				if(fire_elements <= 0) NextElement();
 			}
 			else if(type == WATER)
 			{
 				water_elements--;
+				destroy_water = 1;
+
 				if(water_elements <= 0) NextElement();
 			}
 			else if(type == WOOD)
 			{
 				wood_elements -= 3;
+				destroy_wood = 3;
 				if(wood_elements <= 0) NextElement();
 			}
 
@@ -242,16 +280,22 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 			if(type == FIRE)
 			{
 				fire_elements -= 3;
+				destroy_fire = 3;
+
 				if(fire_elements <= 0) NextElement();
 			}
 			else if(type == WATER)
 			{
 				water_elements -= 2;
+				destroy_water = 2;
+
 				if(water_elements <= 0) NextElement();
 			}
 			else if(type == WOOD)
 			{
 				wood_elements--;
+				destroy_wood = 1;
+
 				if(wood_elements <= 0) NextElement();
 			}
 
@@ -261,37 +305,50 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 			if(type == FIRE)
 			{
 				fire_elements--;
+				destroy_fire = 1;
+
 				if(fire_elements <= 0) NextElement();
 			}
 			else if(type == WATER)
 			{
 				water_elements -= 3;
+				destroy_water = 3;
+
 				if(water_elements <= 0) NextElement();
 			}
 			else if(type == WOOD)
 			{
 				wood_elements -= 2;
+				destroy_wood = 2;
+
 				if(wood_elements <= 0) NextElement();
 			}
 
 			break;
 		}
 	}
-		
+	
+	std::cout << "Fire: " << fire_elements << std::endl;
+	std::cout << "Water: " << water_elements << std::endl;
+	std::cout << "Wood: " << wood_elements << "\n" << std::endl;
+
 }
 
 void PlayerObject::NextElement()
 {
+	changed_element = true;
 	switch(type)
 	{
 	case FIRE:
 		if(wood_elements > 0)
 		{
 			type = WOOD;
+			arrow = WOOD;
 		}
 		else if(water_elements > 0)
 		{
 			type = WATER;
+			arrow = WATER;
 		}
 		else
 		{
@@ -311,10 +368,12 @@ void PlayerObject::NextElement()
 		if(fire_elements > 0)
 		{
 			type = FIRE;
+			arrow = FIRE;
 		}
 		else if(wood_elements > 0)
 		{
 			type = WOOD;
+			arrow = WOOD;
 		}
 		else
 		{
@@ -333,10 +392,12 @@ void PlayerObject::NextElement()
 		if(water_elements > 0)
 		{
 			type = WATER;
+			arrow = WATER;
 		}
 		else if(fire_elements > 0)
 		{
 			type = FIRE;
+			arrow = FIRE;
 		}
 		else
 		{
@@ -352,4 +413,69 @@ void PlayerObject::NextElement()
 		}
 		break;
 	}
+}
+
+bool Entity::AddElementPoints()
+{
+	return add_element;
+}
+
+bool Entity::DeleteElementPoints()
+{
+	if(destroy_fire > 0)
+	{
+		return true;
+	}
+	else if(destroy_water > 0)
+	{
+		return true;
+	}
+	else if(destroy_wood > 0)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int Entity::GetDestroyFire()
+{
+	return destroy_fire;
+}
+
+int Entity::GetDestroyWater()
+{
+	return destroy_water;
+}
+
+int Entity::GetDestroyWood()
+{
+	return destroy_wood;
+}
+
+int Entity::GetAddFire()
+{
+	return add_fire;
+}
+
+int Entity::GetAddWater()
+{
+	return add_water;
+}
+
+int Entity::GetAddWood()
+{
+	return add_wood;
+}
+
+Type Entity::GetArrow()
+{
+	return arrow;
+}
+
+bool Entity::ChangedElement()
+{
+	return changed_element;
 }

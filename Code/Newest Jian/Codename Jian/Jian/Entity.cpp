@@ -147,3 +147,8 @@ void Entity::SetCurrentAnimation(AnimationName animation_name)
 		current_animation = it->second;
 	}
 }
+
+bool Entity::CanCollide()
+{
+	return can_collide;
+}
