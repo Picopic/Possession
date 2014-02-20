@@ -15,7 +15,8 @@ public:
 	void setID();
 
 	void OnCollision(Type type, Vector2 offset, Alignment enemy_alignment);
-	void AddElementalPoints(Type type);
+	void SacrificeSoul(Type type);
+	void ReleaseSoul();
 	void NextElement();
 
 	bool hasLostSoul;

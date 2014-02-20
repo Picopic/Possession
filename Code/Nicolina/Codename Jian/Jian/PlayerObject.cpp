@@ -182,19 +182,35 @@ void PlayerObject::Update(float deltatime)
 	//sacrifice lost soul
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
 	{
-		soulChoiceSacrifice = true;
+		SacrificeSoul(type);
 		collectedSouls--;
+		if(collectedSouls <= 0)
+		{
+			hasLostSoul = false;
+		}
+
+	std::cout << "SACRIFICE!" << std::endl;
+	std::cout << "Water: " << waterPoints << std::endl;
+	std::cout << "Fire: " << firePoints << std::endl;
+	std::cout << "Wood: " << woodPoints << std::endl;
+	std::cout << "LostSouls: " << collectedSouls << std::endl;
+	std::cout << " " << std::endl;
 	}
 	//free lost soul
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && hasLostSoul==true)
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
 	{
-		soulChoiceFree = true;
+		ReleaseSoul();
 		collectedSouls--;
-	}
-	else
-	{
-		soulChoiceFree = false;
-		soulChoiceSacrifice = false;
+		if(collectedSouls <= 0)
+		{
+			hasLostSoul = false;
+		}
+	std::cout << "RELEASE!" << std::endl;
+	std::cout << "Water: " << waterPoints << std::endl;
+	std::cout << "Fire: " << firePoints << std::endl;
+	std::cout << "Wood: " << woodPoints << std::endl;
+	std::cout << "LostSouls: " << collectedSouls << std::endl;
+	std::cout << " " << std::endl;
 	}
 
 	collider->position.x = position.x + entity_offset_x;
@@ -262,49 +278,43 @@ void PlayerObject::OnCollision(Type type, Vector2 offset, Alignment enemy_alignm
 		hasLostSoul = true;
 	}	
 
+	std::cout << "COLLISION!" << std::endl;
 	std::cout << "Water: " << waterPoints << std::endl;
 	std::cout << "Fire: " << firePoints << std::endl;
 	std::cout << "Wood: " << woodPoints << std::endl;
 	std::cout << "LostSouls: " << collectedSouls << std::endl;
+	std::cout << " " << std::endl;
 }
 
-void PlayerObject::AddElementalPoints(Type type)
+void PlayerObject::SacrificeSoul(Type type)
 {
-	if(soulChoiceSacrifice==true && hasLostSoul==true)
+	if(type==WATER)
 	{
-		if(type==WATER)
-		{
-			waterPoints += 3;
-			firePoints++;
-			woodPoints++;
-		}
-		else if(type==FIRE)
-		{
-			waterPoints++;
-			firePoints += 3;
-			woodPoints++;
-		}
-		else
-		{
-			waterPoints++;
-			firePoints++;
-			woodPoints += 3;
-		}
-
-		if(collectedSouls <= 0)
-		{
-			hasLostSoul = false;
-		}
+		waterPoints += 3;
+		firePoints++;
+		woodPoints++;
 	}
-	else if(soulChoiceFree==true && hasLostSoul==true)
+	else if(type==FIRE)
+	{
+		waterPoints++;
+		firePoints += 3;
+		woodPoints++;
+	}
+	else
+	{
+		waterPoints++;
+		firePoints++;
+		woodPoints += 3;
+	}
+}
+
+void PlayerObject::ReleaseSoul() 
+{
+	if(hasLostSoul==true)
 	{
 		waterPoints++;
 		firePoints++;
 		woodPoints++;
-		if(collectedSouls <= 0)
-		{
-			hasLostSoul = false;
-		}
 	}
 }
 

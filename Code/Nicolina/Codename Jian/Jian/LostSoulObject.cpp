@@ -17,6 +17,7 @@ LostSoulObject::LostSoulObject(Vector2 lostsoul_position, int lostsoul_width, in
 	height = lostsoul_height;
 
 	flagged_for_death = false;
+	drop_soul = false;
 
 	collider = new Collider;
 	collider->position = position;
@@ -50,5 +51,9 @@ void LostSoulObject::Update(float deltatime)
 
 void LostSoulObject::OnCollision(Type collision_type, Vector2 offset, Alignment other_alignment)
 {
+		if(other_alignment == PLAYER)
+	{
+		flagged_for_death = true;
+	}	
 
 }

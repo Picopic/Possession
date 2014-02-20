@@ -147,3 +147,8 @@ void Entity::SetCurrentAnimation(AnimationName animation_name)
 		current_animation = it->second;
 	}
 }
+
+bool Entity::DropLostSoul()
+{
+	return drop_soul;
+}

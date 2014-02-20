@@ -37,6 +37,9 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	death_animation_time = 0.0f;
 	movement_time = 0.0f;
 
+	//dropping soul
+	dropSoulNumber = (rand() %10+1);
+
 	collider = new Collider;
 	collider->position.x = position.x + entity_offset_x;
 	collider->position.y = position.y + entity_offset_y;
@@ -124,6 +127,16 @@ void FireEnemyObject::Update(float deltatime)
 		current_animation->getSprite()->setPosition(position.x, position.y);
 		Cleanup();
 		death_animation_time += deltatime;
+
+		//drop lost soul?
+		if(dropSoulNumber<=5)
+		{
+			drop_soul = true;
+		}
+		else
+		{
+			drop_soul = false;
+		}
 	}
 	if(dead)
 	{

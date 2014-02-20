@@ -33,6 +33,8 @@ public:
 	void setDelay(float new_delay);
 	void resetShootDelay();
 
+	bool DropLostSoul();
+
 	bool IsFlaggedForDeath();
 
 	int getWidth();
@@ -68,7 +70,11 @@ protected:
 	float shooting_delay;
 	float delay;
 	Vector2 direction;
-	Vector2 start_pos;
+	Vector2 start_pos; 
+
+	//if the enemy is going to drop a lost soul or not
+	int dropSoulNumber;
+	bool drop_soul;
 
 	//Collisionbox
 	float entity_offset_x;
