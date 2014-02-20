@@ -10,7 +10,7 @@ DrawManager::DrawManager()
 
 }
 
-void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager)
+void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager, HeadsUpDisplay* HUD)
 {
 	//window->clear(sf::Color(0x11,0x22,0x33,0xff));
 
@@ -19,5 +19,7 @@ void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager)
 		window->draw(*entity_manager->game_entities[i]->GetCurrentAnimation()->getSprite());
 	}
 
-	//window->display();
+	HUD->DrawHUD(window);
+
+	window->display();
 }

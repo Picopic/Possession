@@ -43,7 +43,7 @@ AnimatedSprite* SpriteManager::Load(const std::string &filename, int number_of_f
 		it = spritesheets.find(filename);
 	}
 
-	AnimatedSprite* anim_sprite = new AnimatedSprite(it->second, width, height);
+	AnimatedSprite* anim_sprite = new AnimatedSprite(it->second, width, height, startx, starty);
 	int row = 0;
 	int column = 0;
 	for(int i = 1; i <= number_of_frames; i++)

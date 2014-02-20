@@ -18,6 +18,7 @@ GameState::~GameState(){
 bool GameState::Initialize(){
 
 	camera.setPosition(sf::Vector2f(1024/2, 640/2));
+	cameras_last_position = camera.getPosition();
 		
 	cloud.setPosition(sf::Vector2f(0, 0));
 	cloud.initialize();
@@ -44,10 +45,16 @@ bool GameState::Initialize(){
 	
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
+
+	HUD = new HeadsUpDisplay;
+	if(!HUD->Initialise(sprite_manager))
+	{
+		return false;
+	}
 	
 	entity_manager = new EntityManager(sprite_manager);
 	entity_manager->Init();
-	entity_manager->AttachEntity(FIREFOE, Vector2(600, 400), 210, 210, FIRE);
+	entity_manager->AttachEntity(FIREFOE, Vector2(600, 200), 100, 80, FIRE);
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
@@ -215,14 +222,13 @@ bool GameState::Update(){
 				//std::cout << gameplayarea2.getPosition().x << std::endl;
 			};
 			
-		//player.draw(m_window);
+		HUD->Move((camera.getPosition().x-cameras_last_position.x), 0);
+		cameras_last_position = camera.getPosition();
+
 		entity_manager->Update(deltatime);
 
-		entity_manager->game_entities.at(0)->getPosition();
-
 		//drawing portion of game loop
-		draw_manager->Draw(m_window, entity_manager);
-		m_window->display();
+		draw_manager->Draw(m_window, entity_manager, HUD);
 
 	//};
 

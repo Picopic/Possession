@@ -15,9 +15,19 @@ public:
 	void setID();
 
 	void OnCollision(Type type, Vector2 offset, Alignment enemy_alignment);
-	void ElementalPoints(Type type);
+	void AddElementalPoints(Type type);
+	void NextElement();
+
+	bool hasLostSoul;
+	unsigned int collectedSouls;
+
+	bool soulChoiceSacrifice;
+	bool soulChoiceFree;
 
 private:
+	bool element_changed;
+	float element_changed_delay;
+
 	int firePoints;
 	int	woodPoints;
 	int	waterPoints;

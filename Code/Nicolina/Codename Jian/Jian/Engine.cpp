@@ -23,6 +23,12 @@ bool Engine::Init()
 	
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
+
+	HUD = new HeadsUpDisplay;
+	if(!HUD->Initialise(sprite_manager))
+	{
+		return false;
+	}
 	
 	entity_manager = new EntityManager(sprite_manager);
 
@@ -36,9 +42,6 @@ bool Engine::Init()
 
 void Engine::Run()
 {
-	entity_manager->Init();
-	entity_manager->AttachEntity(FIREFOE, Vector2(600, 400), 210, 210, FIRE);
-
 	//gameloop
 	while(window.isOpen())
 	{
@@ -68,7 +71,7 @@ void Engine::Run()
 		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop
-		draw_manager->Draw(&window, entity_manager);
+		draw_manager->Draw(&window, entity_manager, HUD);
 
 		//std::cout << entity_manager->game_entities.size() << std::endl;
 	}

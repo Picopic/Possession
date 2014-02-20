@@ -12,6 +12,7 @@
 #include "DrawManager.h"
 #include "SpriteManager.h"
 #include "EntityManager.h"
+#include "HeadsUpDisplay.h"
 
 class GameState:public State{
 public:
@@ -47,6 +48,7 @@ private:
 	sf::Time previous_time;
 	float deltatime;
 
+	sf::Vector2f cameras_last_position;
 	Camera camera;
 	Cloud cloud;
 	Cloud cloud2;
@@ -58,7 +60,5 @@ private:
 	DrawManager *draw_manager;
 	SpriteManager *sprite_manager;
 	EntityManager *entity_manager;
-
-	
-
+	HeadsUpDisplay *HUD;
 };
