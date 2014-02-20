@@ -3,211 +3,275 @@
 #include "stdafx.h"
 #include <iostream>
 
+#include "Camera.h"
+#include "Cloud.h"
+#include "Gameplayarea.h"
+#include "Paralax.h"
+#include "Player.h"
+#include "WaterEnemy.h"
+#include "FireEnemy.h"
+#include "WoodEnemy.h"
+
+//för randomfunktionen:
+#include <cstdlib>
+#include <stdlib.h>
+#include <time.h>
+#include <ctime>
+
+#include <vector>
+
+
 using namespace sf;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	RenderWindow window(VideoMode(1024,640), "Caption");
+	srand(time(0));
+	RenderWindow* window = new RenderWindow(VideoMode(1024,640), "Caption");
 	
-	//CircleShape will be the player moving around.
-	CircleShape shape (30.0f);
+	Camera camera;
+	Cloud cloud;
+	Cloud cloud2;
+	Gameplayarea gameplayarea;
+	Gameplayarea gameplayarea2;
+	Paralax paralax;
+	Player player;
+	WaterEnemy waterenemy;
+	FireEnemy fireenemy;
+	WoodEnemy woodenemy;
 
-	//Kamerans fokus:
-	CircleShape shape3(10.0f);
+	//För att det ska vara många av Waterenemy:
+	std::vector<WaterEnemy*> m_WaterEnemies;
+	for (int i=0; i<2; i++){ 
+		m_WaterEnemies.push_back(new WaterEnemy);
+		m_WaterEnemies.at(i)->initialize();
+		int randomposwaterenemies = (rand()%(640-(290)+1))+(290);
+		m_WaterEnemies.at(i)->setPosition(sf::Vector2f(1024, randomposwaterenemies ));
+	}
 	
-	//Bakgrundsmark:
-	Texture Ibackground;
-	Sprite background;
+	//För att det ska vara många av Fireenemy:
+	std::vector<FireEnemy*> m_FireEnemies;
+	for (int i=0; i<3; i++){ 
+		m_FireEnemies.push_back(new FireEnemy);
+		m_FireEnemies.at(i)->initialize();
+		int randomposfireenemies = (rand()%(640-(290)+1))+(290);
+		m_FireEnemies.at(i)->setPosition(sf::Vector2f(1024, randomposfireenemies ));
+	}
+	//För att det ska vara många av Woodenemy:
+	std::vector<WoodEnemy*> m_WoodEnemies;
+	for (int i=0; i<5; i++){ 
+		m_WoodEnemies.push_back(new WoodEnemy);
+		m_WoodEnemies.at(i)->initialize();
+		int randomposwoodenemies = (rand()%(640-(290)+1))+(290);
+		m_WoodEnemies.at(i)->setPosition(sf::Vector2f(1024, randomposwoodenemies ));
+	}
 
-	Ibackground.loadFromFile("../bin/BG.png");
-	background.setTexture(Ibackground);
-	background.setPosition(0, 0);
+	//camera.initialize();
+	camera.setPosition(sf::Vector2f(1024/2, 640/2));
+		
+	cloud.setPosition(sf::Vector2f(0, 0));
+	cloud.initialize();
 
-	//Blå Bakgrundsmark:
-	Texture Ibackground3;
-	Sprite  background3;
+	cloud2.setPosition(sf::Vector2f(1280,0));
+	cloud2.initialize();
 
-	Ibackground3.loadFromFile("../bin/BG3.png");
-	background3.setTexture(Ibackground3);
-	background3.setPosition(0,0);
+	gameplayarea.setPosition(sf::Vector2f(0, 0));
+	gameplayarea.initialize();
 
-	//Bakgrundshorisontgrejs:
-	Texture Ibackground2;
-	Sprite background2;
+	gameplayarea2.setPosition(sf::Vector2f(2560, 0));
+	gameplayarea2.initialize();
+
+	paralax.setPosition(sf::Vector2f(-150, 0));
+	paralax.initialize();
+
+	//Man kanske kan göra waterenemyns position random inom vissa gränser? Kanske antal också?:
+	//waterenemy.setPosition(sf::Vector2f(1024, int random= sf::Randomizer::Random(630/2, 630));
+	/*int randomtal = (rand()%(640-(290)+1))+(290);
+	waterenemy.setPosition(sf::Vector2f(1024, randomtal));
+	waterenemy.initialize();
+	std::cout << randomtal << std::endl;*/
+
+	player.setPosition(sf::Vector2f(1024/2, 640/2));
+	player.initialize();
 	
-	Ibackground2.loadFromFile("../bin/BG2.png");
-	background2.setTexture(Ibackground2);
-	background2.setPosition(0,0);
+	sf::View view(sf::Vector2f(0,0), sf::Vector2f(1024,640));
 	
-
-	//playerxaxe playeryaxe är för spelaren
-	//cameraXaxe cameraYaxe är för kameran
-	//couldXaxe är för molnen
-	float playerXaxe, playerYaxe, cameraXaxe , cameraYaxe, cloudXaxe, background2Xaxe; //axis
-	//Spelarens koordinater
-	//playerXaxe=x-led, playerYaxe=y-led
-	playerXaxe=1024/2;
-	playerYaxe=640/2;
-	//Kamerans koordinater
-	//cameraXaxe=x-led, cameraYaxe=y-led
-	//cameraYaxe ska dock aldrig ändras(en konstant)
-	cameraXaxe=1024/2;
-	cameraYaxe=640/2;
-	//molnkoordinater cloudXaxe-led:
-	//y-led ska aldrig ändras
-	cloudXaxe=0;
-	//bakgrundskoordinater:
-	background2Xaxe=0;
-
-	//Moln:
-	Texture Imoln;
-	Sprite moln;
-	Imoln.loadFromFile("../bin/M.png");
-	moln.setTexture(Imoln);
-
-	
-	//Måste göra så att de upprepas efter ett tag då de ska scrolla i bakgrunden
-	//Molnen kommer ur programmeringssynopunkt ej flyttas åt motsatt håll som spelaren, utan åt samma fast väldigt långsamt.
-
-	//for the camera:
-	bool left=false;
-	
-	//kameravektorer:
-	sf::View view(sf::Vector2f(0,0), sf::Vector2f(1024,640)) ;
-
-	//Set.Origin is where the middle on Sven is.
-	//Set.Position tells Sven where on the screen to start off.
-	shape.setFillColor(Color(0xff, 0x30, 0x55, 0x70));
-	shape.setOutlineColor(Color(0x80, 0x20, 0x50, 0xff));
-	shape.setOutlineThickness(5.0f);
-	shape.setOrigin((30/2), (30/2));
-	shape.setPosition(playerXaxe, playerYaxe);
-	
-
-	//Position and origin for the middle- camera- dot- shape
-	shape3.setFillColor(Color(0x99, 0x30, 0x70, 0xff));
-	shape3.setOutlineColor(Color(0x80, 0x20, 0x50, 0xff));
-	shape3.setOutlineThickness(5.0f);
-	shape3.setOrigin((10/2), (10/2));
-	shape3.setPosition(cameraXaxe, cameraYaxe);
-	
-	int index = 0;
-
-	while (window.isOpen()) {
+	while (window->isOpen()) {
 		Event event;
-		while(window.pollEvent(event)) {
+		while(window->pollEvent(event)) {
 			if(event.type == Event::Closed) {
-				window.close();
+				window->close();
 			};
 		};
-
-		
 
 		//And here comes the player movement
 		if(Keyboard::isKeyPressed(Keyboard::Escape)) {
-			window.close();
+			window->close();
 		};
-
+		
+		
 		if(Keyboard::isKeyPressed(Keyboard::W)) {
-			playerYaxe-=0.4;
+			player.moveY(-0.8);
 			//kan inte gå över horisontlinjen:
-			if (playerYaxe<(253+21)){
-				playerYaxe=(253+21);
+			if (player.getPosition().y < 240){
+				sf::Vector2f vect = player.getPosition();
+				vect.y = 240;
+				player.setPosition(vect);
 			};
 		};
+
 		if(Keyboard::isKeyPressed(Keyboard::A)) {
-			playerXaxe-=0.4;
-			//q-=0.2;
-			//camera:
-			left=true;
+			player.moveX(-0.4);
 
 			//kan inte gå ur vänster vägg:
-			if (playerXaxe<(0+48)){
-			playerXaxe=(0+48);
+			if (player.getPosition().x < 50){
+				sf::Vector2f vect = player.getPosition();
+				vect.x = 50;
+				player.setPosition(vect);
 			};
 		};
+
 		if(Keyboard::isKeyPressed(Keyboard::S)) {
-			playerYaxe+=0.4;
-			//kan inte gå under nedre kanten:
-			if (playerYaxe>(640-50)){
-			playerYaxe=(640-50);
+			player.moveY(+0.8);
+			//kan inte gå under nedre kant:
+			if (player.getPosition().y > 640-65){
+				sf::Vector2f vect = player.getPosition();
+				vect.y = 640-65;
+				player.setPosition(vect);
 			};
 		};
+
 		if(Keyboard::isKeyPressed(Keyboard::D)) {
-			playerXaxe+=0.4;
-			//q+=0.2;
-			//camera:
-			left=false;
-			
-			//kan inte gå utanför högra kanten:
-			if (playerXaxe>2468){
-			playerXaxe=2468;
+			player.moveX(+0.4);
+
+			//kan inte gå ur höger vägg:
+			if (player.getPosition().x > 2485+2560){
+				sf::Vector2f vect = player.getPosition();
+				vect.x = 2485+2560;
+				player.setPosition(vect);
 			}
 			
 		};
 
+		
 		//Camera focus/movement:
-		//kameran ska dock inte kunna visa vad som finns utanför banan åt höger:
+		//kameran ska dock inte kunna visa vad som finns utanför banan åt höger(banans slut):
 		//OBS MYCKET VIKTIGT MED > OCH = TILLSAMMANS
-		if (cameraXaxe>=2042){
-			cameraXaxe=2042;
+		if (camera.getPosition().x >= 2042+2560){
+			sf::Vector2f vect = camera.getPosition();
+			vect.x = 2042+2560;
+			camera.setPosition(vect);
 		}
 
 		//hur långt inann kameran hänger med åt höger:
-		else if (cameraXaxe<(playerXaxe-70)){
-			cameraXaxe=(playerXaxe-70);
-			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
-			cloudXaxe+=0.3;
-			//background2 position:
-			background2Xaxe+=0.30;
-		}
+		else if (camera.getPosition().x < player.getPosition().x - 70){
+			sf::Vector2f vect = camera.getPosition();
+			vect.x = player.getPosition().x - 70;
+			camera.setPosition(vect);
 
-		//kameran ska inte kunna visa vad som finns utanför banan åt vänster:
-		if (cameraXaxe<=512){
-				cameraXaxe=(512);
+			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
+			cloud.moveX (0.3);
+			cloud2.moveX (0.3);
+			//cloud2.getPosition().x + 0.3;
+			//background2 position:
+			paralax.moveX(0.3);
+		}
+		
+		//std::cout << camera.getPosition().x << " " << player.getPosition().x << std::endl;
+		//kameran ska inte kunna visa vad som finns utanför banan åt vänster(banans början):
+		if (camera.getPosition().x <= 512){
+			sf::Vector2f vect = camera.getPosition();
+			vect.x = 512;
+			camera.setPosition(vect);
 		}
 
 		//hur långt innan kameran hänger med åt vänster
-		else if (cameraXaxe>(playerXaxe+300)){
-			cameraXaxe=(playerXaxe+300);
-			//molnens positionaccelererar el saktas ner beroende åt vilket håll man går:
-			cloudXaxe-=0.34;
+		else if (camera.getPosition().x > player.getPosition().x + 300){
+			sf::Vector2f vect = camera.getPosition();
+			vect.x = player.getPosition().x + 300;
+			camera.setPosition(vect);
+
+			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
+			cloud.moveX (-0.34);
+			cloud2.moveX (-0.34);
 			//background2 position:
-			background2Xaxe-=0.30;
-		};
-
-		if(cloudXaxe<=-1280){
-			cloudXaxe=1280;
+			paralax.moveX(-0.3);
+			}
+		
+		//Molnens position och rörelser:
+		if(cloud.getPosition().x <= camera.getPosition().x - 1280 - 512){
+			sf::Vector2f vect = cloud.getPosition();
+			vect.x = camera.getPosition().x + 512;
+			cloud.setPosition(vect);
+		}
+		if(cloud2.getPosition().x <= camera.getPosition().x - 1280 - 512){
+			sf::Vector2f vect = cloud2.getPosition();
+			vect.x = camera.getPosition().x + 512;
+			cloud2.setPosition(vect);
 		}
 
-		std::cout << cameraXaxe << " " << cameraYaxe << std::endl;
+		cloud.moveX(-0.05);
+		cloud2.moveX(-0.05);
+		
 
-		//kamerans förhållande till spelaren lr ngt:
-		view.setCenter(sf::Vector2f(cameraXaxe, cameraYaxe));
-		window.setView(view);
+		//Enemies update:::::
+		for (int i = 0; i<m_WaterEnemies.size(); i++){
+			m_WaterEnemies.at(i)->Update(&player);
+			for (int j = 0; j<m_WaterEnemies.size(); j++){
+				if (i!=j){
+				//här är collisioncheck;
+				m_WaterEnemies.at(i)->CheckCollision(m_WaterEnemies.at(j));
+				}
+			}
+		}
+		for (int i = 0; i<m_FireEnemies.size(); i++){
+			m_FireEnemies.at(i)->Update(&player);
+		}
+		for (int i = 0; i<m_WoodEnemies.size(); i++){
+			m_WoodEnemies.at(i)->Update(&player);
+		}
 
-		window.clear(Color(0x99, 0x99, 0x99, 0xff));
-		shape.setPosition(playerXaxe, playerYaxe);
-		shape3.setPosition(cameraXaxe, cameraYaxe);
-		moln.setPosition(cloudXaxe-=0.05,0);
-		background2.setPosition(background2Xaxe,0);
-		background3.setPosition(1020,0);
 
-		window.draw(moln);
-		window.draw(background2);
 
-		window.draw(background);
+
+		view.setCenter(camera.getPosition());
+		window->setView(view);
+
+		window->clear(sf::Color(0x80, 0x80, 0x80, 0xff));
+
+		cloud.draw(window);
+		cloud2.draw(window);
+		paralax.draw(window);
+
+		//HUR SPELPLANERNA SPAWNAR
+		//kommer fixa så att man kan köra delete på dom senare när dom är pekare så blir allt perfa:
+		//spelplan1
+		if (player.getPosition().x >= 0 && player.getPosition().x <= 3840){
+				gameplayarea.draw(window);
+			};
+		
 		//För att nästa spelplansdel inte ska spawna förrän man går dit:
-		if(playerXaxe>=582){		
-			window.draw(background3);
+		if (player.getPosition().x >= 1280 && player.getPosition().x <= 6400){
+				gameplayarea2.draw(window);
+			};
+			
+		for(int i = 0; i<m_WaterEnemies.size(); i++){
+		m_WaterEnemies.at(i)->draw(window);
 		}
-		window.draw(shape3);
-		window.draw(shape);
-		
-		
-		window.display();
-		
+
+		for(int i = 0; i<m_FireEnemies.size(); i++){
+		m_FireEnemies.at(i)->draw(window);
+		}
+
+		for(int i = 0; i<m_WoodEnemies.size(); i++){
+		m_WoodEnemies.at(i)->draw(window);
+		}
+
+		player.draw(window);
+
+		window->display();
+
 	};
+	
 	return 0;
 };
 
@@ -225,5 +289,15 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	UML - google it
 
+*/
+
+/*
+	Klasser:
+	Spelaren
+	Kameran
+	Gameplay area
+	Moln
+	Moln2
+	Övrig paralax
 */
 

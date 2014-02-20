@@ -87,14 +87,30 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Cloud.h" />
+    <ClInclude Include="FireEnemy.h" />
+    <ClInclude Include="Gameplayarea.h" />
+    <ClInclude Include="Paralax.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WaterEnemy.h" />
+    <ClInclude Include="WoodEnemy.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cloud.cpp" />
+    <ClCompile Include="FireEnemy.cpp" />
     <ClCompile Include="förstatestetmedsfml.cpp" />
+    <ClCompile Include="Gameplayarea.cpp" />
+    <ClCompile Include="Paralax.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WaterEnemy.cpp" />
+    <ClCompile Include="WoodEnemy.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
