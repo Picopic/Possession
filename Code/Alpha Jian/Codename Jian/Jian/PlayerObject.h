@@ -15,8 +15,13 @@ public:
 	void getID();
 	void setID();
 
-
 	void OnCollision(Type type, Vector2 offset, Alignment enemy_alignment);
+
+	void SacrificeSoul(Type type);
+	void ReleaseSoul();
+
+	bool hasLostSoul;
+	unsigned int collectedSouls;
 
 	void NextElement();
 private:

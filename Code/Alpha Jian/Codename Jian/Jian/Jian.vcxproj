@@ -141,6 +141,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="LostSoulObject.cpp" />
     <ClCompile Include="OptionsState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -208,6 +209,7 @@
     <ClInclude Include="GameState.h" />
     <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="HowToPlayState.h" />
+    <ClInclude Include="LostSoulObject.h" />
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="Paralax.h" />
     <ClInclude Include="Paralax2.h" />

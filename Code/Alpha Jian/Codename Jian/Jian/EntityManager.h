@@ -7,6 +7,7 @@
 #include "FireEnemyObject.h"
 #include "PlayerObject.h"
 #include "Projectile.h"
+#include "LostSoulObject.h"
 #include "Spritemanager.h"
 
 class EntityManager

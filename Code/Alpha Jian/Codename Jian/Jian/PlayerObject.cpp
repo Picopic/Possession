@@ -35,6 +35,10 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	shooting_delay = 0.001f;
 	delay = 0.01f;
 
+	//lost souls
+	collectedSouls = 0;
+	hasLostSoul = false;
+
 	//element change
 	element_changed = false;
 	element_changed_delay = 0.0f;
@@ -220,6 +224,32 @@ void PlayerObject::Update(float deltatime)
 		{
 			add_element = true;
 		}
+
+		//sacrifice lost soul
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
+		{
+			SacrificeSoul(type);
+			collectedSouls--;
+			if(collectedSouls <= 0)
+			{
+				hasLostSoul = false;
+			}
+
+		std::cout << "SACRIFICE!" << std::endl;
+		std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+		}
+		//free lost soul
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
+		{
+			ReleaseSoul();
+			collectedSouls--;
+			if(collectedSouls <= 0)
+			{
+				hasLostSoul = false;
+			}
+		std::cout << "RELEASE!" << std::endl;
+		std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+		}
 	}
 
 	//death
@@ -335,10 +365,17 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 			break;
 		}
 	}
+
+	if(collision_alignment == LOSTSOUL)
+	{
+		collectedSouls++;
+		hasLostSoul = true;
+	}	
 	
 	std::cout << "Fire: " << fire_elements << std::endl;
 	std::cout << "Water: " << water_elements << std::endl;
-	std::cout << "Wood: " << wood_elements << "\n" << std::endl;
+	std::cout << "Wood: " << wood_elements << std::endl;
+	std::cout << "Souls: " << collectedSouls << "\n" << std::endl;
 
 }
 
@@ -486,4 +523,44 @@ Type Entity::GetArrow()
 bool Entity::ChangedElement()
 {
 	return changed_element;
+}
+
+void PlayerObject::SacrificeSoul(Type type)
+{
+	if(hasLostSoul==true) {
+		if(type==WATER)
+		{
+			GetAddWater();
+			GetAddWater();
+			GetAddWater();
+			GetAddFire();
+			GetAddWood();
+		}
+		else if(type==FIRE)
+		{
+			GetAddWater();
+			GetAddFire();
+			GetAddFire();
+			GetAddFire();
+			GetAddWood();
+		}
+		else
+		{
+			GetAddWater();
+			GetAddFire();
+			GetAddWood();
+			GetAddWood();
+			GetAddWood();
+		}
+	}
+}
+
+void PlayerObject::ReleaseSoul() 
+{
+	if(hasLostSoul==true)
+	{
+		GetAddWater();
+		GetAddFire();
+		GetAddWood();
+	}
 }
