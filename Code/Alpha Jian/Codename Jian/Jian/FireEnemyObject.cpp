@@ -146,14 +146,17 @@ void FireEnemyObject::Update(float deltatime)
 
 	//Death
 
-	if(hitpoints <= 0 && !dead)
+	if(hitpoints <= 0)
 	{
+		if(hasCollider())
+		{
+			delete collider;
+			collider = nullptr;
+		}
 		dead = true;
 		SetCurrentAnimation(DEATHLEFT);
 		current_animations_name = DEATHLEFT;
 		current_animation->getSprite()->setPosition(position.x, position.y);
-		Cleanup();
-		death_animation_time += deltatime;
 	}
 	if(dead)
 	{
