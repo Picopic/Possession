@@ -225,13 +225,13 @@ void HeadsUpDisplay::MoveArrow(Type type)
 	switch(type)
 	{
 	case FIRE:
-		hud_arrow->getSprite()->setPosition(20, 145);
+		hud_arrow->getSprite()->setPosition(hud_arrow->getSprite()->getPosition().x, 145);
 		break;
 	case WATER:
-		hud_arrow->getSprite()->setPosition(20, 80);
+		hud_arrow->getSprite()->setPosition(hud_arrow->getSprite()->getPosition().x, 80);
 		break;
 	case WOOD:
-		hud_arrow->getSprite()->setPosition(20, 210);
+		hud_arrow->getSprite()->setPosition(hud_arrow->getSprite()->getPosition().x, 210);
 		break;
 	}
 }

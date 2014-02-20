@@ -14,7 +14,8 @@ public:
 	bool Initialise(const std::string &directory);
 	void Cleanup();
 
-	AnimatedSprite* Load(const std::string &filename, int number_of_frames, int number_of_columns, int width, int height, int startx, int starty);
+	AnimatedSprite* Load(const std::string &filename, int number_of_frames, 
+		int number_of_columns, int width, int height, int startx, int starty);
 
 private:
 	bool LoadImage(const std::string &filename);

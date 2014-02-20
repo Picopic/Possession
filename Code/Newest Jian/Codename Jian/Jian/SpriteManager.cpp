@@ -42,7 +42,6 @@ AnimatedSprite* SpriteManager::Load(const std::string &filename, int number_of_f
 
 		it = spritesheets.find(filename);
 	}
-
 	AnimatedSprite* anim_sprite = new AnimatedSprite(it->second, width, height, startx, starty);
 	int row = 0;
 	int column = 0;
@@ -65,7 +64,6 @@ AnimatedSprite* SpriteManager::Load(const std::string &filename, int number_of_f
 			row++;
 		}
 	}
-	
 	return anim_sprite;
 }
 

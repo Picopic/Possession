@@ -175,7 +175,15 @@ void PlayerObject::Update(float deltatime)
 		{
 			create_projectile = true;
 			created_projectile = true;
-			SetCurrentAnimation(ATTACKRIGHT);
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(ATTACKRIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(ATTACKLEFT);
+			}
+
 		}
 		else
 		{
