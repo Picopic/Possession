@@ -80,6 +80,10 @@ void PlayerObject::Update(float deltatime)
 	destroy_fire = 0;
 	destroy_water = 0;
 	destroy_wood = 0;
+	add_fire = 0;
+	add_water = 0;
+	add_wood = 0;
+	add_element = false;
 
 	current_animation->Update(deltatime);
 
@@ -222,7 +226,7 @@ void PlayerObject::Update(float deltatime)
 		//adding elemental points (just a button press for testing)
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
 		{
-			add_element = true;
+			//add_element = true;
 		}
 
 		//sacrifice lost soul
@@ -235,8 +239,8 @@ void PlayerObject::Update(float deltatime)
 				hasLostSoul = false;
 			}
 
-		std::cout << "SACRIFICE!" << std::endl;
-		std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+			std::cout << "SACRIFICE!" << std::endl;
+			std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
 		}
 		//free lost soul
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
@@ -284,6 +288,11 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 	if (collision_alignment == FRIENDBULLET || collision_alignment == PLAYER)
 	{
 
+	}
+	else if(collision_alignment == LOSTSOUL)
+	{
+		collectedSouls++;
+		hasLostSoul = true;
 	}
 	else
 	{
@@ -366,11 +375,7 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 		}
 	}
 
-	if(collision_alignment == LOSTSOUL)
-	{
-		collectedSouls++;
-		hasLostSoul = true;
-	}	
+	
 	
 	std::cout << "Fire: " << fire_elements << std::endl;
 	std::cout << "Water: " << water_elements << std::endl;
@@ -528,29 +533,36 @@ bool Entity::ChangedElement()
 void PlayerObject::SacrificeSoul(Type type)
 {
 	if(hasLostSoul==true) {
+		add_element = true;
 		if(type==WATER)
 		{
-			GetAddWater();
-			GetAddWater();
-			GetAddWater();
-			GetAddFire();
-			GetAddWood();
+			water_elements += 3;
+			fire_elements += 1;
+			wood_elements += 1;
+
+			add_water = 3;
+			add_fire = 1;
+			add_wood = 1;
 		}
 		else if(type==FIRE)
 		{
-			GetAddWater();
-			GetAddFire();
-			GetAddFire();
-			GetAddFire();
-			GetAddWood();
+			water_elements += 1;
+			fire_elements += 3;
+			wood_elements += 1;
+
+			add_fire = 3;
+			add_water = 1;
+			add_wood = 1;
 		}
 		else
 		{
-			GetAddWater();
-			GetAddFire();
-			GetAddWood();
-			GetAddWood();
-			GetAddWood();
+			water_elements += 1;
+			fire_elements += 1;
+			wood_elements += 3;
+
+			add_wood = 3;
+			add_fire = 1;
+			add_water = 1;
 		}
 	}
 }
@@ -559,8 +571,13 @@ void PlayerObject::ReleaseSoul()
 {
 	if(hasLostSoul==true)
 	{
-		GetAddWater();
-		GetAddFire();
-		GetAddWood();
+		add_element = true;
+		water_elements += 1;
+		fire_elements += 1;
+		wood_elements += 1;
+
+		add_fire = 1;
+		add_water = 1;
+		add_wood = 1;
 	}
 }

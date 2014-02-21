@@ -122,14 +122,14 @@ bool GameState::Update(){
 						HUD->AddElementalPoint(FIRE);
 					}
 				}
-				else if(entity_manager->game_entities[0]->GetAddWater() > 0)
+				if(entity_manager->game_entities[0]->GetAddWater() > 0)
 				{
 					for(int i = 0; i < entity_manager->game_entities[0]->GetAddWater(); i++)
 					{
 						HUD->AddElementalPoint(WATER);
 					}
 				}
-				else if(entity_manager->game_entities[0]->GetAddWood() > 0)
+				if(entity_manager->game_entities[0]->GetAddWood() > 0)
 				{
 					for(int i = 0; i < entity_manager->game_entities[0]->GetAddWood(); i++)
 					{

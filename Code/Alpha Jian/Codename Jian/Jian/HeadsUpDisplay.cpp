@@ -142,6 +142,10 @@ void HeadsUpDisplay::Update(float deltatime)
 
 void HeadsUpDisplay::Move(float x, float y)
 {
+	current_fire_pos += x;
+	current_water_pos += x;
+	current_wood_pos += x;
+
 	//arrow
 	hud_arrow->getSprite()->move(x, y);
 	
@@ -199,6 +203,7 @@ void HeadsUpDisplay::DeleteElementalPoint(Type element_type)
 			delete fire_points[fire_points.size() - 1];
 			fire_points[fire_points.size() - 1] = nullptr;
 			fire_points.erase(fire_points.begin() + (fire_points.size() - 1));
+			current_fire_pos -= 50;
 		}
 		break;
 	case WATER:
@@ -207,6 +212,7 @@ void HeadsUpDisplay::DeleteElementalPoint(Type element_type)
 			delete water_points[water_points.size() - 1];
 			water_points[water_points.size() - 1] = nullptr;
 			water_points.erase(water_points.begin() + (water_points.size() - 1));
+			current_water_pos -= 50;
 		}
 		break;
 	case WOOD:
@@ -215,6 +221,7 @@ void HeadsUpDisplay::DeleteElementalPoint(Type element_type)
 			delete wood_points[wood_points.size() - 1];
 			wood_points[wood_points.size() - 1] = nullptr;
 			wood_points.erase(wood_points.begin() + (wood_points.size() - 1));
+			current_wood_pos -= 50;
 		}
 		break;
 	}
