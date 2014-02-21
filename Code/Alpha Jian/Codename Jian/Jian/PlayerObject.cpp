@@ -38,6 +38,8 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	//lost souls
 	collectedSouls = 0;
 	hasLostSoul = false;
+	lost_souls_counter = 0.0f;
+	used_lost_souls = false;
 
 	//element change
 	element_changed = false;
@@ -232,27 +234,48 @@ void PlayerObject::Update(float deltatime)
 		//sacrifice lost soul
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
 		{
-			SacrificeSoul(type);
-			collectedSouls--;
-			if(collectedSouls <= 0)
+			if(!used_lost_souls)
 			{
-				hasLostSoul = false;
-			}
+				SacrificeSoul(type);
+				collectedSouls--;
+				if(collectedSouls <= 0)
+				{
+					hasLostSoul = false;
+				}
 
-			std::cout << "SACRIFICE!" << std::endl;
-			std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+				used_lost_souls = true;
+				std::cout << "SACRIFICE!" << std::endl;
+				std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+			}
 		}
 		//free lost soul
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
 		{
-			ReleaseSoul();
-			collectedSouls--;
-			if(collectedSouls <= 0)
+			if(!used_lost_souls)
 			{
-				hasLostSoul = false;
+				ReleaseSoul();
+				collectedSouls--;
+				if(collectedSouls <= 0)
+				{
+					hasLostSoul = false;
+				}
+
+				used_lost_souls = true;
+				std::cout << "RELEASE!" << std::endl;
+				std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
 			}
-		std::cout << "RELEASE!" << std::endl;
-		std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+			
+		}
+
+		//timern till lost souls
+		if(used_lost_souls)
+		{
+			lost_souls_counter += deltatime;
+			if(lost_souls_counter > 0.3)
+			{
+				used_lost_souls = false;
+				lost_souls_counter = 0.0f;
+			}
 		}
 	}
 

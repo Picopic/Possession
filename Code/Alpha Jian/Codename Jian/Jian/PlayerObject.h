@@ -30,6 +30,10 @@ private:
 	int water_elements;
 	int wood_elements;
 
+	//lost souls interaction
+	float lost_souls_counter;
+	bool used_lost_souls;
+
 	bool element_changed;
 	float element_changed_delay;
 };
