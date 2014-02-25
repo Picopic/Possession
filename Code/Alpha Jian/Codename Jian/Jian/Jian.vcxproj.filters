@@ -135,6 +135,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="AltarObject.cpp">
+      <Filter>Source Files\Objects\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -231,6 +234,9 @@
       <Filter>Header Files\Objects\Entites</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
+      <Filter>Header Files\Objects\Entites</Filter>
+    </ClInclude>
+    <ClInclude Include="AltarObject.h">
       <Filter>Header Files\Objects\Entites</Filter>
     </ClInclude>
   </ItemGroup>

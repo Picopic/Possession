@@ -45,9 +45,6 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	collectedSouls = 0;
 	hasLostSoul = false;
 
-	soulChoiceSacrifice = false;
-	soulChoiceFree = false;
-
 	firePoints = 5;
 	waterPoints = 5;
 	woodPoints = 5;
@@ -278,6 +275,22 @@ void PlayerObject::OnCollision(Type type, Vector2 offset, Alignment enemy_alignm
 		hasLostSoul = true;
 	}	
 
+	if(enemy_alignment == ALTAR)
+	{
+		if(firePoints <= 0)
+		{
+			firePoints++;
+		}
+		if(waterPoints <= 0)
+		{
+			waterPoints++;
+		}
+		if(woodPoints <= 0)
+		{
+			woodPoints++;
+		}
+	}
+
 	std::cout << "COLLISION!" << std::endl;
 	std::cout << "Water: " << waterPoints << std::endl;
 	std::cout << "Fire: " << firePoints << std::endl;
@@ -288,23 +301,25 @@ void PlayerObject::OnCollision(Type type, Vector2 offset, Alignment enemy_alignm
 
 void PlayerObject::SacrificeSoul(Type type)
 {
-	if(type==WATER)
-	{
-		waterPoints += 3;
-		firePoints++;
-		woodPoints++;
-	}
-	else if(type==FIRE)
-	{
-		waterPoints++;
-		firePoints += 3;
-		woodPoints++;
-	}
-	else
-	{
-		waterPoints++;
-		firePoints++;
-		woodPoints += 3;
+	if(hasLostSoul==true) {
+		if(type==WATER)
+		{
+			waterPoints += 3;
+			firePoints++;
+			woodPoints++;
+		}
+		else if(type==FIRE)
+		{
+			waterPoints++;
+			firePoints += 3;
+			woodPoints++;
+		}
+		else
+		{
+			waterPoints++;
+			firePoints++;
+			woodPoints += 3;
+		}
 	}
 }
 

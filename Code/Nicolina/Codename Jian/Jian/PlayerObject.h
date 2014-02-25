@@ -22,9 +22,6 @@ public:
 	bool hasLostSoul;
 	unsigned int collectedSouls;
 
-	bool soulChoiceSacrifice;
-	bool soulChoiceFree;
-
 private:
 	bool element_changed;
 	float element_changed_delay;

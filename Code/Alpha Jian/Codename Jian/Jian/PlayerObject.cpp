@@ -317,6 +317,25 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 		collectedSouls++;
 		hasLostSoul = true;
 	}
+	else if(collision_alignment == ALTAR)
+	{
+		add_element = true;
+		if(fire_elements <= 0)
+		{
+			fire_elements += 1;
+			add_fire = 1;
+		}
+		if(water_elements <= 0)
+		{
+			water_elements += 1;
+			add_water = 1;
+		}
+		if(wood_elements <= 0)
+		{
+			wood_elements += 1;		
+			add_wood = 1;
+		}
+	}
 	else
 	{
 		switch (collision_type)
@@ -328,20 +347,32 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 				fire_elements -= 2;
 				destroy_fire = 2;
 				
-				if(fire_elements <= 0) NextElement();
+				if(fire_elements <= 0)
+				{
+					NextElement();
+					fire_elements = 0;
+				}
 			}
 			else if(type == WATER)
 			{
 				water_elements--;
 				destroy_water = 1;
 
-				if(water_elements <= 0) NextElement();
+				if(water_elements <= 0)
+				{
+					NextElement();
+					water_elements = 0;
+				}
 			}
 			else if(type == WOOD)
 			{
 				wood_elements -= 3;
 				destroy_wood = 3;
-				if(wood_elements <= 0) NextElement();
+				if(wood_elements <= 0)
+				{
+					NextElement();
+					wood_elements = 0;
+				}
 			}
 
 			break;
@@ -352,21 +383,33 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 				fire_elements -= 3;
 				destroy_fire = 3;
 
-				if(fire_elements <= 0) NextElement();
+				if(fire_elements <= 0)
+				{
+					NextElement();
+					fire_elements = 0;
+				}
 			}
 			else if(type == WATER)
 			{
 				water_elements -= 2;
 				destroy_water = 2;
 
-				if(water_elements <= 0) NextElement();
+				if(water_elements <= 0)
+				{
+					NextElement();
+					water_elements = 0;
+				}
 			}
 			else if(type == WOOD)
 			{
 				wood_elements--;
 				destroy_wood = 1;
 
-				if(wood_elements <= 0) NextElement();
+				if(wood_elements <= 0)
+				{
+					NextElement();
+					wood_elements = 0;
+				}
 			}
 
 			break;
@@ -377,21 +420,33 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 				fire_elements--;
 				destroy_fire = 1;
 
-				if(fire_elements <= 0) NextElement();
+				if(fire_elements <= 0)
+				{
+					NextElement();
+					fire_elements = 0;
+				}
 			}
 			else if(type == WATER)
 			{
 				water_elements -= 3;
 				destroy_water = 3;
 
-				if(water_elements <= 0) NextElement();
+				if(water_elements <= 0)
+				{
+					NextElement();
+					water_elements = 0;
+				}
 			}
 			else if(type == WOOD)
 			{
 				wood_elements -= 2;
 				destroy_wood = 2;
 
-				if(wood_elements <= 0) NextElement();
+				if(wood_elements <= 0)
+				{
+					NextElement();
+					wood_elements = 0;
+				}
 			}
 
 			break;
