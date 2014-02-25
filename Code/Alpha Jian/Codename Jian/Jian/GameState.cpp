@@ -184,9 +184,9 @@ bool GameState::Update(){
 			};
 
 			//kan inte gå under nedre kant:
-			if (entity_manager->game_entities.at(0)->getPosition().y > 640-65){
+			if (entity_manager->game_entities.at(0)->getPosition().y > 450){
 				Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
-				vect.y = 640-65;
+				vect.y = 450;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			};
 
