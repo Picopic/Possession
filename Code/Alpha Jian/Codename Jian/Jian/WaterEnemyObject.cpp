@@ -32,10 +32,10 @@ void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, 
 	alignment = enemy_alignment;
 	type = enemy_type;
 
-	shape.setSize(sf::Vector2f(width, height));
-	shape.setPosition(position.x, position.y);
+	//shape.setSize(sf::Vector2f(width, height));
+	//shape.setPosition(position.x, position.y);
 	
-	shape.setFillColor(sf::Color(0,0,255));
+	//shape.setFillColor(sf::Color(0,0,255));
 }
 
 void WaterEnemyObject::Update(float deltatime)
@@ -43,7 +43,7 @@ void WaterEnemyObject::Update(float deltatime)
 	if(hasCollider())
 	{
 		collider->position = position;
-		shape.setPosition(position.x, position.y);
+		//shape.setPosition(position.x, position.y);
 	}
 
 	if(hitpoints <= 0)

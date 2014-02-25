@@ -9,12 +9,13 @@
 #include "Projectile.h"
 #include "LostSoulObject.h"
 #include "Spritemanager.h"
+#include "SoundManager.h"
 
 class EntityManager
 {
 public:
 	EntityManager();
-	EntityManager(SpriteManager* sprite_mgr);
+	EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr);
 	~EntityManager();
 
 	void Init();
@@ -29,4 +30,5 @@ public:
 private:
 	std::map<std::pair<Alignment, Alignment>, int> CollisionMap;
 	SpriteManager* sprite_manager;
+	SoundManager* sound_manager;
 };

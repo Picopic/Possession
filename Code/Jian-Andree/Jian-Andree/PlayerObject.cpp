@@ -145,6 +145,16 @@ void PlayerObject::Update(float deltatime, Entity* player)
 			create_projectile = true;
 			created_projectile = true;
 			SetCurrentAnimation(ATTACKRIGHT);
+			auto it = entity_sounds.find("ATTACK");
+			if(it->second->getStatus() == sf::SoundSource::Playing)
+			{
+
+			}
+			else
+			{
+				it->second->setVolume(40);
+				it->second->play();
+			}
 		}
 		else
 		{
@@ -345,4 +355,9 @@ void PlayerObject::NextElement()
 		}
 		break;
 	}
+}
+
+void Entity::AddSounds(SoundManager* sound_mgr)
+{
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
 }

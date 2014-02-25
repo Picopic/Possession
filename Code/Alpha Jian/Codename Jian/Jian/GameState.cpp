@@ -46,6 +46,9 @@ bool GameState::Initialize(){
 
 	draw_manager = new DrawManager;
 	
+	sound_manager = new SoundManager;
+	sound_manager->Initialise("../data/Sound/");
+
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
 
@@ -68,16 +71,24 @@ bool GameState::Initialize(){
 		HUD->AddElementalPoint(WOOD);
 	}
 	
-	entity_manager = new EntityManager(sprite_manager);
+	entity_manager = new EntityManager(sprite_manager, sound_manager);
 	entity_manager->Init();
 	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), 50, 110, FIRE);
 	entity_manager->AttachEntity(FIREFOE, Vector2(600, 200), 100, 80, FIRE);
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
+	
+	//music
+	if(!background_music.openFromFile("../data/Sound/wizhit.wav"))
+	{
+		return false;
+	}
 
 	m_done = false;
 	return false;
+
+	
 }
 
 bool GameState::Enter(){

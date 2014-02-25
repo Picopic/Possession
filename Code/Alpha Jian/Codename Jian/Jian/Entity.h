@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Enums.h"
 #include "AnimatedSprite.h"
+#include "SoundManager.h"
 
 class Entity
 {
@@ -64,7 +65,8 @@ public:
 
 	virtual void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
-	sf::RectangleShape shape;
+	//Sounds
+	void AddSounds(SoundManager* sound_mgr);
 protected:
 	Collider *collider;
 	Vector2 position;
@@ -121,4 +123,7 @@ protected:
 	std::map<AnimationName, AnimatedSprite*> animations;
 	float death_animation_time;
 	void SetCurrentAnimation(AnimationName animation_name);
+	
+	//Sound
+	std::map<std::string, sf::Sound*> entity_sounds;
 };

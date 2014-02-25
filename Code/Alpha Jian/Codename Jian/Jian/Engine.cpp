@@ -21,6 +21,9 @@ bool Engine::Init()
 
 	draw_manager = new DrawManager;
 	
+	sound_manager = new SoundManager;
+	sound_manager->Initialise("../data/Sound/");
+
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
 
@@ -30,12 +33,11 @@ bool Engine::Init()
 		return false;
 	}
 	
-	entity_manager = new EntityManager(sprite_manager);
+	entity_manager = new EntityManager(sprite_manager, sound_manager);
 
 	previous_time = game_clock.restart();
 
 	deltatime = 0.01f;
-	
 
 	return true;
 }

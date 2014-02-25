@@ -11,9 +11,10 @@ EntityManager::EntityManager()
 	
 }
 
-EntityManager::EntityManager(SpriteManager* sprite_mgr)
+EntityManager::EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr)
 {
 	sprite_manager = sprite_mgr;
+	sound_manager = sound_mgr;
 }
 
 EntityManager::~EntityManager()
@@ -58,6 +59,9 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2940));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1260));
+		//sounds
+		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
+
 		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
 		game_entities[game_entities.size() - 1]->setDelay(0.4f);
 		break;
@@ -156,6 +160,16 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 
 void EntityManager::Cleanup()
 {
+	if(sprite_manager != nullptr)
+	{
+		delete sprite_manager;
+		sprite_manager = nullptr;
+	}
+	if(sound_manager != nullptr)
+	{
+		delete sound_manager;
+		sound_manager = nullptr;
+	}
 	for(int i = 0; i < game_entities.size(); i ++)
 	{
 		delete game_entities[i];

@@ -7,6 +7,7 @@
 #include "Spritemanager.h"
 #include "AnimationManager.h"
 #include "HeadsUpDisplay.h"
+#include "SoundManager.h"
 #include "Enums.h"
 
 
@@ -23,6 +24,7 @@ public:
 	DrawManager *draw_manager;
 	EntityManager *entity_manager;
 	SpriteManager *sprite_manager;
+	SoundManager *sound_manager;
 	HeadsUpDisplay *HUD;
 
 private:
@@ -36,4 +38,6 @@ private:
 	int window_width;
 	int window_height;
 	int window_anti_aliasing;
+
+	sf::Music background_music;
 };

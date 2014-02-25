@@ -19,12 +19,16 @@ bool Engine::Init()
 	window_settings.antialiasingLevel = window_anti_aliasing;
 	window.create(sf::VideoMode(window_width, window_height), "Jian", sf::Style::Default, window_settings);
 
+	sound_manager = new SoundManager;
+	sound_manager->Initialise("../data/Sound/");
+	
+
 	draw_manager = new DrawManager;
 	
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
 	
-	entity_manager = new EntityManager(sprite_manager);
+	entity_manager = new EntityManager(sprite_manager, sound_manager);
 
 	HUD = new HeadsUpDisplay;
 	if(!HUD->Initialise(sprite_manager))
@@ -36,12 +40,20 @@ bool Engine::Init()
 
 	deltatime = 0.01f;
 	
+	//music
+	if(!background_music.openFromFile("../data/Sound/wizhit.wav"))
+	{
+		return false;
+	}
 
 	return true;
 }
 
 void Engine::Run()
 {
+	//background_music.play();
+	//background_music.setLoop(true);
+
 	entity_manager->Init();
 	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), 50, 110, FIRE);
 	entity_manager->AttachEntity(FIREFOE, Vector2(600, 0), 100, 80, FIRE);
@@ -76,7 +88,6 @@ void Engine::Run()
 		//drawing portion of game loop
 		draw_manager->Draw(&window, entity_manager, HUD);
 
-		//std::cout << entity_manager->game_entities.size() << std::endl;
 	}
 }
 
@@ -104,6 +115,13 @@ void Engine::Cleanup()
 		HUD->Cleanup();
 		delete HUD;
 		HUD = nullptr;
+	}
+
+	if(sound_manager != nullptr)
+	{
+		sound_manager->Cleanup();
+		delete sound_manager;
+		sound_manager = nullptr;
 	}
 }
 

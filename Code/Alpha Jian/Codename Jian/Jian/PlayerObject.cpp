@@ -659,3 +659,9 @@ void PlayerObject::ReleaseSoul()
 		add_wood = 1;
 	}
 }
+
+void Entity::AddSounds(SoundManager* sound_mgr)
+{
+	//Example insert
+	//entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
+}
