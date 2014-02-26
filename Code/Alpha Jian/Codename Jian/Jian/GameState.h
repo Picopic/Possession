@@ -9,7 +9,6 @@
 #include "Gameplayarea.h"
 #include "Paralax.h"
 #include "Paralax2.h"
-#include "Player.h"
 #include "DrawManager.h"
 #include "SpriteManager.h"
 #include "EntityManager.h"

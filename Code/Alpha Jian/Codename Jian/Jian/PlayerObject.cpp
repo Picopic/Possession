@@ -23,6 +23,8 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	entity_offset_y = 30;
 	can_collide = true;
 	collision_refresh_timer = 0.0f;
+	knockback_time = 0.3f;
+	knockback_speed = 50.0f;
 
 	//death
 	dead = false;
@@ -98,183 +100,187 @@ void PlayerObject::Update(float deltatime)
 		{
 			collision_refresh_timer += deltatime;
 			
+			position.x += deltatime * knockback_speed * -direction.x;
+
 			//can collide again
-			if(collision_refresh_timer > 0.3)
+			if(collision_refresh_timer > knockback_time)
 			{
 				can_collide = true;
 				collision_refresh_timer = 0.0f;
 			}
 		}
-
-		//Vertical movement
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		else
 		{
-			if(!created_projectile)
+			//Shooting
+			if(created_projectile)
 			{
+				shooting_delay += deltatime;
+			}
+
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !created_projectile)
+			{
+				create_projectile = true;
+				created_projectile = true;
 				if(direction.x == 1)
 				{
-					SetCurrentAnimation(WALKRIGHT);
+					SetCurrentAnimation(ATTACKRIGHT);
 				}
 				else
 				{
-					SetCurrentAnimation(WALKLEFT);
+					SetCurrentAnimation(ATTACKLEFT);
 				}
-			}
-			position.y -= speed*deltatime;
-		}
 
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			if(!created_projectile)
-			{
-				if(direction.x == 1)
-				{
-					SetCurrentAnimation(WALKRIGHT);
-				}
-				else
-				{
-					SetCurrentAnimation(WALKLEFT);
-				}
-			}
-			position.y += speed*deltatime;
-		}
-
-		//horizontal movement
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			if(!created_projectile)
-			{
-				SetCurrentAnimation(WALKLEFT);
-			}
-			position.x -= speed*deltatime;
-			direction.y = 0;
-			direction.x = -1;
-		}
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			if(!created_projectile)
-			{
-				SetCurrentAnimation(WALKRIGHT);
-			}
-			position.x += speed*deltatime;
-			direction.y = 0;
-			direction.x = 1;
-		}
-		else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		{
-			if(!created_projectile)
-			{
-				if(direction.x == 1)
-				{
-					SetCurrentAnimation(IDLERIGHT);
-				}
-				else
-				{
-					SetCurrentAnimation(IDLELEFT);
-				}
-			}
-		}
-
-		//Shooting
-		if(created_projectile)
-		{
-			shooting_delay += deltatime;
-		}
-
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-			create_projectile = true;
-			created_projectile = true;
-			if(direction.x == 1)
-			{
-				SetCurrentAnimation(ATTACKRIGHT);
 			}
 			else
 			{
-				SetCurrentAnimation(ATTACKLEFT);
+				create_projectile = false;
 			}
 
-		}
-		else
-		{
-			create_projectile = false;
-		}
-
-		if(shooting_delay > delay)
-		{
-			shooting_delay = 0.001f;
-			created_projectile = false;
-		}
-
-		//end of shooting
-
-		//Elemental swap
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed)
-		{
-			element_changed = true;
-
-			NextElement();
-		}
-		if(element_changed)
-		{
-			element_changed_delay += deltatime;
-			if(element_changed_delay > 0.5f)
+			if(shooting_delay > delay)
 			{
-				element_changed = false;
-				element_changed_delay = 0.0f;
+				shooting_delay = 0.001f;
+				created_projectile = false;
 			}
-		}
 
-		//adding elemental points (just a button press for testing)
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-		{
-			//add_element = true;
-		}
+			//end of shooting
 
-		//sacrifice lost soul
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
-		{
-			if(!used_lost_souls)
+			//Vertical movement
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
 			{
-				SacrificeSoul(type);
-				collectedSouls--;
-				if(collectedSouls <= 0)
+				if(!created_projectile)
 				{
-					hasLostSoul = false;
+					if(direction.x == 1)
+					{
+						SetCurrentAnimation(WALKRIGHT);
+					}
+					else
+					{
+						SetCurrentAnimation(WALKLEFT);
+					}
 				}
-
-				used_lost_souls = true;
-				std::cout << "SACRIFICE!" << std::endl;
-				std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+				position.y -= speed*deltatime;
 			}
-		}
-		//free lost soul
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
-		{
-			if(!used_lost_souls)
+
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 			{
-				ReleaseSoul();
-				collectedSouls--;
-				if(collectedSouls <= 0)
+				if(!created_projectile)
 				{
-					hasLostSoul = false;
+					if(direction.x == 1)
+					{
+						SetCurrentAnimation(WALKRIGHT);
+					}
+					else
+					{
+						SetCurrentAnimation(WALKLEFT);
+					}
 				}
-
-				used_lost_souls = true;
-				std::cout << "RELEASE!" << std::endl;
-				std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+				position.y += speed*deltatime;
 			}
+
+			//horizontal movement
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+			{
+				if(!created_projectile)
+				{
+					SetCurrentAnimation(WALKLEFT);
+				}
+				position.x -= speed*deltatime;
+				direction.y = 0;
+				direction.x = -1;
+			}
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				if(!created_projectile)
+				{
+					SetCurrentAnimation(WALKRIGHT);
+				}
+				position.x += speed*deltatime;
+				direction.y = 0;
+				direction.x = 1;
+			}
+			else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+			{
+				if(!created_projectile)
+				{
+					if(direction.x == 1)
+					{
+						SetCurrentAnimation(IDLERIGHT);
+					}
+					else
+					{
+						SetCurrentAnimation(IDLELEFT);
+					}
+				}
+			}
+
+			//Elemental swap
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed)
+			{
+				element_changed = true;
+
+				NextElement();
+			}
+			if(element_changed)
+			{
+				element_changed_delay += deltatime;
+				if(element_changed_delay > 0.5f)
+				{
+					element_changed = false;
+					element_changed_delay = 0.0f;
+				}
+			}
+
+			//adding elemental points (just a button press for testing)
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
+			{
+				//add_element = true;
+			}
+
+			//sacrifice lost soul
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
+			{
+				if(!used_lost_souls)
+				{
+					SacrificeSoul(type);
+					collectedSouls--;
+					if(collectedSouls <= 0)
+					{
+						hasLostSoul = false;
+					}
+
+					used_lost_souls = true;
+					std::cout << "SACRIFICE!" << std::endl;
+					std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+				}
+			}
+			//free lost soul
+			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
+			{
+				if(!used_lost_souls)
+				{
+					ReleaseSoul();
+					collectedSouls--;
+					if(collectedSouls <= 0)
+					{
+						hasLostSoul = false;
+					}
+
+					used_lost_souls = true;
+					std::cout << "RELEASE!" << std::endl;
+					std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+				}
 			
-		}
+			}
 
-		//timern till lost souls
-		if(used_lost_souls)
-		{
-			lost_souls_counter += deltatime;
-			if(lost_souls_counter > 0.3)
+			//timern till lost souls
+			if(used_lost_souls)
 			{
-				used_lost_souls = false;
-				lost_souls_counter = 0.0f;
+				lost_souls_counter += deltatime;
+				if(lost_souls_counter > 0.3)
+				{
+					used_lost_souls = false;
+					lost_souls_counter = 0.0f;
+				}
 			}
 		}
 	}
@@ -306,8 +312,6 @@ void PlayerObject::Update(float deltatime)
 //COLLISION
 void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment collision_alignment)
 {
-	can_collide = false;
-
 	if (collision_alignment == FRIENDBULLET || collision_alignment == PLAYER)
 	{
 
@@ -338,6 +342,7 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 	}
 	else
 	{
+		can_collide = false;
 		switch (collision_type)
 		{
 		case FIRE:

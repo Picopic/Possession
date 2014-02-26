@@ -14,6 +14,7 @@ enum Alignment
 	FIREFOEBULLET,
 	LOSTSOUL,
 	ALTAR,
+	WALL,
 	ALIGNMENT_SIZE
 };
 

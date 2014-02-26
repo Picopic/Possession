@@ -36,4 +36,8 @@ private:
 
 	bool element_changed;
 	float element_changed_delay;
+
+	//Collision
+	float knockback_time;
+	float knockback_speed;
 };

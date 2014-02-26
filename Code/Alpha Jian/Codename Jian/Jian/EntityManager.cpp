@@ -32,15 +32,18 @@ void EntityManager::Init()
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, FIREFOEBULLET), 5));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, LOSTSOUL), 6));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, ALTAR), 7));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, PLAYER), 8));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, FRIENDBULLET), 9));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, PLAYER), 10));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, FRIENDBULLET), 11));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, PLAYER), 12));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FRIENDBULLET), 13));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FRIENDBULLET, WATERFOE), 14));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FRIENDBULLET, WOODFOE), 15));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FRIENDBULLET, FIREFOE), 16));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, FRIENDBULLET), 8));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, FRIENDBULLET), 9));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FRIENDBULLET), 10));
+	//Wall collision
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, PLAYER), 11));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, FIREFOE), 12));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WATERFOE), 13));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WOODFOE), 14));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, FRIENDBULLET), 15));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, FIREFOEBULLET), 16));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WATERFOEBULLET), 17));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WOODFOEBULLET), 18));
 }
 
 void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
@@ -165,6 +168,23 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 	
 }
 
+void EntityManager::AttachWall(Vector2 position, int width, int height, Type wall_type)
+{
+	game_entities.push_back(new Wall(position, width, height));
+
+	switch (wall_type)
+	{
+	case FIRE:
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("WallPlaceHolder.png", 1, 1, 210, 1000, 0, 0));
+		game_entities[game_entities.size() - 1]->Init("FIREWALL", WALL, FIRE);
+		break;
+	case WATER:
+		break;
+	case WOOD:
+		break;
+	}
+}
+
 void EntityManager::Cleanup()
 {
 	for(int i = 0; i < game_entities.size(); i ++)
@@ -190,7 +210,22 @@ void EntityManager::Update(float deltatime)
 			{
 				count ++;
 				auto it = CollisionMap.find(std::pair<Alignment, Alignment>(game_entities[i]->getAlignment(), game_entities[j]->getAlignment()));
+				
+				std::map<std::pair<Alignment, Alignment>, int>::iterator reverse_it = CollisionMap.find(std::pair<Alignment, Alignment>(game_entities[j]->getAlignment(), game_entities[i]->getAlignment()));
+
 				if(it != CollisionMap.end())
+				{
+					Vector2 offset = Vector2(0.1f, 0.1f);
+					if(game_entities[i]->getCollider()->Overlap(*game_entities[j]->getCollider(), offset))
+					{
+						if(game_entities[i]->CanCollide() && game_entities[j]->CanCollide())
+						{
+							game_entities[i]->OnCollision(game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
+							game_entities[j]->OnCollision(game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
+						}
+					}
+				}
+				else if(reverse_it != CollisionMap.end())
 				{
 					Vector2 offset = Vector2(0.1f, 0.1f);
 					if(game_entities[i]->getCollider()->Overlap(*game_entities[j]->getCollider(), offset))

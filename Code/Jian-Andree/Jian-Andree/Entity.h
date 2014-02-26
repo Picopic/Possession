@@ -43,8 +43,6 @@ public:
 
 	virtual void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
-	sf::RectangleShape shape;
-
 	//Sounds
 	void AddSounds(SoundManager* sound_mgr);
 protected:

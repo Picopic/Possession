@@ -8,6 +8,7 @@
 #include "PlayerObject.h"
 #include "Projectile.h"
 #include "LostSoulObject.h"
+#include "Wall.h"
 #include "Spritemanager.h"
 #include "SoundManager.h"
 
@@ -24,6 +25,7 @@ public:
 	void Update(float deltatime);
 
 	void AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction);
+	void AttachWall(Vector2 position, int width, int height, Type wall_type);
 
 	void Cleanup();
 	std::vector<Entity*> game_entities;

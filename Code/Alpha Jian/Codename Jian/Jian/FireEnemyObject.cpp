@@ -3,7 +3,6 @@
 #include "stdafx.h"
 
 #include "FireEnemyObject.h"
-#include "Player.h"
 //för randomfunktionen:
 #include <cstdlib>
 #include <stdlib.h>
@@ -92,8 +91,6 @@ void FireEnemyObject::Update(float deltatime)
 
 
 	//Attack
-	
-	
 	if(created_projectile)
 	{
 		shooting_delay += deltatime;
