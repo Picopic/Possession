@@ -1,0 +1,18 @@
+Evelina, skulle du kunna göra så att den koden som är i "StateMain()" kommer in i en Engine?
+Så att vi kan ha kvar samma pekare hela tiden (Spritemanager, entitymanager etcetc).
+
+Och att "Main" funktionens funktionalitet är att skapa en engine och köra dess run. Som vi gjorde i SDL
+
+int main
+{
+	Engine engine;
+	
+	if(engine.Initialise())
+	{
+		engine.run()
+	}
+	
+	engine.Cleanup();
+
+	return 0;
+}
