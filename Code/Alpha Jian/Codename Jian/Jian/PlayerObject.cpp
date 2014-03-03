@@ -14,6 +14,8 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	current_animation = nullptr;
 	direction = Vector2(1, 0);
 
+	changed_element = false;
+
 	position = player_position;
 	width = player_width;
 	height = player_height;
@@ -340,6 +342,10 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 			add_wood = 1;
 		}
 	}
+	else if(collision_alignment == WALL)
+	{
+		can_collide = false;
+	}
 	else
 	{
 		can_collide = false;
@@ -473,16 +479,17 @@ void PlayerObject::NextElement()
 	switch(type)
 	{
 	case FIRE:
-		if(wood_elements > 0)
-		{
-			type = WOOD;
-			arrow = WOOD;
-		}
-		else if(water_elements > 0)
+		if(water_elements > 0)
 		{
 			type = WATER;
 			arrow = WATER;
 		}
+		else if(wood_elements > 0)
+		{
+			type = WOOD;
+			arrow = WOOD;
+		}
+		
 		else
 		{
 			dead = true;
@@ -498,15 +505,15 @@ void PlayerObject::NextElement()
 		
 		break;
 	case WATER:
-		if(fire_elements > 0)
-		{
-			type = FIRE;
-			arrow = FIRE;
-		}
-		else if(wood_elements > 0)
+		if(wood_elements > 0)
 		{
 			type = WOOD;
 			arrow = WOOD;
+		}
+		else if(fire_elements > 0)
+		{
+			type = FIRE;
+			arrow = FIRE;
 		}
 		else
 		{
@@ -522,15 +529,15 @@ void PlayerObject::NextElement()
 		}
 		break;
 	case WOOD:
-		if(water_elements > 0)
-		{
-			type = WATER;
-			arrow = WATER;
-		}
-		else if(fire_elements > 0)
+		if(fire_elements > 0)
 		{
 			type = FIRE;
 			arrow = FIRE;
+		}
+		else if(water_elements > 0)
+		{
+			type = WATER;
+			arrow = WATER;
 		}
 		else
 		{
