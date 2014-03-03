@@ -120,7 +120,7 @@ bool GameState::Update(){
 		{
 			if(entity_manager->game_entities[0]->ChangedElement())
 			{
-				HUD->MoveArrow(entity_manager->game_entities[0]->GetArrow());
+				HUD->MoveIndicator(entity_manager->game_entities[0]->GetArrow());
 			}
 
 			//Add element points?

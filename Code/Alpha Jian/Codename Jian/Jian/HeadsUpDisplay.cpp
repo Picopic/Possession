@@ -18,31 +18,55 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 {
 	sprite_manager = sprite_mgr;
 
-	hud_arrow = sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 195, 0);
-	if(hud_arrow == nullptr)	return false;
+	symbol_width = 125;
+	symbol_height = 125;
 
-	symbols.push_back(sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 0, 0));
+	for(int i = 0; i < 3; i++)
+	{
+		hud_indicator.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width, i*symbol_height));
+		if(hud_indicator[i] == nullptr)	return false;
+	}
+	current_indicator = hud_indicator[0];
+
+	//symbols
+	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 0));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
-	symbols.push_back(sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 65, 0));
+	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, symbol_height));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
-	symbols.push_back(sprite_mgr->Load("Placeholder HUD .png", 1, 1, 65, 65, 130, 0));
+	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, symbol_height*2));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
 
 	//Give them their positions
-	hud_arrow->getSprite()->setPosition(20, 80);
+	for(int i = 0; i < hud_indicator.size(); i++)
+	{
+		hud_indicator[i]->getSprite()->setPosition(20, 20 + (i*symbol_height));
+	}
 
 	for(int i = 0; i < symbols.size(); i++)
 	{
-		symbols[i]->getSprite()->setPosition(80, 80 + (i * 65));
+		symbols[i]->getSprite()->setPosition(20, 20 + (i * symbol_height));
 	}
-	
+
+	x_offset = 25;
+	y_offset = 25;
+
 	//
-	current_fire_pos = 80;
-	current_water_pos = 80;
-	current_wood_pos = 80;
+	current_fire_pos = symbols[0]->getSprite()->getPosition().x + symbol_width/2;
+	current_water_pos = symbols[1]->getSprite()->getPosition().x + symbol_width/2;
+	current_wood_pos = symbols[2]->getSprite()->getPosition().x + symbol_width/2;
 	//
-	
-	Update(0);
+
+	//Empty points
+	current_empty_fire = current_fire_pos + 10 * x_offset;
+	current_empty_water = current_water_pos + 10 * x_offset;
+	current_empty_wood = current_wood_pos + 10 * x_offset;
+
+	for(int i = 0; i < 10; i++)
+	{
+		AddEmptyPoint(FIRE);
+		AddEmptyPoint(WATER);
+		AddEmptyPoint(WOOD);
+	}
 
 	return true;
 }
@@ -55,17 +79,53 @@ void HeadsUpDisplay::Cleanup()
 		sprite_manager = nullptr;
 	}
 
-	if(hud_arrow != nullptr)
+	//Hud indicator
+	for(int i = 0; i < hud_indicator.size(); i++)
 	{
-		delete hud_arrow;
-		hud_arrow = nullptr;
+		if(hud_indicator[i] != nullptr)
+		{
+			delete hud_indicator[i];
+			hud_indicator[i] = nullptr;
+		}
 	}
+	if(current_indicator != nullptr)
+	{
+		delete current_indicator;
+		current_indicator = nullptr;
+	}
+	
 
 	//symbols
 	for(int i = 0; i < symbols.size(); i++)
 	{
 		delete symbols[i];
 		symbols[i] = nullptr;
+	}
+
+	//Empty points
+	for(int i = 0; i < empty_fire.size(); i++)
+	{
+		if(empty_fire[i] != nullptr)
+		{
+			delete empty_fire[i];
+			empty_fire[i] = nullptr;
+		}
+	}
+	for(int i = 0; i < empty_water.size(); i++)
+	{
+		if(empty_water[i] != nullptr)
+		{
+			delete empty_water[i];
+			empty_water[i] = nullptr;
+		}
+	}
+	for(int i = 0; i < empty_wood.size(); i++)
+	{
+		if(empty_wood[i] != nullptr)
+		{
+			delete empty_wood[i];
+			empty_wood[i] = nullptr;
+		}
 	}
 
 	//delete the points
@@ -87,36 +147,50 @@ void HeadsUpDisplay::Cleanup()
 }
 
 void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)
-{
-	//arrow
-	window->draw(*hud_arrow->getSprite());
-	
+{	
 	//symbols
 	for(int i = 0; i < symbols.size(); i++)
 	{
 		window->draw(*symbols[i]->getSprite());
 	}
+
+
 	//fire
+	for(int i = 0; i < empty_fire.size(); i++)
+	{
+		window->draw(*empty_fire[i]->getSprite());
+	}
 	for(int i = 0; i < fire_points.size(); i++)
 	{
 		window->draw(*fire_points[i]->getSprite());
 	}
 	//water
+	for(int i = 0; i < empty_water.size(); i++)
+	{
+		window->draw(*empty_water[i]->getSprite());
+	}
 	for(int i = 0; i < water_points.size(); i++)
 	{
 		window->draw(*water_points[i]->getSprite());
 	}
 	//wood
+	for(int i = 0; i < empty_wood.size(); i++)
+	{
+		window->draw(*empty_wood[i]->getSprite());
+	}
 	for(int i = 0; i < wood_points.size(); i++)
 	{
 		window->draw(*wood_points[i]->getSprite());
 	}
+
+	//Indicator
+	window->draw(*current_indicator->getSprite());
 }
 
 void HeadsUpDisplay::Update(float deltatime)
 {
 	//arrow
-	hud_arrow->Update(deltatime);
+	current_indicator->Update(deltatime);
 	
 	//symbols
 	for(int i = 0; i < symbols.size(); i++)
@@ -146,8 +220,35 @@ void HeadsUpDisplay::Move(float x, float y)
 	current_water_pos += x;
 	current_wood_pos += x;
 
-	//arrow
-	hud_arrow->getSprite()->move(x, y);
+	current_empty_fire += x;
+	current_empty_water += x;
+	current_empty_wood += x;
+
+	//current indicator
+	current_indicator->getSprite()->move(x, y);
+
+	//indicators
+	for(int i = 0; i < hud_indicator.size(); i++)
+	{
+		if(current_indicator != hud_indicator[i])
+		{
+			hud_indicator[i]->getSprite()->move(x, y);
+		}
+	}
+
+	//Empty points
+	for(int i = 0; i < empty_fire.size(); i++)
+	{
+		empty_fire[i]->getSprite()->move(x, y);
+	}
+	for(int i = 0; i < empty_water.size(); i++)
+	{
+		empty_water[i]->getSprite()->move(x, y);
+	}
+	for(int i = 0; i < empty_wood.size(); i++)
+	{
+		empty_wood[i]->getSprite()->move(x, y);
+	}
 	
 	//symbols
 	for(int i = 0; i < symbols.size(); i++)
@@ -176,19 +277,59 @@ void HeadsUpDisplay::AddElementalPoint(Type Elemental_type)
 	switch(Elemental_type)
 	{
 	case FIRE:
-		fire_points.push_back(sprite_manager->Load("Placeholder HUD .png", 1, 1, 65, 65, 65, 65));
-		fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + 50, 145);
-		current_fire_pos += 50;
+		DeleteEmptyPoint(FIRE);
+		if(fire_points.size() < 10)
+		{
+			if(fire_points.size()%2 == 1)
+			{
+				fire_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*0));
+				fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + x_offset, symbols[0]->getSprite()->getPosition().y);
+				current_fire_pos += x_offset;
+			}
+			else
+			{
+				fire_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*0));
+				fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + x_offset, symbols[0]->getSprite()->getPosition().y + y_offset);
+				current_fire_pos += x_offset;
+			}
+		}
+		
 		break;
 	case WATER:
-		water_points.push_back(sprite_manager->Load("Placeholder HUD .png", 1, 1, 65, 65, 0, 65));
-		water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + 50, 80);
-		current_water_pos += 50;
+		DeleteEmptyPoint(WATER);
+		if(water_points.size() < 10)
+		{
+			if(water_points.size()%2 == 1)
+			{
+				water_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*1));
+				water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + x_offset, symbols[1]->getSprite()->getPosition().y);
+				current_water_pos += x_offset;
+			}
+			else
+			{
+				water_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*1));
+				water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + x_offset, symbols[1]->getSprite()->getPosition().y + y_offset);
+				current_water_pos += x_offset;
+			}
+		}
 		break;
 	case WOOD:
-		wood_points.push_back(sprite_manager->Load("Placeholder HUD .png", 1, 1, 65, 65, 130, 65));
-		wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + 50, 210);
-		current_wood_pos += 50;
+		DeleteEmptyPoint(WOOD);
+		if(wood_points.size() < 10)
+		{
+			if(wood_points.size()%2 == 1)
+			{
+				wood_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*2));
+				wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + x_offset, symbols[2]->getSprite()->getPosition().y);
+				current_wood_pos += x_offset;
+			}
+			else
+			{
+				wood_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*2));
+				wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + x_offset, symbols[2]->getSprite()->getPosition().y + y_offset);
+				current_wood_pos += x_offset;
+			}
+		}
 		break;
 	}
 }
@@ -200,45 +341,134 @@ void HeadsUpDisplay::DeleteElementalPoint(Type element_type)
 	case FIRE:
 		if(fire_points.size() > 0)
 		{
+			AddEmptyPoint(FIRE);
 			delete fire_points[fire_points.size() - 1];
 			fire_points[fire_points.size() - 1] = nullptr;
 			fire_points.erase(fire_points.begin() + (fire_points.size() - 1));
-			current_fire_pos -= 50;
+			current_fire_pos -= x_offset;
 		}
 		break;
 	case WATER:
 		if(water_points.size() > 0)
 		{
+			AddEmptyPoint(WATER);
 			delete water_points[water_points.size() - 1];
 			water_points[water_points.size() - 1] = nullptr;
 			water_points.erase(water_points.begin() + (water_points.size() - 1));
-			current_water_pos -= 50;
+			current_water_pos -= x_offset;
 		}
 		break;
 	case WOOD:
 		if(wood_points.size() > 0)
 		{
+			AddEmptyPoint(WOOD);
 			delete wood_points[wood_points.size() - 1];
 			wood_points[wood_points.size() - 1] = nullptr;
 			wood_points.erase(wood_points.begin() + (wood_points.size() - 1));
-			current_wood_pos -= 50;
+			current_wood_pos -= x_offset;
+		}
+		break;
+		//Empty points
+	case NONE:
+		break;
+	}
+}
+
+void HeadsUpDisplay::MoveIndicator(Type type)
+{
+	switch(type)
+	{
+	case FIRE:
+		current_indicator = hud_indicator[0];
+		break;
+	case WATER:
+		current_indicator = hud_indicator[1];
+		break;
+	case WOOD:
+		current_indicator = hud_indicator[2];
+		break;
+	}
+}
+
+void HeadsUpDisplay::AddEmptyPoint(Type element_type)
+{
+	switch (element_type)
+	{
+	case FIRE:
+		if(empty_fire.size()%2 == 1)
+		{
+			empty_fire.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
+			empty_fire[empty_fire.size() - 1]->getSprite()->setPosition(current_empty_fire, symbols[0]->getSprite()->getPosition().y + y_offset);
+			current_empty_fire -= x_offset;
+		}
+		else
+		{
+			empty_fire.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
+			empty_fire[empty_fire.size() - 1]->getSprite()->setPosition(current_empty_fire, symbols[0]->getSprite()->getPosition().y);
+			current_empty_fire -= x_offset;
+		}
+		break;
+	case WATER:
+		if(empty_water.size()%2 == 1)
+		{
+			empty_water.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
+			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[1]->getSprite()->getPosition().y + y_offset);
+			current_empty_water -= x_offset;
+		}
+		else
+		{
+			empty_water.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
+			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[1]->getSprite()->getPosition().y);
+			current_empty_water -= x_offset;
+		}
+		break;
+	case WOOD:
+		if(empty_wood.size()%2 == 1)
+		{
+			empty_wood.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
+			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[2]->getSprite()->getPosition().y + y_offset);
+			current_empty_wood -= x_offset;
+		}
+		else
+		{
+			empty_wood.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
+			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[2]->getSprite()->getPosition().y);
+			current_empty_wood -= x_offset;
 		}
 		break;
 	}
 }
 
-void HeadsUpDisplay::MoveArrow(Type type)
+void HeadsUpDisplay::DeleteEmptyPoint(Type element_type)
 {
-	switch(type)
+	switch (element_type)
 	{
 	case FIRE:
-		hud_arrow->getSprite()->setPosition(hud_arrow->getSprite()->getPosition().x, 145);
+		if(empty_fire.size() > 0)
+		{
+			delete empty_fire[empty_fire.size() - 1];
+			empty_fire[empty_fire.size() - 1] = nullptr;
+			empty_fire.erase(empty_fire.begin() + (empty_fire.size() - 1));
+			current_empty_fire += x_offset;
+		}
 		break;
 	case WATER:
-		hud_arrow->getSprite()->setPosition(hud_arrow->getSprite()->getPosition().x, 80);
+		if(empty_water.size() > 0)
+		{
+			delete empty_water[empty_water.size() - 1];
+			empty_water[empty_water.size() - 1] = nullptr;
+			empty_water.erase(empty_water.begin() + (empty_water.size() - 1));
+			current_empty_water += x_offset;
+		}
 		break;
 	case WOOD:
-		hud_arrow->getSprite()->setPosition(hud_arrow->getSprite()->getPosition().x, 210);
+		if(empty_wood.size() > 0)
+		{
+			delete empty_wood[empty_wood.size() - 1];
+			empty_wood[empty_wood.size() - 1] = nullptr;
+			empty_wood.erase(empty_wood.begin() + (empty_wood.size() - 1));
+			current_empty_wood += x_offset;
+		}
 		break;
 	}
 }
