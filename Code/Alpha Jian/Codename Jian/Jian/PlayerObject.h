@@ -40,4 +40,5 @@ private:
 	//Collision
 	float knockback_time;
 	float knockback_speed;
+	int collision_direction;
 };
