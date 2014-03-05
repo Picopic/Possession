@@ -18,13 +18,13 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 
 	if(projectile_direction.x == 1)
 	{
-		position.x = shooter_entity->getPosition().x + shooter_entity->getWidth();
-		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2);
+		position.x = shooter_entity->getPosition().x + shooter_entity->GetSprite()->getTextureRect().width/2;
+		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight()*0.3;
 	}
 	else if(projectile_direction.x == -1)
 	{
 		position.x = shooter_entity->getPosition().x;
-		position.y = shooter_entity->getPosition().y + (shooter_entity->getHeight()/2);
+		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight()*0.3;
 	}
 
 	start_pos = position;

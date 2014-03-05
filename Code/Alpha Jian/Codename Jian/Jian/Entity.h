@@ -57,6 +57,7 @@ public:
 	//access
 	int getWidth();
 	int getHeight();
+	sf::Sprite* GetSprite();
 
 	//animations
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);

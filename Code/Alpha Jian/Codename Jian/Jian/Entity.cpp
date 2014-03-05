@@ -152,3 +152,8 @@ bool Entity::CanCollide()
 {
 	return can_collide;
 }
+
+sf::Sprite* Entity::GetSprite()
+{
+	return current_animation->getSprite();
+}

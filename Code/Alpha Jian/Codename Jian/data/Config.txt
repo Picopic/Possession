@@ -1,0 +1,4 @@
+WindowWidth=1024
+WindowHeight=680
+
+WindowAntiAliasing=4

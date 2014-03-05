@@ -14,6 +14,7 @@
 #include "EntityManager.h"
 #include "HeadsUpDisplay.h"
 #include "SoundManager.h"
+#include "ConfigManager.h"
 
 class GameState:public State{
 public:
@@ -64,5 +65,6 @@ private:
 	EntityManager *entity_manager;
 	HeadsUpDisplay *HUD;
 	SoundManager *sound_manager;
+	ConfigManager *config_manager;
 	sf::Music background_music;
 };

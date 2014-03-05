@@ -8,13 +8,36 @@
 #include "OptionsState.h"
 #include "GameState.h"
 #include "HowToPlayState.h"
+#include "ConfigManager.h"
 
 using namespace sf;
 
 int main()
 {
 	sf::RenderWindow* m_window;
-	m_window = new sf::RenderWindow(VideoMode(1024,640), "States");
+
+	ConfigManager *config_manager = new ConfigManager;
+	config_manager->Initialise("../data/");
+
+	config_manager->ReadFile("Config.txt");
+
+	int window_height;
+	int window_width;
+	std::string m_sInputString;
+	sf::ContextSettings window_settings;
+
+	m_sInputString = config_manager->GetValueFromKey("WindowWidth");
+	window_width = std::stoi(m_sInputString);
+
+	m_sInputString = config_manager->GetValueFromKey("WindowHeight");
+	window_height = std::stoi(m_sInputString);
+
+	m_sInputString = config_manager->GetValueFromKey("WindowAntiAliasing");
+	window_settings.antialiasingLevel = std::stoi(m_sInputString);
+
+	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "States", sf::Style::Default, window_settings);
+
+
 	StateManager st_mgr;
 	st_mgr.Attach(new GameState(m_window));
 	st_mgr.Attach(new StartMenuState(m_window));
