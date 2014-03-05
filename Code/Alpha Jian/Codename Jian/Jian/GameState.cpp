@@ -74,7 +74,7 @@ bool GameState::Initialize(){
 	entity_manager = new EntityManager(sprite_manager, sound_manager);
 	entity_manager->Init();
 	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), 50, 110, FIRE);
-	entity_manager->AttachWall(Vector2(800, 200), 210, 1000, FIRE);
+	//entity_manager->AttachWall(Vector2(800, 200), 210, 1000, FIRE);
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;

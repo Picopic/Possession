@@ -11,6 +11,7 @@
 #include "Wall.h"
 #include "Spritemanager.h"
 #include "SoundManager.h"
+#include "EnemyWaves.h"
 
 class EntityManager
 {
@@ -33,4 +34,5 @@ private:
 	std::map<std::pair<Alignment, Alignment>, int> CollisionMap;
 	SpriteManager* sprite_manager;
 	SoundManager* sound_manager;
+	EnemyWaves* waves;
 };

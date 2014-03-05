@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 
-
 #include "EntityManager.h"
 
 
@@ -24,6 +23,9 @@ EntityManager::~EntityManager()
 
 void EntityManager::Init()
 {
+	//Enemy wave spawn:
+	waves = new EnemyWaves(this);
+
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, WATERFOE), 0));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, WOODFOE), 1));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, FIREFOE), 2));
@@ -193,6 +195,12 @@ void EntityManager::Cleanup()
 		game_entities[i] = nullptr;
 		game_entities.erase(game_entities.begin() + i);
 	}
+
+	//delete enemy wave spawner:
+	if (waves != nullptr){
+		delete waves;
+		waves = nullptr;
+	}
 }
 
 void EntityManager::Update(float deltatime)
@@ -201,7 +209,6 @@ void EntityManager::Update(float deltatime)
 	for(int i = 0; i < (game_entities.size()); i++)
 	{
 		game_entities[i]->Update(deltatime);
-
 
 		//iterate through the collisionmap
 		for(int j = i + 1; j < game_entities.size(); j++)
@@ -240,9 +247,11 @@ void EntityManager::Update(float deltatime)
 			}
 		}
 
-		//create projectiles
+		//Player associated actions
 		if(game_entities[i]->getAlignment() == PLAYER)
 		{
+			waves->SpawnTimerAlarm(game_entities[i]->getPosition().x);
+			//create projectiles
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
 				AttachProjectile(FRIENDBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
@@ -270,7 +279,7 @@ void EntityManager::Update(float deltatime)
 
 	if(game_entities.size() == 1)
 	{
-		AttachEntity(FIREFOE, Vector2(800, 200), 100, 80, FIRE);
+		//AttachEntity(FIREFOE, Vector2(800, 200), 100, 80, FIRE);
 		AttachEntity(LOSTSOUL, Vector2(800, 500), 100, 80, FIRE);
 	}
 }
