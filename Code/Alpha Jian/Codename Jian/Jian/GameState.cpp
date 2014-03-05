@@ -32,14 +32,15 @@ bool GameState::Initialize(){
 	gameplayarea2.setPosition(sf::Vector2f(2560, 0));
 	gameplayarea2.initialize();
 
-	paralax.setPosition(sf::Vector2f(-150, -15));
-	paralax.initialize();
+	paralax1.setPosition(sf::Vector2f(-150, -15));
+	paralax1.initialize();
+	paralax11.setPosition(sf::Vector2f(3850, -15));
+	paralax11.initialize();
 
 	paralax2.setPosition(sf::Vector2f(-150, +50));
 	paralax2.initialize();
-
-	//player.setPosition(sf::Vector2f(1024/2, 640/2));
-	//player.initialize();
+	paralax22.setPosition(sf::Vector2f(3354, +50));
+	paralax22.initialize();
 	
 	m_view.setCenter(camera.getPosition());
 	m_view.setSize(sf::Vector2f(1024,640));
@@ -219,10 +220,12 @@ bool GameState::Update(){
 			camera.setPosition(vect);
 		}
 
+
+
 		//hur långt inann kameran hänger med åt höger:
-		else if (camera.getPosition().x < entity_manager->game_entities.at(0)->getPosition().x - 70){
+		else if (camera.getPosition().x < entity_manager->game_entities.at(0)->getPosition().x + 180){
 			sf::Vector2f vect = camera.getPosition();
-			vect.x = entity_manager->game_entities.at(0)->getPosition().x - 70;
+			vect.x = entity_manager->game_entities.at(0)->getPosition().x + 180;
 			camera.setPosition(vect);
 
 			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
@@ -230,8 +233,10 @@ bool GameState::Update(){
 			cloud2.moveX (0.08);
 			//cloud2.getPosition().x + 0.3;
 			//background2 position:
-			paralax.moveX(0.07);
+			paralax1.moveX(0.07);
+			paralax11.moveX(0.07);
 			paralax2.moveX(0.1);
+			paralax22.moveX(0.1);
 		}
 		
 		//std::cout << camera.getPosition().x << " " << player.getPosition().x << std::endl;
@@ -253,13 +258,14 @@ bool GameState::Update(){
 			cloud2.moveX (-0.15);
 			//cloud2.getPosition().x + 0.3;
 			//background2 position:
-			paralax.moveX(-0.1);
+			paralax1.moveX(-0.1);
+			paralax11.moveX(-0.1);
 			paralax2.moveX(-0.15);
+			paralax22.moveX(-0.15);
 			}
 		
 		
-		//std::cout << cloudXaxe << std::endl;
-
+		//För att molnen ska spawna och despawna på rätt positioner:
 		if(cloud.getPosition().x <= camera.getPosition().x - 1280 - 512){
 			sf::Vector2f vect = cloud.getPosition();
 			vect.x = camera.getPosition().x + 512;
@@ -273,34 +279,20 @@ bool GameState::Update(){
 
 		cloud.moveX(-0.05);
 		cloud2.moveX(-0.05);
-
-		
-		/*
-		if(playerXaxe>=1280 && playerXaxe<=6400){		
-			window.draw(background3);
-			std::cout << "Bla bakgrund framme" << std::endl;
-		}
-
-		window.draw(shape3);
-		window.draw(shape);
-		
-		window.display();
-	*/	
-		
+	
 		m_view.setCenter(camera.getPosition());
 		m_window->setView(m_view);
 
-
-
 		m_window->clear(sf::Color(0x40, 0x20, 0x30, 0xff));
 
-		paralax2.draw(m_window);		
+		paralax2.draw(m_window);
+		paralax22.draw(m_window);
 
 		cloud.draw(m_window);
 		cloud2.draw(m_window);
 		
-		paralax.draw(m_window);
-		
+		paralax1.draw(m_window);
+		paralax11.draw(m_window);
 
 		
 		//kommer fixa så att man kan köra delete på dom senare när dom är pekare så blir allt perfa:

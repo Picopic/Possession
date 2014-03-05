@@ -56,9 +56,10 @@ private:
 	Cloud cloud2;
 	Gameplayarea gameplayarea;
 	Gameplayarea gameplayarea2;
-	Paralax paralax;
+	Paralax paralax1;
+	Paralax paralax11;
 	Paralax2 paralax2;
-	//Player player;
+	Paralax2 paralax22;
 
 	DrawManager *draw_manager;
 	SpriteManager *sprite_manager;

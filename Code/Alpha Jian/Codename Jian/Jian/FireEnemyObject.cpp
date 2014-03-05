@@ -54,6 +54,8 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 
+	player = nullptr;
+
 }
 
 void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, Type enemy_type)
@@ -126,8 +128,34 @@ void FireEnemyObject::Update(float deltatime)
 		}
 	}
 
+	//AI PLAYER CHASE
+	//följer efter spelaren i x-led
+		if(position.x > player->getPosition().x + m_random){
+			velocity.x = -0.1;
+		}
+	
+		//ska följa efter spelarens y-postiion sakta
+		if (position.y > player->getPosition().y + 100) {
+			velocity.y = -0.15;
+		}  
+		//ska följa efter spelarens y-position sakta
+		if (position.y < player -> getPosition().y - 100) {
+			velocity.y = +0.15;
+		}
+
+		//Den ska stanna på ett visst avstånd i X-led:
+		if (position.x < player->getPosition().x + m_random) {
+			velocity.x = 0.1;
+		}
+
+		if(position.y < player ->getPosition().y + 50 && position.y > player ->getPosition().y - 50){
+			velocity.y = 0;
+		}
+
+		position += velocity;
+
 	//MOVEMENT UPP OCH NER
-	if (position.y > 450){
+	/*if (position.y > 450){
 		position.y = 450;
 		velocity *= -1;
 
@@ -139,7 +167,7 @@ void FireEnemyObject::Update(float deltatime)
 	}
 
 	position.x += speed*deltatime*velocity.x;
-	position.y += speed*deltatime*velocity.y;
+	position.y += speed*deltatime*velocity.y;*/
 
 	//Death
 
@@ -192,4 +220,8 @@ void FireEnemyObject::OnCollision(Type enemy_type, Vector2 offset, Alignment ene
 		}
 	}
 	
+}
+
+void Entity::setplayer(Entity* p_player){
+	player = p_player;
 }

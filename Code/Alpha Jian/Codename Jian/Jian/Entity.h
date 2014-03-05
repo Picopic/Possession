@@ -31,6 +31,9 @@ public:
 	std::string getID();
 	void setID(std::string new_ID);
 
+	//For EnemyAI and assoziated
+	void setplayer(Entity* p_player);
+
 	//unorganised
 	Alignment getAlignment();
 	Collider* getCollider();
@@ -86,6 +89,9 @@ protected:
 	bool dead;
 
 	int m_random;
+
+	//Enemy variables
+	Entity* player;
 
 	//projectilehandling
 	bool create_projectile;

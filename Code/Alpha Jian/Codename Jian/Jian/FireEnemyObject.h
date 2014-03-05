@@ -3,6 +3,7 @@
 #pragma once
 #include "Entity.h"
 
+
 class FireEnemyObject : public Entity
 {
 	public:
@@ -12,5 +13,10 @@ class FireEnemyObject : public Entity
 	void Init(std::string object_type, Alignment enemy_alignment, Type enemy_type);
 	void Update(float deltatime);
 
+	//void setplayer(Entity* p_player);
+
 	void OnCollision(Type enemy_type, Vector2 offset, Alignment enemy_alignment);
+
+private:
+	//Entity* player;
 };

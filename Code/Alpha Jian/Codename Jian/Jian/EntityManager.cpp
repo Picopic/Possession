@@ -208,6 +208,12 @@ void EntityManager::Update(float deltatime)
 	int count = 0;
 	for(int i = 0; i < (game_entities.size()); i++)
 	{
+		if(game_entities[i]->getAlignment() != PLAYER && game_entities[i]->getAlignment() != FRIENDBULLET && game_entities[i]->getAlignment() != LOSTSOUL)
+		{
+			game_entities[i]->setplayer(game_entities[0]);
+		}
+		
+
 		game_entities[i]->Update(deltatime);
 
 		//iterate through the collisionmap

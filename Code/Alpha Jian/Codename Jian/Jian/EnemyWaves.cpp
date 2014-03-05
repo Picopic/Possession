@@ -31,7 +31,7 @@ void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 		for (int i = 0; i < enemies.x; i++){
 			//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
 			//läggs in i varje for nedan för varierande spawn-positions-intervall
-			int randomspawnposX = (rand()%(640-(500)+1))+(500);
+			int randomspawnposX = (rand()%(740-(640)+1))+(640);
 			int randomspawnposY = (rand()%(640-(290)+1))+(290);
 
 			entity_manager->	AttachEntity(FIREFOE, Vector2(PreviousPlayerX+randomspawnposX, randomspawnposY), 100, 80, FIRE);
