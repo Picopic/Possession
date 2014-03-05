@@ -24,6 +24,7 @@ public:
 	unsigned int collectedSouls;
 
 	void NextElement();
+	bool CanChangeElement();
 private:
 	//health
 	int fire_elements;

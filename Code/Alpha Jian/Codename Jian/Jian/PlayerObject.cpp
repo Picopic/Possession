@@ -216,7 +216,7 @@ void PlayerObject::Update(float deltatime)
 			}
 
 			//Elemental swap
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed)
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed && CanChangeElement())
 			{
 				element_changed = true;
 
@@ -676,4 +676,25 @@ void Entity::AddSounds(SoundManager* sound_mgr)
 {
 	//Example insert
 	//entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
+}
+
+bool PlayerObject::CanChangeElement()
+{
+	switch (type)
+	{
+	case FIRE:
+		if(water_elements <= 0 && wood_elements <= 0)
+			return false;
+		break;
+	case WATER:
+		if(wood_elements <= 0 && fire_elements <= 0)
+			return false;
+		break;
+	case WOOD:
+		if(water_elements <= 0 && fire_elements <= 0)
+			return false;
+		break;
+	}
+
+	return true;
 }
