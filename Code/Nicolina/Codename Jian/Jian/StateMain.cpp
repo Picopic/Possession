@@ -14,7 +14,7 @@ using namespace sf;
 int main()
 {
 	sf::RenderWindow* m_window;
-	m_window = new sf::RenderWindow(VideoMode(1024,640), "States");
+	m_window = new sf::RenderWindow(VideoMode(1024,640), "Possession");
 	StateManager st_mgr;
 	st_mgr.Attach(new GameState(m_window));
 	st_mgr.Attach(new StartMenuState(m_window));

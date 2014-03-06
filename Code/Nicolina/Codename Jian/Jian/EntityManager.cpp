@@ -72,7 +72,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		break;
 	case LOSTSOUL:
 		game_entities.push_back(new LostSoulObject(position, width, height));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("temporarlostsoul.png", 1, 1, 85, 85, 0, 0));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("Lost Souls Spritesheet.png", 7, 4, 100, 100, 0, 0));
 		game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, type);
 		break;
 	}
