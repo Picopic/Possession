@@ -41,6 +41,10 @@ bool GameState::Initialize(){
 	paralax2.initialize();
 	paralax22.setPosition(sf::Vector2f(3354, +50));
 	paralax22.initialize();
+
+	//gräsparallax:
+	paralax3.setPosition(sf::Vector2f(0, +585));
+	paralax3.initialize();
 	
 	m_view.setCenter(camera.getPosition());
 	m_view.setSize(sf::Vector2f(1024,640));
@@ -237,6 +241,7 @@ bool GameState::Update(){
 			paralax11.moveX(0.07);
 			paralax2.moveX(0.1);
 			paralax22.moveX(0.1);
+			paralax3.moveX(-0.1);
 		}
 		
 		//std::cout << camera.getPosition().x << " " << player.getPosition().x << std::endl;
@@ -262,6 +267,7 @@ bool GameState::Update(){
 			paralax11.moveX(-0.1);
 			paralax2.moveX(-0.15);
 			paralax22.moveX(-0.15);
+			paralax3.moveX(+0.1);
 			}
 		
 		
@@ -294,6 +300,7 @@ bool GameState::Update(){
 		paralax1.draw(m_window);
 		paralax11.draw(m_window);
 
+
 		
 		//kommer fixa så att man kan köra delete på dom senare när dom är pekare så blir allt perfa:
 		//spelplan1
@@ -305,16 +312,26 @@ bool GameState::Update(){
 		//För att nästa spelplansdel inte ska spawna förrän man går dit:
 		if (entity_manager->game_entities.at(0)->getPosition().x >= 1280 && entity_manager->game_entities.at(0)->getPosition().x <= 6400){
 				gameplayarea2.draw(m_window);
+
 				//std::cout << gameplayarea2.getPosition().x << std::endl;
 			};
-			
+		
+		
+		
 		HUD->Move((camera.getPosition().x-cameras_last_position.x), 0);
 		cameras_last_position = camera.getPosition();
 
 		entity_manager->Update(deltatime);
 
+		
+
 		//drawing portion of game loop
 		draw_manager->Draw(m_window, entity_manager, HUD);
+		
+		//gräset som ska vara längst fram
+		paralax3.draw(m_window);
+
+		m_window->display();
 
 	//};
 
