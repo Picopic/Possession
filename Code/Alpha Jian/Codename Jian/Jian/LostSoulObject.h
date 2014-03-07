@@ -8,7 +8,7 @@ class LostSoulObject : public Entity
 {
 public:
 	LostSoulObject();
-	LostSoulObject(Vector2 lostsoul_position, int width, int height);
+	LostSoulObject(Entity* enemydropping, int lostsoul_width, int lostsoul_height, Vector2 lostsoul_position);
 
 	void Init(std::string object_type, Alignment alignment, Type type);
 	void Update(float deltatime);

@@ -158,7 +158,7 @@ sf::Sprite* Entity::GetSprite()
 	return current_animation->getSprite();
 }
 
-/*void Entity::GetLostSoul()
+bool Entity::GetLostSoul()
 {
 	return drop_lostsoul;
-}*/
+}

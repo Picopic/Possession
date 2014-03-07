@@ -73,7 +73,7 @@ public:
 	void AddSounds(SoundManager* sound_mgr);
 
 	//Lost Souls
-	void GetLostSoul();
+	bool GetLostSoul();
 
 protected:
 	Collider *collider;
@@ -140,4 +140,8 @@ protected:
 
 	//Lost Souls
 	bool drop_lostsoul;
+	float lostsouldrop_delay;
+	float lostsoulgoahead_delay;
+	bool dropped_lostsoul;
+	int random_number;
 };

@@ -65,7 +65,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	{
 	case PLAYER:
 		game_entities.push_back(new PlayerObject(position, width, height));
-<<<<<<< HEAD
+
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2520));
 		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 840));
@@ -74,16 +74,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 3780));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
-=======
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 7, 4, 210, 210, 0, 0));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 7, 4, 210, 210, 0, 2520));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 5, 4, 210, 210, 0, 840));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 5, 4, 210, 210, 0, 3360));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 8, 4, 210, 210, 0, 2940));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 8, 4, 210, 210, 0, 420));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 22, 4, 210, 210, 0, 3780));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 22, 4, 210, 210, 0, 1260));
->>>>>>> 050f77ff9d3878ab02c3c0f9eaefa482798cc1f2
+
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 		
@@ -110,12 +101,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size()-1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2100));
 
 		game_entities[game_entities.size()-1]->Init("Fire enemy", entity_name, type);
-		break;
-
-	case LOSTSOUL:
-		game_entities.push_back(new LostSoulObject(position, width, height));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("Lost Souls Spritesheet.png", 7, 4, 100, 100, 0, 0));
-		game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, type);
 		break;
 	}
 	
@@ -206,6 +191,16 @@ void EntityManager::AttachWall(Vector2 position, int width, int height, Type wal
 	}
 }
 
+void EntityManager::AttachLostSoul(Alignment entity_name, Entity* enemydropping, int width, int height, Type entity_type, Vector2 entity_position)
+{
+
+	game_entities.push_back(new LostSoulObject(enemydropping, width, height, entity_position));
+
+	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("Lost Souls Spritesheet.png", 7, 4, 100, 100, 0, 0));
+	game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, entity_type);
+	
+}
+
 void EntityManager::Cleanup()
 {
 	for(int i = 0; i < game_entities.size(); i ++)
@@ -227,7 +222,7 @@ void EntityManager::Update(float deltatime)
 	int count = 0;
 	for(int i = 0; i < (game_entities.size()); i++)
 	{
-		if(game_entities[i]->getAlignment() != PLAYER && game_entities[i]->getAlignment() != FRIENDBULLET /*&& game_entities[i]->getAlignment() != LOSTSOUL*/)
+		if(game_entities[i]->getAlignment() != PLAYER && game_entities[i]->getAlignment() != FRIENDBULLET && game_entities[i]->getAlignment() != LOSTSOUL)
 		{
 			game_entities[i]->setplayer(game_entities[0]);
 		}
@@ -288,6 +283,10 @@ void EntityManager::Update(float deltatime)
 			{
 				AttachProjectile(FIREFOEBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
 			}
+			if(game_entities[i]->GetLostSoul())
+			{
+				AttachLostSoul(LOSTSOUL, game_entities[i], 100, 100, game_entities[i]->getType(), game_entities[i]->getPosition());
+			}
 		}
 	}
 
@@ -300,11 +299,5 @@ void EntityManager::Update(float deltatime)
 			game_entities[i] = nullptr;
 			game_entities.erase(game_entities.begin() + i);
 		}
-	}
-
-	if(game_entities.size() == 1)
-	{
-		//AttachEntity(FIREFOE, Vector2(800, 200), 100, 80, FIRE);
-		AttachEntity(LOSTSOUL, Vector2(2250, 500), 100, 80, FIRE);
 	}
 }
