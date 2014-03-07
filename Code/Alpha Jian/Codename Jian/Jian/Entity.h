@@ -6,13 +6,15 @@
 #include "Enums.h"
 #include "AnimatedSprite.h"
 #include "SoundManager.h"
+#include "ConfigManager.h"
 
 class Entity
 {
 public:
 	Entity();
-	Entity(Vector2 entity_position, int entity_width, int entity_height);
-	virtual void Init(std::string object_type, Alignment alignment, Type type) = 0; //initiate the object
+
+	virtual void Init(std::string object_type, Alignment enemy_alignment, Type enemy_type) = 0; //initiate the object
+	
 	virtual void Update(float deltatime) = 0; //apply logic to object
 	void Cleanup();
 
@@ -27,9 +29,6 @@ public:
 	int GetDestroyWood();
 	Type GetArrow();
 	bool ChangedElement();
-
-	std::string getID();
-	void setID(std::string new_ID);
 
 	//For EnemyAI and assoziated
 	void setplayer(Entity* p_player);
@@ -73,10 +72,12 @@ public:
 	void AddSounds(SoundManager* sound_mgr);
 
 	//Lost Souls
-	void GetLostSoul();
+	bool GetLostSoul();
 
 protected:
 	Collider *collider;
+
+	//Start position
 	Vector2 position;
 
 	Alignment alignment;
@@ -86,8 +87,6 @@ protected:
 	int height;
 
 	int hitpoints;
-
-	std::string entity_ID;
 
 	bool flagged_for_death;
 	bool dead;

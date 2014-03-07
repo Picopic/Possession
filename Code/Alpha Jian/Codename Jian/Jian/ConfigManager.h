@@ -18,6 +18,8 @@ public:
 	std::string GetValueFromKey(std::string Key);
 
 	//Convert methods (optional)
+	int ReadInt(std::string Key);
+	float ReadFloat(std::string Key);
 	
 private:
 	std::map<std::string, std::string> FileValues;

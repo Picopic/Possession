@@ -100,3 +100,19 @@ std::string ConfigManager::GetValueFromKey(std::string Key)
 		return it->second;
 	}
 }
+
+int ConfigManager::ReadInt(std::string Key)
+{
+	//First get the value
+	std::string TempValue = GetValueFromKey(Key);
+	//return its int
+	return std::stoi(TempValue);
+}
+
+float ConfigManager::ReadFloat(std::string Key)
+{
+	//First get the value
+	std::string TempValue = GetValueFromKey(Key);
+	//Return its float
+	return std::stof(TempValue);
+}

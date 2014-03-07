@@ -60,8 +60,6 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 
 void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, Type enemy_type)
 {
-	entity_ID = object_type;
-
 	alignment = enemy_alignment;
 	type = enemy_type;
 

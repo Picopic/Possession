@@ -28,8 +28,6 @@ AltarObject::AltarObject(Vector2 altar_position, int altar_width, int altar_heig
 
 void AltarObject::Init(std::string object_type, Alignment altar_alignment, Type altar_type)
 {
-	entity_ID = object_type;
-
 	alignment = altar_alignment;
 	type = altar_type;
 

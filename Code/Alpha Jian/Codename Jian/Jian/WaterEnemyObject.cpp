@@ -27,15 +27,8 @@ WaterEnemyObject::WaterEnemyObject(Vector2 enemy_position, int enemy_width, int 
 
 void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, Type enemy_type)
 {
-	entity_ID = object_type;
-
 	alignment = enemy_alignment;
 	type = enemy_type;
-
-	//shape.setSize(sf::Vector2f(width, height));
-	//shape.setPosition(position.x, position.y);
-	
-	//shape.setFillColor(sf::Color(0,0,255));
 }
 
 void WaterEnemyObject::Update(float deltatime)

@@ -26,8 +26,6 @@ LostSoulObject::LostSoulObject(Vector2 lostsoul_position, int lostsoul_width, in
 
 void LostSoulObject::Init(std::string object_type, Alignment lostsoul_alignment, Type lostsoul_type)
 {
-	entity_ID = object_type;
-
 	alignment = lostsoul_alignment;
 	type = lostsoul_type;
 

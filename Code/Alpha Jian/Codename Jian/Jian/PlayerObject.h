@@ -3,14 +3,17 @@
 #pragma once
 #include "Entity.h"
 
+class ConfigManager;
 
 class PlayerObject : public Entity
 {
 public:
 	PlayerObject();
-	PlayerObject(Vector2 player_position, int width, int height);
 
-	void Init(std::string object_type, Alignment player_alignment, Type player_type);
+	PlayerObject(ConfigManager* Config_Manager);
+
+	//Initialise all the parameters
+	void Init(std::string object_type, Alignment enemy_alignment, Type enemy_type);
 	void Update(float deltatime);
 	void getID();
 	void setID();
@@ -35,8 +38,10 @@ private:
 	float lost_souls_counter;
 	bool used_lost_souls;
 
+	//changing element
 	bool element_changed;
 	float element_changed_delay;
+	float change_delay;
 
 	//Collision
 	float knockback_time;

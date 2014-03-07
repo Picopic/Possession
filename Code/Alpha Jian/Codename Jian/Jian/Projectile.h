@@ -13,5 +13,7 @@ public:
 
 	void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
+	void OutOfBounds();
+
 private:
 };

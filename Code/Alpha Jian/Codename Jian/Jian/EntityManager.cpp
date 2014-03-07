@@ -14,6 +14,7 @@ EntityManager::EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr)
 {
 	sprite_manager = sprite_mgr;
 	sound_manager = sound_mgr;
+	config_manager = new ConfigManager;
 }
 
 EntityManager::~EntityManager()
@@ -23,9 +24,15 @@ EntityManager::~EntityManager()
 
 void EntityManager::Init()
 {
+	//ConfigManager initalisation
+	config_manager = new ConfigManager;
+	config_manager->Initialise("../data/Configs/");
+	config_manager->ReadFile("Player.txt");
+
 	//Enemy wave spawn:
 	waves = new EnemyWaves(this);
 
+	//Collisionmap initalisation
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, WATERFOE), 0));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, WOODFOE), 1));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, FIREFOE), 2));
@@ -64,8 +71,8 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	switch(entity_name)
 	{
 	case PLAYER:
-		game_entities.push_back(new PlayerObject(position, width, height));
-<<<<<<< HEAD
+		game_entities.push_back(new PlayerObject(config_manager));
+
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2520));
 		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 840));
@@ -74,21 +81,10 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 3780));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
-=======
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 7, 4, 210, 210, 0, 0));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 7, 4, 210, 210, 0, 2520));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 5, 4, 210, 210, 0, 840));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 5, 4, 210, 210, 0, 3360));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 8, 4, 210, 210, 0, 2940));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 8, 4, 210, 210, 0, 420));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 22, 4, 210, 210, 0, 3780));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p complete.png", 22, 4, 210, 210, 0, 1260));
->>>>>>> 050f77ff9d3878ab02c3c0f9eaefa482798cc1f2
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 		
 		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
-		game_entities[game_entities.size() - 1]->setDelay(0.4f);
 		break;
 	case WATERFOE:
 		game_entities.push_back(new WaterEnemyObject(position, width, height));
@@ -220,6 +216,18 @@ void EntityManager::Cleanup()
 		delete waves;
 		waves = nullptr;
 	}
+
+	if(sprite_manager != nullptr)
+		sprite_manager = nullptr;
+
+	if(sound_manager != nullptr)
+		sound_manager = nullptr;
+
+	if(config_manager != nullptr)
+	{
+		delete config_manager;
+		config_manager = nullptr;
+	}
 }
 
 void EntityManager::Update(float deltatime)
@@ -300,11 +308,5 @@ void EntityManager::Update(float deltatime)
 			game_entities[i] = nullptr;
 			game_entities.erase(game_entities.begin() + i);
 		}
-	}
-
-	if(game_entities.size() == 1)
-	{
-		//AttachEntity(FIREFOE, Vector2(800, 200), 100, 80, FIRE);
-		AttachEntity(LOSTSOUL, Vector2(2250, 500), 100, 80, FIRE);
 	}
 }

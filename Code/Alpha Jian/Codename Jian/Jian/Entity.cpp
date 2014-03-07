@@ -11,11 +11,7 @@ Entity::Entity()
 
 }
 
-Entity::Entity(Vector2 entity_position, int entity_width, int entity_height)
-{
-}
-
-void Entity::Init(std::string object_type, Alignment alignment, Type type)
+void Entity::Init(std::string object_type, Alignment enemy_alignment, Type enemy_type)
 {
 
 }
@@ -31,16 +27,15 @@ void Entity::Cleanup()
 		delete collider;
 		collider = nullptr;
 	}
-}
-
-std::string Entity::getID()
-{
-	return entity_ID;
-}
-
-void Entity::setID(std::string new_ID)
-{
-	entity_ID = new_ID;
+	if(current_animation != nullptr)
+	{
+		delete current_animation;
+		current_animation = nullptr;
+	}
+	if(player != nullptr)
+	{
+		player = nullptr;
+	}
 }
 
 void Entity::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
@@ -158,7 +153,7 @@ sf::Sprite* Entity::GetSprite()
 	return current_animation->getSprite();
 }
 
-/*void Entity::GetLostSoul()
+bool Entity::GetLostSoul()
 {
 	return drop_lostsoul;
-}*/
+}

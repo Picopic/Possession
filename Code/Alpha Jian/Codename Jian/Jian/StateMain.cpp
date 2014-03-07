@@ -17,7 +17,7 @@ int main()
 	sf::RenderWindow* m_window;
 
 	ConfigManager *config_manager = new ConfigManager;
-	config_manager->Initialise("../data/");
+	config_manager->Initialise("../data/Configs/");
 
 	config_manager->ReadFile("Config.txt");
 

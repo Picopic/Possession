@@ -3,30 +3,34 @@
 #include "stdafx.h"
 
 #include "PlayerObject.h"
+//#include "ConfigManager.h"
 
 PlayerObject::PlayerObject()
 {
 
 }
 
-PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player_height)
+PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 {
 	current_animation = nullptr;
-	direction = Vector2(1, 0);
+
+	//
+
+	direction = Vector2(Config_Manager->ReadInt("playerdirx"), Config_Manager->ReadInt("playerdiry"));
 
 	changed_element = false;
 
-	position = player_position;
-	width = player_width;
-	height = player_height;
+	position = Vector2(Config_Manager->ReadInt("playerx"), Config_Manager->ReadInt("playery"));
+	width = Config_Manager->ReadInt("playerwidth");
+	height = Config_Manager->ReadInt("playerheight");
 
 	//collision variables
-	entity_offset_x = 50;
-	entity_offset_y = 30;
+	entity_offset_x = Config_Manager->ReadFloat("playeroffsetx");
+	entity_offset_y = Config_Manager->ReadFloat("playeroffsety");
 	can_collide = true;
 	collision_refresh_timer = 0.0f;
-	knockback_time = 0.3f;
-	knockback_speed = 50.0f;
+	knockback_time = Config_Manager->ReadFloat("playerknockbacktime");
+	knockback_speed = Config_Manager->ReadFloat("playerknockbackspeed");
 
 	//death
 	dead = false;
@@ -37,7 +41,7 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	create_projectile = false;
 	created_projectile = false;
 	shooting_delay = 0.001f;
-	delay = 0.01f;
+	delay = Config_Manager->ReadFloat("playershootdelay");
 
 	//lost souls
 	collectedSouls = 0;
@@ -48,6 +52,7 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	//element change
 	element_changed = false;
 	element_changed_delay = 0.0f;
+	change_delay = Config_Manager->ReadFloat("playerchangedelay");
 
 	//HUD changing variables
 	add_element = false;
@@ -55,12 +60,12 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	destroy_water = 0;
 	destroy_wood = 0;
 
-	fire_elements = 3;
-	water_elements = 3;
-	wood_elements = 3;
+	fire_elements = Config_Manager->ReadFloat("playerfire");
+	water_elements = Config_Manager->ReadFloat("playerwater");
+	wood_elements = Config_Manager->ReadFloat("playerwood");
 
 	movement_time = 0.0f;
-	speed = 200;
+	speed = Config_Manager->ReadFloat("playerspeed");
 
 	collider = new Collider;
 	collider->position.x = position.x + entity_offset_x;
@@ -68,12 +73,10 @@ PlayerObject::PlayerObject(Vector2 player_position, int player_width, int player
 	collider->extension = Vector2(width, height);
 }
 
-void PlayerObject::Init(std::string object_type, Alignment player_alignment, Type player_type)
+void PlayerObject::Init(std::string object_type, Alignment entity_alignment, Type entity_type)
 {
-	entity_ID = object_type;
-
-	alignment = player_alignment;
-	type = player_type;
+	alignment = entity_alignment;
+	type = entity_type;
 	arrow = type;
 
 	current_animation->getSprite()->setPosition(position.x, position.y);
@@ -118,6 +121,95 @@ void PlayerObject::Update(float deltatime)
 			{
 				shooting_delay += deltatime;
 			}
+			else
+			{
+				//If you are not shooting, then you are able to move
+				//Vertical movement
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+				{
+					if(!created_projectile)
+					{
+						if(direction.x == 1)
+						{
+							SetCurrentAnimation(WALKRIGHT);
+						}
+						else
+						{
+							SetCurrentAnimation(WALKLEFT);
+						}
+					}
+					position.y -= speed*deltatime;
+				}
+
+				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				{
+					if(!created_projectile)
+					{
+						if(direction.x == 1)
+						{
+							SetCurrentAnimation(WALKRIGHT);
+						}
+						else
+						{
+							SetCurrentAnimation(WALKLEFT);
+						}
+					}
+					position.y += speed*deltatime;
+				}
+
+				//horizontal movement
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+				{
+					if(!created_projectile)
+					{
+						SetCurrentAnimation(WALKLEFT);
+					}
+					position.x -= speed*deltatime;
+					direction.y = 0;
+					direction.x = -1;
+				}
+				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+				{
+					if(!created_projectile)
+					{
+						SetCurrentAnimation(WALKRIGHT);
+					}
+					position.x += speed*deltatime;
+					direction.y = 0;
+					direction.x = 1;
+				}
+				else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+				{
+					if(!created_projectile)
+					{
+						if(direction.x == 1)
+						{
+							SetCurrentAnimation(IDLERIGHT);
+						}
+						else
+						{
+							SetCurrentAnimation(IDLELEFT);
+						}
+					}
+				}
+
+				//Elemental swap
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed && CanChangeElement())
+				{
+					element_changed = true;
+
+					NextElement();
+				}
+				if(element_changed)
+				{
+					element_changed_delay += deltatime;
+					if(element_changed_delay > 0.5f)
+					{
+						element_changed = false;
+						element_changed_delay = 0.0f;
+					}
+				}
+			}
 
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !created_projectile)
 			{
@@ -146,91 +238,7 @@ void PlayerObject::Update(float deltatime)
 
 			//end of shooting
 
-			//Vertical movement
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-			{
-				if(!created_projectile)
-				{
-					if(direction.x == 1)
-					{
-						SetCurrentAnimation(WALKRIGHT);
-					}
-					else
-					{
-						SetCurrentAnimation(WALKLEFT);
-					}
-				}
-				position.y -= speed*deltatime;
-			}
-
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			{
-				if(!created_projectile)
-				{
-					if(direction.x == 1)
-					{
-						SetCurrentAnimation(WALKRIGHT);
-					}
-					else
-					{
-						SetCurrentAnimation(WALKLEFT);
-					}
-				}
-				position.y += speed*deltatime;
-			}
-
-			//horizontal movement
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-			{
-				if(!created_projectile)
-				{
-					SetCurrentAnimation(WALKLEFT);
-				}
-				position.x -= speed*deltatime;
-				direction.y = 0;
-				direction.x = -1;
-			}
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-			{
-				if(!created_projectile)
-				{
-					SetCurrentAnimation(WALKRIGHT);
-				}
-				position.x += speed*deltatime;
-				direction.y = 0;
-				direction.x = 1;
-			}
-			else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-			{
-				if(!created_projectile)
-				{
-					if(direction.x == 1)
-					{
-						SetCurrentAnimation(IDLERIGHT);
-					}
-					else
-					{
-						SetCurrentAnimation(IDLELEFT);
-					}
-				}
-			}
-
-			//Elemental swap
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed && CanChangeElement())
-			{
-				element_changed = true;
-
-				NextElement();
-			}
-			if(element_changed)
-			{
-				element_changed_delay += deltatime;
-				if(element_changed_delay > 0.5f)
-				{
-					element_changed = false;
-					element_changed_delay = 0.0f;
-				}
-			}
+			
 
 			//adding elemental points (just a button press for testing)
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))

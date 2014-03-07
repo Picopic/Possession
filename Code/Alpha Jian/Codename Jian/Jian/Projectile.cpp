@@ -42,7 +42,6 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 
 void Projectile::Init(std::string object_type, Alignment projectile_alignment, Type projectile_type)
 {
-	entity_ID = object_type;
 	alignment = projectile_alignment;
 	type = projectile_type;
 
@@ -71,19 +70,19 @@ void Projectile::Update(float deltatime)
 	//out of screen actions
 	if((position.x + width) < (start_pos.x-680))
 	{
-		flagged_for_death = true;
+		OutOfBounds();
 	}
 	else if(position.x > (start_pos.x+680))
 	{
-		flagged_for_death = true;
+		OutOfBounds();
 	}
 	else if((position.y + height) < 0)
 	{
-		flagged_for_death = true;
+		OutOfBounds();
 	}
 	else if(position.y > 720)
 	{
-		flagged_for_death = true;
+		OutOfBounds();
 	}
 	if(dead)
 	{
@@ -96,6 +95,26 @@ void Projectile::Update(float deltatime)
 }
 
 void Projectile::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
+{
+	dead = true;
+
+	if(collider != nullptr)
+	{
+		delete collider;
+		collider = nullptr;
+	}
+
+	if(direction.x == 1)
+	{
+		SetCurrentAnimation(DEATHRIGHT);
+	}
+	else
+	{
+		SetCurrentAnimation(DEATHLEFT);
+	}
+}
+
+void Projectile::OutOfBounds()
 {
 	dead = true;
 
