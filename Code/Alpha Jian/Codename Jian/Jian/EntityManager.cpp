@@ -46,6 +46,14 @@ void EntityManager::Init()
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, FIREFOEBULLET), 16));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WATERFOEBULLET), 17));
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WOODFOEBULLET), 18));
+
+	//Enemy collision
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WATERFOE), 18));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WOODFOE), 19));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WATERFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FIREFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WOODFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, WATERFOE), 20));
 }
 
 void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
@@ -58,13 +66,13 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	case PLAYER:
 		game_entities.push_back(new PlayerObject(position, width, height));
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1680));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2520));
 		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 840));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 2520));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 2100));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 3360));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 2940));
 		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2940));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 1260));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 3780));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 		

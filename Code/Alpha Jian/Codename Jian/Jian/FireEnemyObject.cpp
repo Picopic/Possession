@@ -219,6 +219,10 @@ void FireEnemyObject::OnCollision(Type enemy_type, Vector2 offset, Alignment ene
 			hitpoints--;
 		}
 	}
+	else
+	{
+		
+	}
 	
 }
 
