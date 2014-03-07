@@ -139,4 +139,8 @@ protected:
 
 	//Lost Souls
 	bool drop_lostsoul;
+	float lostsouldrop_delay;
+	float lostsoulgoahead_delay;
+	bool dropped_lostsoul;
+	int random_number;
 };

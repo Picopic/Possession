@@ -37,6 +37,13 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	created_projectile = false;
 	create_projectile = false;
 
+	//lost soul
+	drop_lostsoul = false;
+	lostsouldrop_delay = 0.001f;
+	lostsoulgoahead_delay = 1.0f;
+	dropped_lostsoul  = false;
+	random_number = (rand()%(4-(0)+1))+(0);
+
 	//collision
 	entity_offset_x = 50;
 	entity_offset_y = 40;
@@ -187,6 +194,27 @@ void FireEnemyObject::Update(float deltatime)
 		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 		{
 			flagged_for_death = true;
+		}
+		//drop lost soul delay
+		if(dropped_lostsoul == true)
+		{
+			lostsouldrop_delay += deltatime;
+		}
+
+		if(lostsouldrop_delay == 0.001f && !dropped_lostsoul && random_number<=2)
+		{
+			drop_lostsoul = true;
+			dropped_lostsoul = true;
+		}
+		else
+		{
+			drop_lostsoul = false;
+		}
+
+		if(lostsouldrop_delay > lostsoulgoahead_delay)
+		{
+			lostsouldrop_delay = 0.001f;
+			dropped_lostsoul = false;
 		}
 	}
 

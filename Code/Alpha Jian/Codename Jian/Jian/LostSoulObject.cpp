@@ -8,7 +8,7 @@ LostSoulObject::LostSoulObject()
 
 }
 
-LostSoulObject::LostSoulObject(Vector2 lostsoul_position, int lostsoul_width, int lostsoul_height)
+LostSoulObject::LostSoulObject(Entity* enemydropping, int lostsoul_width, int lostsoul_height, Vector2 lostsoul_position)
 {
 	current_animation = nullptr;
 
