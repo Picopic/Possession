@@ -71,6 +71,10 @@ public:
 
 	//Sounds
 	void AddSounds(SoundManager* sound_mgr);
+
+	//Lost Souls
+	void GetLostSoul();
+
 protected:
 	Collider *collider;
 	Vector2 position;
@@ -133,4 +137,7 @@ protected:
 	
 	//Sound
 	std::map<std::string, sf::Sound*> entity_sounds;
+
+	//Lost Souls
+	bool drop_lostsoul;
 };

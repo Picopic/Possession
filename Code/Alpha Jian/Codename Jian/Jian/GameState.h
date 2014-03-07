@@ -15,6 +15,7 @@
 #include "HeadsUpDisplay.h"
 #include "SoundManager.h"
 #include "ConfigManager.h"
+#include "Paralax3.h"
 
 class GameState:public State{
 public:
@@ -60,6 +61,7 @@ private:
 	Paralax paralax11;
 	Paralax2 paralax2;
 	Paralax2 paralax22;
+	Paralax3 paralax3;
 
 	DrawManager *draw_manager;
 	SpriteManager *sprite_manager;

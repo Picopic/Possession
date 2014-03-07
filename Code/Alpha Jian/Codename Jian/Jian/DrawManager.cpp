@@ -18,8 +18,6 @@ void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager, 
 	}
 
 	HUD->DrawHUD(window);
-
-	window->display();
 }
 
 void DrawManager::SortEntities(EntityManager* entity_mgr)

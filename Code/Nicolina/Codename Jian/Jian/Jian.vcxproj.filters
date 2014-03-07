@@ -167,9 +167,6 @@
     <ClInclude Include="State.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
     <ClInclude Include="FireEnemyObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -223,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="LostSoulObject.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

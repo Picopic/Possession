@@ -144,6 +144,9 @@
     <ClCompile Include="EnemyWaves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Paralax3.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -250,6 +253,9 @@
     </ClInclude>
     <ClInclude Include="EnemyWaves.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Paralax3.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
