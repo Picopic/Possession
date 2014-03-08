@@ -43,8 +43,10 @@ bool GameState::Initialize(){
 	paralax22.initialize();
 
 	//gräsparallax:
-	paralax3.setPosition(sf::Vector2f(0, +585));
+	paralax3.setPosition(sf::Vector2f(-50, +585));
 	paralax3.initialize();
+	paralax33.setPosition(sf::Vector2f(+3150, +585));
+	paralax33.initialize();
 	
 	m_view.setCenter(camera.getPosition());
 	m_view.setSize(sf::Vector2f(1024,640));
@@ -242,6 +244,7 @@ bool GameState::Update(){
 			paralax2.moveX(0.1);
 			paralax22.moveX(0.1);
 			paralax3.moveX(-0.1);
+			paralax33.moveX(-0.1);
 		}
 		
 		//std::cout << camera.getPosition().x << " " << player.getPosition().x << std::endl;
@@ -268,6 +271,7 @@ bool GameState::Update(){
 			paralax2.moveX(-0.15);
 			paralax22.moveX(-0.15);
 			paralax3.moveX(+0.1);
+			paralax33.moveX(+0.1);
 			}
 		
 		
@@ -330,6 +334,7 @@ bool GameState::Update(){
 		
 		//gräset som ska vara längst fram
 		paralax3.draw(m_window);
+		paralax33.draw(m_window);
 
 		m_window->display();
 

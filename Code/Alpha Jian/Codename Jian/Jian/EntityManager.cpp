@@ -71,11 +71,11 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	switch(entity_name)
 	{
 	case PLAYER:
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		game_entities.push_back(new PlayerObject(config_manager));
-=======
-		game_entities.push_back(new PlayerObject(position, width, height));
->>>>>>> 437512ca1bcf67ada23e6fe2638f508c8a12ffdc
+//=======
+//		game_entities.push_back(new PlayerObject(position, width, height));
+//>>>>>>> 437512ca1bcf67ada23e6fe2638f508c8a12ffdc
 
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2520));
@@ -85,10 +85,10 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 3780));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
-<<<<<<< HEAD
-=======
-
->>>>>>> 437512ca1bcf67ada23e6fe2638f508c8a12ffdc
+//<<<<<<< HEAD
+//=======
+//
+//>>>>>>> 437512ca1bcf67ada23e6fe2638f508c8a12ffdc
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 		
