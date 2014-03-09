@@ -1,0 +1,47 @@
+﻿Merge branch 'master' of https://github.com/Picopic/Possession
+
+Conflicts:
+	Code/Alpha Jian/Codename Jian/Jian/EntityManager.cpp
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 3 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   Code/Alpha Jian/Codename Jian/Jian/Cloud.cpp
+#	modified:   Code/Alpha Jian/Codename Jian/Jian/EntityManager.cpp
+#	modified:   Code/Alpha Jian/Codename Jian/Jian/GameState.cpp
+#	modified:   Code/Alpha Jian/Codename Jian/Jian/GameState.h
+#	modified:   Code/Alpha Jian/Codename Jian/Jian/Paralax3.cpp
+#	new file:   Code/Alpha Jian/Codename Jian/data/Spritesheets/L1.png
+#	renamed:    Code/Alpha Jian/Codename Jian/data/background/BG.png -> Code/Alpha Jian/Codename Jian/data/background/BG - Copy.png
+#	modified:   Code/Alpha Jian/Codename Jian/data/background/BG.png
+#	deleted:    Code/Alpha Jian/Codename Jian/data/background/BG2.png
+#	deleted:    Code/Alpha Jian/Codename Jian/data/background/BGGG.png
+#	deleted:    Code/Alpha Jian/Codename Jian/data/background/BGold.png
+#	new file:   Code/Alpha Jian/Codename Jian/data/background/Idle 1.png
+#	deleted:    Code/Alpha Jian/Codename Jian/data/background/M2.png
+#	new file:   Code/Alpha Jian/Codename Jian/data/background/M22.png
+#	deleted:    Code/Alpha Jian/Codename Jian/data/background/Placeholder Play Area Big.png
+#	new file:   Code/Alpha Jian/Codename Jian/data/background/wateridle4.png
+#	new file:   Spritesheets/Fire Projectile Spritesheet Big.png
+#	new file:   Spritesheets/Fire Projectile Spritesheet.png
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	Code/Alpha Jian/Codename Jian/data/Configs/Fire Enemy.txt
+

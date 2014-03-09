@@ -47,7 +47,7 @@ void AltarObject::Update(float deltatime)
 
 }
 
-void AltarObject::OnCollision(Type altar_type, Vector2 offset, Alignment altar_alignment)
+void AltarObject::OnCollision(Entity* collision_entity, Type altar_type, Vector2 offset, Alignment altar_alignment)
 {
 	//if water-/wood-/firePoints <= 0, ta +1, händer i playerobject.cpp
 	

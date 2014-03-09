@@ -9,12 +9,31 @@ Projectile::Projectile()
 
 }
 
-Projectile::Projectile(Entity* shooter_entity, int projectile_width, int projectile_height, Vector2 projectile_direction)
+Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Vector2 projectile_direction)
 {
 	current_animation = nullptr;
 
-	width = projectile_width;
-	height = projectile_height;
+	switch (shooter_entity->getType())
+	{
+	case FIRE:
+		entity_offset_x = config_manager->ReadInt("fireprojectileoffsetx");
+		entity_offset_y = config_manager->ReadInt("fireprojectileoffsety");
+		width = config_manager->ReadInt("fireprojectilewidth");
+		height = config_manager->ReadInt("fireprojectileheight");
+		break;
+	case WATER:
+		entity_offset_x = config_manager->ReadInt("waterprojectileoffsetx");
+		entity_offset_y = config_manager->ReadInt("waterprojectileoffsety");
+		width = config_manager->ReadInt("waterprojectilewidth");
+		height = config_manager->ReadInt("waterprojectileheight");
+		break;
+	case WOOD:
+		entity_offset_x = config_manager->ReadInt("woodprojectileoffsetx");
+		entity_offset_y = config_manager->ReadInt("woodprojectileoffsety");
+		width = config_manager->ReadInt("woodprojectilewidth");
+		height = config_manager->ReadInt("woodprojectileheight");
+		break;
+	}
 
 	if(projectile_direction.x == 1)
 	{
@@ -36,7 +55,8 @@ Projectile::Projectile(Entity* shooter_entity, int projectile_width, int project
 	create_projectile = false;
 
 	collider = new Collider;
-	collider->position = position;
+	collider->position.x = position.x + entity_offset_x;
+	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 }
 
@@ -94,7 +114,7 @@ void Projectile::Update(float deltatime)
 	}
 }
 
-void Projectile::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
+void Projectile::OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
 	dead = true;
 

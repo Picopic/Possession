@@ -45,7 +45,7 @@ void WaterEnemyObject::Update(float deltatime)
 	}
 }
 
-void WaterEnemyObject::OnCollision(Type enemy_type, Vector2 offset, Alignment enemy_alignment)
+void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment)
 {
 	if(enemy_alignment == FRIENDBULLET)
 	{

@@ -16,7 +16,7 @@ public:
 	void getID();
 	void setID();
 
-	void OnCollision(Type type, Vector2 offset, Alignment enemy_alignment);
+	void OnCollision(Entity* collision_entity, Type type, Vector2 offset, Alignment enemy_alignment);
 
 	void SacrificeSoul(Type type);
 	void ReleaseSoul();
@@ -44,5 +44,5 @@ private:
 	//Collision
 	float knockback_time;
 	float knockback_speed;
-	int collision_direction;
+	Vector2 collision_direction;
 };

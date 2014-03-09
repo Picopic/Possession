@@ -30,7 +30,7 @@ public:
 	Type GetArrow();
 	bool ChangedElement();
 
-	//For EnemyAI and assoziated
+	//For EnemyAI and assosiated
 	void setplayer(Entity* p_player);
 
 	//unorganised
@@ -66,7 +66,8 @@ public:
 	AnimatedSprite* GetCurrentAnimation();
 	AnimationName GetCurrentAnimationsName();
 
-	virtual void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
+	//Collision
+	virtual void OnCollision(Entity* collision_entity,Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
 	//Sounds
 	void AddSounds(SoundManager* sound_mgr);

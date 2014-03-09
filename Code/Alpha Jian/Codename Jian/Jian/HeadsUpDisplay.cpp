@@ -18,22 +18,22 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 {
 	sprite_manager = sprite_mgr;
 
-	symbol_width = 125;
-	symbol_height = 125;
+	symbol_width = 100;
+	symbol_height = 100;
 
 	for(int i = 0; i < 3; i++)
 	{
-		hud_indicator.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width, i*symbol_height));
+		hud_indicator.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, i*symbol_height));
 		if(hud_indicator[i] == nullptr)	return false;
 	}
 	current_indicator = hud_indicator[0];
 
 	//symbols
-	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 0));
+	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width, 0));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
-	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, symbol_height));
+	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width, symbol_height));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
-	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, symbol_height*2));
+	symbols.push_back(sprite_mgr->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width, symbol_height*2));
 	if(symbols[symbols.size() - 1] == nullptr) return false;
 
 	//Give them their positions

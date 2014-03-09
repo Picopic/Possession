@@ -12,5 +12,5 @@ public:
 	void Init(std::string object_type, Alignment alignment, Type type);
 	void Update(float deltatime);
 
-	void OnCollision(Type altar_type, Vector2 offset, Alignment altar_alignment);
+	void OnCollision(Entity* collision_entity, Type altar_type, Vector2 offset, Alignment altar_alignment);
 };

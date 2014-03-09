@@ -104,7 +104,7 @@ void PlayerObject::Update(float deltatime)
 		{
 			collision_refresh_timer += deltatime;
 			
-			position.x += deltatime * knockback_speed * -direction.x;
+			position.x += deltatime * knockback_speed * collision_direction.x;
 
 			//can collide again
 			if(collision_refresh_timer > knockback_time)
@@ -319,13 +319,9 @@ void PlayerObject::Update(float deltatime)
 }
 
 //COLLISION
-void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment collision_alignment)
+void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment collision_alignment)
 {
-	if (collision_alignment == FRIENDBULLET || collision_alignment == PLAYER)
-	{
-
-	}
-	else if(collision_alignment == LOSTSOUL)
+	if(collision_alignment == LOSTSOUL)
 	{
 		collectedSouls++;
 		hasLostSoul = true;
@@ -471,6 +467,7 @@ void PlayerObject::OnCollision(Type collision_type, Vector2 offset, Alignment co
 		}
 	}
 
+	collision_direction = collision_entity->getDirection();
 	
 	
 	std::cout << "Fire: " << fire_elements << std::endl;

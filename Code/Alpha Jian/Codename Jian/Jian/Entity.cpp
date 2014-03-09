@@ -38,7 +38,7 @@ void Entity::Cleanup()
 	}
 }
 
-void Entity::OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment)
+void Entity::OnCollision(Entity* collision_entity,Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
 }
 
