@@ -8,7 +8,7 @@ class FireEnemyObject : public Entity
 {
 	public:
 	FireEnemyObject();
-	FireEnemyObject(Vector2 enemy_position, int width, int height);
+	FireEnemyObject(ConfigManager* config_manager, Vector2 enemy_position);
 
 	void Init(std::string object_type, Alignment enemy_alignment, Type enemy_type);
 	void Update(float deltatime);

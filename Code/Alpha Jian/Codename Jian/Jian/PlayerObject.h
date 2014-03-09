@@ -3,8 +3,6 @@
 #pragma once
 #include "Entity.h"
 
-class ConfigManager;
-
 class PlayerObject : public Entity
 {
 public:

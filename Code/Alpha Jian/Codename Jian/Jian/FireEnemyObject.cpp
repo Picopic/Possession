@@ -16,23 +16,23 @@ FireEnemyObject::FireEnemyObject()
 	
 }
 
-FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int enemy_height)
+FireEnemyObject::FireEnemyObject(ConfigManager* config_manager, Vector2 enemy_position)
 {
 	velocity = Vector2(0,0);
 
 	current_animation = nullptr;
 
 	position = enemy_position;
-	width = enemy_width;
-	height = enemy_height;
+	width = config_manager->ReadInt("firewidth");
+	height = config_manager->ReadInt("fireheight");
 
 	flagged_for_death = false;
 	dead = false;
 
-	hitpoints = 5;
+	hitpoints = config_manager->ReadInt("firehitpoints");
 
 	//shooting
-	delay = 0.0f;
+	delay = config_manager->ReadFloat("fireshootingdelay");
 	shooting_delay = 0.001f;
 	created_projectile = false;
 	create_projectile = false;
@@ -45,12 +45,12 @@ FireEnemyObject::FireEnemyObject(Vector2 enemy_position, int enemy_width, int en
 	random_number = (rand()%(4-(0)+1))+(0);
 
 	//collision
-	entity_offset_x = 50;
-	entity_offset_y = 40;
+	entity_offset_x = config_manager->ReadInt("fireoffsetx");
+	entity_offset_y = config_manager->ReadInt("fireoffsety");
 	can_collide = true;
 
 	//movement
-	speed = 200;
+	speed = config_manager->ReadInt("firemovementspeed");
 	direction = Vector2(-1, 1);
 
 	death_animation_time = 0.0f;
@@ -79,7 +79,7 @@ void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 	m_random = (rand()%(500-(400)+1))+(400);
 
 	//För att waterenemy ska spawna utanför rutan men gå till vänster:
-	velocity= Vector2(0, 0.2);
+	//velocity= Vector2(0, 0.2);
 }
 
 void FireEnemyObject::Update(float deltatime)

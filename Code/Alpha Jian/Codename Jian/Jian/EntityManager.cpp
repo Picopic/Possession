@@ -28,6 +28,7 @@ void EntityManager::Init()
 	config_manager = new ConfigManager;
 	config_manager->Initialise("../data/Configs/");
 	config_manager->ReadFile("Player.txt");
+	config_manager->ReadFile("Fire Enemy.txt");
 
 	//Enemy wave spawn:
 	waves = new EnemyWaves(this);
@@ -71,11 +72,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	switch(entity_name)
 	{
 	case PLAYER:
-<<<<<<< HEAD
 		game_entities.push_back(new PlayerObject(config_manager));
-=======
-		game_entities.push_back(new PlayerObject(position, width, height));
->>>>>>> 437512ca1bcf67ada23e6fe2638f508c8a12ffdc
 
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
 		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2520));
@@ -85,10 +82,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 3780));
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
-<<<<<<< HEAD
-=======
 
->>>>>>> 437512ca1bcf67ada23e6fe2638f508c8a12ffdc
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 		
@@ -99,8 +93,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size()-1]->Init("Water enemy", entity_name, type);
 		break;
 	case FIREFOE:
-		game_entities.push_back(new FireEnemyObject(position, width, height));
-		game_entities[game_entities.size() -1]->setDelay(3.0f);
+		game_entities.push_back(new FireEnemyObject(config_manager, position));
 		//left
 		game_entities[game_entities.size()-1]->AddAnimation(IDLELEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 0));
 		game_entities[game_entities.size()-1]->AddAnimation(WALKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 210));
@@ -114,6 +107,8 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size()-1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2100));
 
 		game_entities[game_entities.size()-1]->Init("Fire enemy", entity_name, type);
+		break;
+	case WOODFOE:
 		break;
 	}
 	

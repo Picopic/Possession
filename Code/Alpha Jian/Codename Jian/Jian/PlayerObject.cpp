@@ -3,7 +3,6 @@
 #include "stdafx.h"
 
 #include "PlayerObject.h"
-//#include "ConfigManager.h"
 
 PlayerObject::PlayerObject()
 {
