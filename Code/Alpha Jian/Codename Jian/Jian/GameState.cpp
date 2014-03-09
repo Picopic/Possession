@@ -235,8 +235,8 @@ bool GameState::Update(){
 			camera.setPosition(vect);
 
 			//molnens position accelererar el saktas ner beroende åt vilket håll man går:
-			cloud.moveX (0.08);
-			cloud2.moveX (0.08);
+			cloud.moveX (0.055);
+			cloud2.moveX (0.055);
 			//cloud2.getPosition().x + 0.3;
 			//background2 position:
 			paralax1.moveX(0.07);
