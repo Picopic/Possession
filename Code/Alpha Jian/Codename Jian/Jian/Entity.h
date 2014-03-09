@@ -74,6 +74,11 @@ public:
 	//Lost Souls
 	bool GetLostSoul();
 
+	//Enemy AI to not stack on each others
+	void DontStack();
+	void SetPositions(Vector2 p_position);
+	void ClearPositions();
+
 protected:
 	Collider *collider;
 
@@ -143,4 +148,8 @@ protected:
 	float lostsoulgoahead_delay;
 	bool dropped_lostsoul;
 	int random_number;
+
+	//Enemy AI to not stack on each other
+	std::vector<Vector2> othersposition;
+
 };

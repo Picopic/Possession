@@ -7,7 +7,7 @@
 
 EntityManager::EntityManager()
 {
-	
+
 }
 
 EntityManager::EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr)
@@ -67,7 +67,7 @@ void EntityManager::Init()
 void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
 {
 	/*
-		create new entity, appropriate to the string that followed
+	create new entity, appropriate to the string that followed
 	*/
 	switch(entity_name)
 	{
@@ -85,7 +85,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
-		
+
 		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
 		break;
 	case WATERFOE:
@@ -99,7 +99,7 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 		game_entities[game_entities.size()-1]->AddAnimation(WALKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 210));
 		game_entities[game_entities.size()-1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 6, 4, 210, 210, 0, 420));
 		game_entities[game_entities.size()-1]->AddAnimation(DEATHLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 840));
-		
+
 		//right
 		game_entities[game_entities.size()-1]->AddAnimation(IDLERIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 1260));
 		game_entities[game_entities.size()-1]->AddAnimation(WALKRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 1470));
@@ -111,13 +111,13 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 	case WOODFOE:
 		break;
 	}
-	
+
 }
 
 void EntityManager::DetachEntity(int entity_index)
 {
 	/*
-		Delete the entity, appropriate to the string that followed
+	Delete the entity, appropriate to the string that followed
 	*/
 }
 
@@ -163,7 +163,7 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 
 	case WOOD:
 		game_entities.push_back(new Projectile(shooter, width, height, entity_direction));
-		
+
 		//What animations
 		if(entity_direction.x == 1)
 		{
@@ -179,7 +179,7 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 		game_entities[game_entities.size() -1]->Init("WOOD", entity_name, entity_type);
 		break;
 	}
-	
+
 }
 
 void EntityManager::AttachWall(Vector2 position, int width, int height, Type wall_type)
@@ -206,7 +206,7 @@ void EntityManager::AttachLostSoul(Alignment entity_name, Entity* enemydropping,
 
 	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("Lost Souls Spritesheet.png", 7, 4, 100, 100, 0, 0));
 	game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, entity_type);
-	
+
 }
 
 void EntityManager::Cleanup()
@@ -246,9 +246,11 @@ void EntityManager::Update(float deltatime)
 		{
 			game_entities[i]->setplayer(game_entities[0]);
 		}
-		
+
 
 		game_entities[i]->Update(deltatime);
+
+
 
 		//iterate through the collisionmap
 		for(int j = i + 1; j < game_entities.size(); j++)
@@ -257,7 +259,7 @@ void EntityManager::Update(float deltatime)
 			{
 				count ++;
 				auto it = CollisionMap.find(std::pair<Alignment, Alignment>(game_entities[i]->getAlignment(), game_entities[j]->getAlignment()));
-				
+
 				std::map<std::pair<Alignment, Alignment>, int>::iterator reverse_it = CollisionMap.find(std::pair<Alignment, Alignment>(game_entities[j]->getAlignment(), game_entities[i]->getAlignment()));
 
 				if(it != CollisionMap.end())
@@ -297,8 +299,21 @@ void EntityManager::Update(float deltatime)
 				AttachProjectile(FRIENDBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
 			}
 		}
+
+		//Fireenemy associated actions
 		else if(game_entities[i]->getAlignment() == FIREFOE)
 		{
+			for (int j=0; j<game_entities.size(); j++)
+			{
+				if(i!=j && game_entities[j]->getAlignment() == FIREFOE || game_entities[j]->getAlignment() == WATERFOE || game_entities[j]->getAlignment() == WOODFOE)
+				{
+					game_entities[i]->SetPositions(game_entities[j]->getPosition());
+				}
+			}
+
+			game_entities[i]->DontStack();
+			game_entities[i]->ClearPositions();
+
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
 				AttachProjectile(FIREFOEBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());

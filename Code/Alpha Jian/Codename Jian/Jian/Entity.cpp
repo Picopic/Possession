@@ -157,3 +157,33 @@ bool Entity::GetLostSoul()
 {
 	return drop_lostsoul;
 }
+
+//Enemy AI to avoid each other:
+void Entity::SetPositions(Vector2 p_position)
+{
+	othersposition.push_back(p_position);
+}
+
+void Entity::ClearPositions()
+{
+	othersposition.clear();
+}
+
+void Entity::DontStack()
+{
+	for (int i=0; i<othersposition.size(); i++){
+		float deltaY = position.y - othersposition.at(i).y;
+		float deltaX = position.x - othersposition.at(i).x;
+		float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
+
+		if (distance < 70){
+			float offset = 70 - distance;
+			float offsetY = deltaY*offset/distance;
+			float offsetX = deltaX*offset/distance;	
+
+			position.x += offsetX;
+			position.y += offsetY;
+
+		}
+	}
+}
