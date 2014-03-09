@@ -46,7 +46,7 @@ void LostSoulObject::Update(float deltatime)
 
 }
 
-void LostSoulObject::OnCollision(Type collision_type, Vector2 offset, Alignment other_alignment)
+void LostSoulObject::OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment other_alignment)
 {
 	if(other_alignment == PLAYER)
 	{

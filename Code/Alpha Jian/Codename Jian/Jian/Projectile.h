@@ -6,12 +6,12 @@ class Projectile : public Entity
 {
 public:
 	Projectile();
-	Projectile(Entity* shooter_entity, int projectile_width, int projectile_height, Vector2 projectile_direction);
+	Projectile(Entity* shooter_entity, ConfigManager* config_manager, Vector2 projectile_direction);
 
 	void Init(std::string object_type, Alignment alignment, Type type);
 	void Update(float deltatime);
 
-	void OnCollision(Type collision_type, Vector2 offset, Alignment enemy_alignment);
+	void OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
 	void OutOfBounds();
 

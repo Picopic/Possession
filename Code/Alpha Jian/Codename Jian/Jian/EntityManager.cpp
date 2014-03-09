@@ -29,6 +29,7 @@ void EntityManager::Init()
 	config_manager->Initialise("../data/Configs/");
 	config_manager->ReadFile("Player.txt");
 	config_manager->ReadFile("Fire Enemy.txt");
+	config_manager->ReadFile("Projectile.txt");
 
 	//Enemy wave spawn:
 	waves = new EnemyWaves(this);
@@ -126,7 +127,7 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 	switch (entity_type)
 	{
 	case FIRE:
-		game_entities.push_back(new Projectile(shooter, width, height, entity_direction));
+		game_entities.push_back(new Projectile(shooter, config_manager, entity_direction));
 
 		//What animations
 		if(entity_direction.x == 1)
@@ -144,7 +145,7 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 		break;
 
 	case WATER:
-		game_entities.push_back(new Projectile(shooter, width, height, entity_direction));
+		game_entities.push_back(new Projectile(shooter, config_manager, entity_direction));
 
 		//What animations
 		if(entity_direction.x == 1)
@@ -162,8 +163,9 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 		break;
 
 	case WOOD:
-		game_entities.push_back(new Projectile(shooter, width, height, entity_direction));
 
+		game_entities.push_back(new Projectile(shooter, config_manager, entity_direction));
+		
 		//What animations
 		if(entity_direction.x == 1)
 		{
@@ -269,8 +271,8 @@ void EntityManager::Update(float deltatime)
 					{
 						if(game_entities[i]->CanCollide() && game_entities[j]->CanCollide())
 						{
-							game_entities[i]->OnCollision(game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
-							game_entities[j]->OnCollision(game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
+							game_entities[i]->OnCollision(game_entities[j],game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
+							game_entities[j]->OnCollision(game_entities[i],game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
 						}
 					}
 				}
@@ -281,8 +283,8 @@ void EntityManager::Update(float deltatime)
 					{
 						if(game_entities[i]->CanCollide() && game_entities[j]->CanCollide())
 						{
-							game_entities[i]->OnCollision(game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
-							game_entities[j]->OnCollision(game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
+							game_entities[i]->OnCollision(game_entities[j],game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
+							game_entities[j]->OnCollision(game_entities[i],game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
 						}
 					}
 				}
@@ -296,7 +298,7 @@ void EntityManager::Update(float deltatime)
 			//create projectiles
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FRIENDBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
+				AttachProjectile(FRIENDBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
 			}
 		}
 
@@ -316,7 +318,7 @@ void EntityManager::Update(float deltatime)
 
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FIREFOEBULLET, game_entities[i], 65, 65, game_entities[i]->getType(), game_entities[i]->getDirection());
+				AttachProjectile(FIREFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
 			}
 			if(game_entities[i]->GetLostSoul())
 			{

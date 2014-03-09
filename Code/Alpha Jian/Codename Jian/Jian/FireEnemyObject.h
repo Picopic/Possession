@@ -15,7 +15,7 @@ class FireEnemyObject : public Entity
 
 	//void setplayer(Entity* p_player);
 
-	void OnCollision(Type enemy_type, Vector2 offset, Alignment enemy_alignment);
+	void OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment);
 
 private:
 	//Entity* player;
