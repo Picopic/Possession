@@ -251,7 +251,6 @@ void PlayerObject::Update(float deltatime)
 				if(!used_lost_souls)
 				{
 					SacrificeSoul(type);
-					collectedSouls--;
 					if(collectedSouls <= 0)
 					{
 						hasLostSoul = false;
@@ -268,7 +267,6 @@ void PlayerObject::Update(float deltatime)
 				if(!used_lost_souls)
 				{
 					ReleaseSoul();
-					collectedSouls--;
 					if(collectedSouls <= 0)
 					{
 						hasLostSoul = false;
@@ -626,38 +624,144 @@ bool Entity::ChangedElement()
 
 void PlayerObject::SacrificeSoul(Type type)
 {
+	int added_points = 0;
 	if(hasLostSoul==true) {
-		add_element = true;
 		if(type==WATER)
 		{
-			water_elements += 3;
-			fire_elements += 1;
-			wood_elements += 1;
-
-			add_water = 3;
-			add_fire = 1;
-			add_wood = 1;
+			if(water_elements + 3 >= 10)
+			{
+				add_water = abs(water_elements - 10);
+				added_points += abs(water_elements - 10);
+				water_elements = 10;
+				if(fire_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					fire_elements++;
+					add_fire = 1;
+				}
+				if(wood_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					wood_elements++;
+					add_wood = 1;
+				}
+			}
+			else
+			{
+				added_points += 3;
+				add_water = 3;
+				water_elements += 3;
+				if(fire_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					fire_elements++;
+					add_fire = 1;
+				}
+				if(wood_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					wood_elements++;
+					add_wood = 1;
+				}
+			}
 		}
 		else if(type==FIRE)
 		{
-			water_elements += 1;
-			fire_elements += 3;
-			wood_elements += 1;
-
-			add_fire = 3;
-			add_water = 1;
-			add_wood = 1;
+			if(fire_elements + 3 >= 10)
+			{
+				add_fire = abs(fire_elements - 10);
+				added_points += abs(fire_elements - 10);
+				fire_elements = 10;
+				if(water_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					water_elements++;
+					add_water = 1;
+				}
+				if(wood_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					wood_elements++;
+					add_wood = 1;
+				}
+			}
+			else
+			{
+				added_points += 3;
+				add_fire = 3;
+				fire_elements += 3;
+				if(water_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					water_elements++;
+					add_water = 1;
+				}
+				if(wood_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					wood_elements++;
+					add_wood = 1;
+				}
+			}
 		}
 		else
 		{
-			water_elements += 1;
-			fire_elements += 1;
-			wood_elements += 3;
-
-			add_wood = 3;
-			add_fire = 1;
-			add_water = 1;
+			if(wood_elements + 3 >= 10)
+			{
+				add_wood = abs(wood_elements - 10);
+				added_points += abs(wood_elements - 10);
+				wood_elements = 10;
+				if(fire_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					fire_elements++;
+					add_fire = 1;
+				}
+				if(water_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					water_elements++;
+					add_water = 1;
+				}
+			}
+			else
+			{
+				added_points += 3;
+				add_wood = 3;
+				wood_elements += 3;
+				if(fire_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					fire_elements++;
+					add_fire = 1;
+				}
+				if(water_elements + 1 >10){}
+				else
+				{
+					added_points++;
+					water_elements++;
+					add_water = 1;
+				}
+			}
 		}
+
+		if(added_points > 0)
+		{
+			add_element = true;
+			collectedSouls--;
+		}
+			
 	}
 }
 
@@ -665,14 +769,35 @@ void PlayerObject::ReleaseSoul()
 {
 	if(hasLostSoul==true)
 	{
-		add_element = true;
-		water_elements += 1;
-		fire_elements += 1;
-		wood_elements += 1;
+		int added_points = 0;
 
-		add_fire = 1;
-		add_water = 1;
-		add_wood = 1;
+		if(water_elements + 1 >10){}
+		else
+		{
+			added_points++;
+			water_elements++;
+			add_water = 1;
+		}
+		if(fire_elements + 1 >10){}
+		else
+		{
+			added_points++;
+			fire_elements++;
+			add_fire = 1;
+		}
+		if(wood_elements + 1 >10){}
+		else
+		{
+			added_points++;
+			wood_elements++;
+			add_wood = 1;
+		}
+
+		if(added_points > 0)
+		{
+			add_element = true;
+			collectedSouls--;
+		}
 	}
 }
 

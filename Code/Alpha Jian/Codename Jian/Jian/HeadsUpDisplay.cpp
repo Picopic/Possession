@@ -6,7 +6,7 @@
 #include "Vector2.h"
 
 #include "AnimatedSprite.h"
-#include "SpriteManager.h"
+#include "SpriteManager.h"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 #include "HeadsUpDisplay.h"
 
 HeadsUpDisplay::HeadsUpDisplay()
@@ -17,6 +17,8 @@ HeadsUpDisplay::HeadsUpDisplay()
 bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 {
 	sprite_manager = sprite_mgr;
+
+	active_points = FIRE;
 
 	symbol_width = 100;
 	symbol_height = 100;
@@ -39,21 +41,23 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	//Give them their positions
 	for(int i = 0; i < hud_indicator.size(); i++)
 	{
-		hud_indicator[i]->getSprite()->setPosition(20, 20 + (i*symbol_height));
+		hud_indicator[i]->getSprite()->setPosition(60, 20 + symbol_height);
 	}
 
+	symbols[0]->getSprite()->setPosition(60, 20 + symbol_height);
+	symbols[1]->getSprite()->setPosition(20, 40);
+	symbols[2]->getSprite()->setPosition(20, 2*symbol_height);
+
 	for(int i = 0; i < symbols.size(); i++)
-	{
-		symbols[i]->getSprite()->setPosition(20, 20 + (i * symbol_height));
-	}
+		symbol_positions.push_back(symbols[i]->getSprite()->getPosition());
 
 	x_offset = 25;
 	y_offset = 25;
 
 	//
 	current_fire_pos = symbols[0]->getSprite()->getPosition().x + symbol_width/2;
-	current_water_pos = symbols[1]->getSprite()->getPosition().x + symbol_width/2;
-	current_wood_pos = symbols[2]->getSprite()->getPosition().x + symbol_width/2;
+	current_water_pos = symbols[0]->getSprite()->getPosition().x + symbol_width/2;
+	current_wood_pos = symbols[0]->getSprite()->getPosition().x + symbol_width/2;
 	//
 
 	//Empty points
@@ -154,33 +158,41 @@ void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)
 		window->draw(*symbols[i]->getSprite());
 	}
 
-
-	//fire
-	for(int i = 0; i < empty_fire.size(); i++)
+	switch (active_points)
 	{
-		window->draw(*empty_fire[i]->getSprite());
-	}
-	for(int i = 0; i < fire_points.size(); i++)
-	{
-		window->draw(*fire_points[i]->getSprite());
-	}
-	//water
-	for(int i = 0; i < empty_water.size(); i++)
-	{
-		window->draw(*empty_water[i]->getSprite());
-	}
-	for(int i = 0; i < water_points.size(); i++)
-	{
-		window->draw(*water_points[i]->getSprite());
-	}
-	//wood
-	for(int i = 0; i < empty_wood.size(); i++)
-	{
-		window->draw(*empty_wood[i]->getSprite());
-	}
-	for(int i = 0; i < wood_points.size(); i++)
-	{
-		window->draw(*wood_points[i]->getSprite());
+	case FIRE:
+			//fire
+		for(int i = 0; i < empty_fire.size(); i++)
+		{
+			window->draw(*empty_fire[i]->getSprite());
+		}
+		for(int i = 0; i < fire_points.size(); i++)
+		{
+			window->draw(*fire_points[i]->getSprite());
+		}
+		break;
+	case WATER:
+			//water
+		for(int i = 0; i < empty_water.size(); i++)
+		{
+			window->draw(*empty_water[i]->getSprite());
+		}
+		for(int i = 0; i < water_points.size(); i++)
+		{
+			window->draw(*water_points[i]->getSprite());
+		}
+		break;
+	case WOOD:
+			//wood
+		for(int i = 0; i < empty_wood.size(); i++)
+		{
+			window->draw(*empty_wood[i]->getSprite());
+		}
+		for(int i = 0; i < wood_points.size(); i++)
+		{
+			window->draw(*wood_points[i]->getSprite());
+		}
+		break;
 	}
 
 	//Indicator
@@ -226,6 +238,12 @@ void HeadsUpDisplay::Move(float x, float y)
 
 	//current indicator
 	current_indicator->getSprite()->move(x, y);
+
+	for(int i = 0; i < symbol_positions.size(); i++)
+	{
+		symbol_positions[i].x += x;
+		symbol_positions[i].y += y;
+	}
 
 	//indicators
 	for(int i = 0; i < hud_indicator.size(); i++)
@@ -283,13 +301,13 @@ void HeadsUpDisplay::AddElementalPoint(Type Elemental_type)
 			if(fire_points.size()%2 == 1)
 			{
 				fire_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*0));
-				fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + x_offset, symbols[0]->getSprite()->getPosition().y);
+				fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + x_offset, symbol_positions[0].y);
 				current_fire_pos += x_offset;
 			}
 			else
 			{
 				fire_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*0));
-				fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + x_offset, symbols[0]->getSprite()->getPosition().y + y_offset);
+				fire_points[fire_points.size() - 1]->getSprite()->setPosition(current_fire_pos + x_offset, symbol_positions[0].y + y_offset);
 				current_fire_pos += x_offset;
 			}
 		}
@@ -302,13 +320,13 @@ void HeadsUpDisplay::AddElementalPoint(Type Elemental_type)
 			if(water_points.size()%2 == 1)
 			{
 				water_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*1));
-				water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + x_offset, symbols[1]->getSprite()->getPosition().y);
+				water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + x_offset, symbol_positions[0].y);
 				current_water_pos += x_offset;
 			}
 			else
 			{
 				water_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*1));
-				water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + x_offset, symbols[1]->getSprite()->getPosition().y + y_offset);
+				water_points[water_points.size() - 1]->getSprite()->setPosition(current_water_pos + x_offset, symbol_positions[0].y + y_offset);
 				current_water_pos += x_offset;
 			}
 		}
@@ -320,13 +338,13 @@ void HeadsUpDisplay::AddElementalPoint(Type Elemental_type)
 			if(wood_points.size()%2 == 1)
 			{
 				wood_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*2));
-				wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + x_offset, symbols[2]->getSprite()->getPosition().y);
+				wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + x_offset, symbol_positions[0].y);
 				current_wood_pos += x_offset;
 			}
 			else
 			{
 				wood_points.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, symbol_width*2, symbol_height*2));
-				wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + x_offset, symbols[2]->getSprite()->getPosition().y + y_offset);
+				wood_points[wood_points.size() - 1]->getSprite()->setPosition(current_wood_pos + x_offset, symbol_positions[0].y + y_offset);
 				current_wood_pos += x_offset;
 			}
 		}
@@ -380,12 +398,24 @@ void HeadsUpDisplay::MoveIndicator(Type type)
 	{
 	case FIRE:
 		current_indicator = hud_indicator[0];
+		symbols[0]->getSprite()->setPosition(symbol_positions[0]);
+		symbols[1]->getSprite()->setPosition(symbol_positions[1]);
+		symbols[2]->getSprite()->setPosition(symbol_positions[2]);
+		active_points = type;
 		break;
 	case WATER:
 		current_indicator = hud_indicator[1];
+		symbols[0]->getSprite()->setPosition(symbol_positions[2]);
+		symbols[1]->getSprite()->setPosition(symbol_positions[0]);
+		symbols[2]->getSprite()->setPosition(symbol_positions[1]);
+		active_points = type;
 		break;
 	case WOOD:
 		current_indicator = hud_indicator[2];
+		symbols[0]->getSprite()->setPosition(symbol_positions[1]);
+		symbols[1]->getSprite()->setPosition(symbol_positions[2]);
+		symbols[2]->getSprite()->setPosition(symbol_positions[0]);
+		active_points = type;
 		break;
 	}
 }
@@ -412,13 +442,13 @@ void HeadsUpDisplay::AddEmptyPoint(Type element_type)
 		if(empty_water.size()%2 == 1)
 		{
 			empty_water.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[1]->getSprite()->getPosition().y + y_offset);
+			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[0]->getSprite()->getPosition().y + y_offset);
 			current_empty_water -= x_offset;
 		}
 		else
 		{
 			empty_water.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[1]->getSprite()->getPosition().y);
+			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[0]->getSprite()->getPosition().y);
 			current_empty_water -= x_offset;
 		}
 		break;
@@ -426,13 +456,13 @@ void HeadsUpDisplay::AddEmptyPoint(Type element_type)
 		if(empty_wood.size()%2 == 1)
 		{
 			empty_wood.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[2]->getSprite()->getPosition().y + y_offset);
+			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[0]->getSprite()->getPosition().y + y_offset);
 			current_empty_wood -= x_offset;
 		}
 		else
 		{
 			empty_wood.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[2]->getSprite()->getPosition().y);
+			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[0]->getSprite()->getPosition().y);
 			current_empty_wood -= x_offset;
 		}
 		break;

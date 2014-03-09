@@ -43,6 +43,12 @@ private:
 	std::vector<AnimatedSprite*> empty_water;
 	std::vector<AnimatedSprite*> empty_wood;
 
+	//The vector active at the moment
+	Type active_points;
+	
+	//the 3 positions
+	std::vector<sf::Vector2f> symbol_positions;
+
 	float current_empty_fire;
 	float current_empty_water;
 	float current_empty_wood;
