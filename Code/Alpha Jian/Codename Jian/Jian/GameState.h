@@ -62,6 +62,7 @@ private:
 	Paralax2 paralax2;
 	Paralax2 paralax22;
 	Paralax3 paralax3;
+	Paralax3 paralax33;
 
 	DrawManager *draw_manager;
 	SpriteManager *sprite_manager;

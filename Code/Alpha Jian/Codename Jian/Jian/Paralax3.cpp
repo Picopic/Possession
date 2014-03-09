@@ -30,7 +30,7 @@ void Paralax3::draw(sf::RenderWindow* window){
 }
 	
 bool Paralax3::initialize(){
-	texture.loadFromFile("../data/Spritesheets/L3.png");
+	texture.loadFromFile("../data/Spritesheets/L1.png");
 	sprite.setTexture(texture);
 
 	return true;
