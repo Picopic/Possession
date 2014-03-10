@@ -120,77 +120,12 @@ void PlayerObject::Update(float deltatime)
 			{
 				shooting_delay += deltatime;
 			}
-			else
+			if(shooting_delay == 0.001f || shooting_delay > 0.2)
 			{
 				//If you are not shooting, then you are able to move
-				//Vertical movement
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-				{
-					if(!created_projectile)
-					{
-						if(direction.x == 1)
-						{
-							SetCurrentAnimation(WALKRIGHT);
-						}
-						else
-						{
-							SetCurrentAnimation(WALKLEFT);
-						}
-					}
-					position.y -= speed*deltatime;
-				}
-
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-				{
-					if(!created_projectile)
-					{
-						if(direction.x == 1)
-						{
-							SetCurrentAnimation(WALKRIGHT);
-						}
-						else
-						{
-							SetCurrentAnimation(WALKLEFT);
-						}
-					}
-					position.y += speed*deltatime;
-				}
-
-				//horizontal movement
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-				{
-					if(!created_projectile)
-					{
-						SetCurrentAnimation(WALKLEFT);
-					}
-					position.x -= speed*deltatime;
-					direction.y = 0;
-					direction.x = -1;
-				}
-				else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-				{
-					if(!created_projectile)
-					{
-						SetCurrentAnimation(WALKRIGHT);
-					}
-					position.x += speed*deltatime;
-					direction.y = 0;
-					direction.x = 1;
-				}
-				else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-				{
-					if(!created_projectile)
-					{
-						if(direction.x == 1)
-						{
-							SetCurrentAnimation(IDLERIGHT);
-						}
-						else
-						{
-							SetCurrentAnimation(IDLELEFT);
-						}
-					}
-				}
+				Movement(deltatime);
+				//If you are not shooting, then you are able to use souls
+				Souls();
 
 				//Elemental swap
 				if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed && CanChangeElement())
@@ -236,48 +171,6 @@ void PlayerObject::Update(float deltatime)
 			}
 
 			//end of shooting
-
-			
-
-			//adding elemental points (just a button press for testing)
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F))
-			{
-				//add_element = true;
-			}
-
-			//sacrifice lost soul
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
-			{
-				if(!used_lost_souls)
-				{
-					SacrificeSoul(type);
-					if(collectedSouls <= 0)
-					{
-						hasLostSoul = false;
-					}
-
-					used_lost_souls = true;
-					std::cout << "SACRIFICE!" << std::endl;
-					std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
-				}
-			}
-			//free lost soul
-			else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
-			{
-				if(!used_lost_souls)
-				{
-					ReleaseSoul();
-					if(collectedSouls <= 0)
-					{
-						hasLostSoul = false;
-					}
-
-					used_lost_souls = true;
-					std::cout << "RELEASE!" << std::endl;
-					std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
-				}
-			
-			}
 
 			//timern till lost souls
 			if(used_lost_souls)
@@ -826,4 +719,113 @@ bool PlayerObject::CanChangeElement()
 	}
 
 	return true;
+}
+
+void PlayerObject::Movement(float deltatime)
+{
+	//Vertical movement
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		//if(!created_projectile)
+		//{
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(WALKRIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(WALKLEFT);
+			}
+		//}
+		position.y -= speed*deltatime;
+	}
+
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		//if(!created_projectile)
+		//{
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(WALKRIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(WALKLEFT);
+			}
+		//}
+		position.y += speed*deltatime;
+	}
+
+	//horizontal movement
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		//if(!created_projectile)
+		//{
+			SetCurrentAnimation(WALKLEFT);
+		//}
+		position.x -= speed*deltatime;
+		direction.y = 0;
+		direction.x = -1;
+	}
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		//if(!created_projectile)
+		//{
+			SetCurrentAnimation(WALKRIGHT);
+		//}
+		position.x += speed*deltatime;
+		direction.y = 0;
+		direction.x = 1;
+	}
+	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		//if(!created_projectile)
+		//{
+			if(direction.x == 1)
+			{
+				SetCurrentAnimation(IDLERIGHT);
+			}
+			else
+			{
+				SetCurrentAnimation(IDLELEFT);
+			}
+		//}
+	}
+}
+
+void PlayerObject::Souls()
+{
+	//sacrifice lost soul
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
+	{
+		if(!used_lost_souls)
+		{
+			SacrificeSoul(type);
+			if(collectedSouls <= 0)
+			{
+				hasLostSoul = false;
+			}
+
+			used_lost_souls = true;
+			std::cout << "SACRIFICE!" << std::endl;
+			std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+		}
+	}
+	//free lost soul
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
+	{
+		if(!used_lost_souls)
+		{
+			ReleaseSoul();
+			if(collectedSouls <= 0)
+			{
+				hasLostSoul = false;
+			}
+
+			used_lost_souls = true;
+			std::cout << "RELEASE!" << std::endl;
+			std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+		}
+			
+	}
 }

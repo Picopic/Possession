@@ -30,9 +30,10 @@ void EntityManager::Init()
 	config_manager->ReadFile("Player.txt");
 	config_manager->ReadFile("Fire Enemy.txt");
 	config_manager->ReadFile("Projectile.txt");
+	config_manager->ReadFile("Enemywaves.txt");
 
 	//Enemy wave spawn:
-	waves = new EnemyWaves(this);
+	waves = new EnemyWaves(this, config_manager);
 
 	//Collisionmap initalisation
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, WATERFOE), 0));
