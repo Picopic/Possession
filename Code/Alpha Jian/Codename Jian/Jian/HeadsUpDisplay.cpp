@@ -428,13 +428,13 @@ void HeadsUpDisplay::AddEmptyPoint(Type element_type)
 		if(empty_fire.size()%2 == 1)
 		{
 			empty_fire.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_fire[empty_fire.size() - 1]->getSprite()->setPosition(current_empty_fire, symbols[0]->getSprite()->getPosition().y + y_offset);
+			empty_fire[empty_fire.size() - 1]->getSprite()->setPosition(current_empty_fire, symbol_positions[0].y + y_offset);
 			current_empty_fire -= x_offset;
 		}
 		else
 		{
 			empty_fire.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_fire[empty_fire.size() - 1]->getSprite()->setPosition(current_empty_fire, symbols[0]->getSprite()->getPosition().y);
+			empty_fire[empty_fire.size() - 1]->getSprite()->setPosition(current_empty_fire, symbol_positions[0].y);
 			current_empty_fire -= x_offset;
 		}
 		break;
@@ -442,13 +442,13 @@ void HeadsUpDisplay::AddEmptyPoint(Type element_type)
 		if(empty_water.size()%2 == 1)
 		{
 			empty_water.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[0]->getSprite()->getPosition().y + y_offset);
+			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbol_positions[0].y + y_offset);
 			current_empty_water -= x_offset;
 		}
 		else
 		{
 			empty_water.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbols[0]->getSprite()->getPosition().y);
+			empty_water[empty_water.size() - 1]->getSprite()->setPosition(current_empty_water, symbol_positions[0].y);
 			current_empty_water -= x_offset;
 		}
 		break;
@@ -456,13 +456,13 @@ void HeadsUpDisplay::AddEmptyPoint(Type element_type)
 		if(empty_wood.size()%2 == 1)
 		{
 			empty_wood.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[0]->getSprite()->getPosition().y + y_offset);
+			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbol_positions[0].y + y_offset);
 			current_empty_wood -= x_offset;
 		}
 		else
 		{
 			empty_wood.push_back(sprite_manager->Load("Elements GUI.png", 1, 1, symbol_width, symbol_height, 0, 3*symbol_height));
-			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbols[0]->getSprite()->getPosition().y);
+			empty_wood[empty_wood.size() - 1]->getSprite()->setPosition(current_empty_wood, symbol_positions[0].y);
 			current_empty_wood -= x_offset;
 		}
 		break;
