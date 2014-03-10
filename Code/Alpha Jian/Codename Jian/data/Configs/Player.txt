@@ -21,7 +21,7 @@ playerheight=50
 //offset från vänster kant och toppen av bilden
 
 playeroffsetx=50
-playeroffsety=40
+playeroffsety=37
 
 //återhämtningstiden mellan kollisioner
 playerknockbacktime=0.3
