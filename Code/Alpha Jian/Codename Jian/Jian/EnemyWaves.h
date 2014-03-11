@@ -6,6 +6,7 @@
 
 class Entity;
 class EntityManager;
+class ConfigManager;
 
 class EnemyWaves{
 private:
@@ -28,9 +29,10 @@ private:
 	int wavenumber;
 
 	EntityManager* entity_manager;
+	ConfigManager* config_manager;
 
 public:
-	EnemyWaves(EntityManager* em);
+	EnemyWaves(EntityManager* em, ConfigManager* config_mgr);
 	~EnemyWaves();
 	
 	//Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:

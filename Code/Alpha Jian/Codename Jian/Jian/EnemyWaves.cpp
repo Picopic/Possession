@@ -6,14 +6,17 @@
 #include "WaterEnemyObject.h"
 //#include "WoodEnemyObject.h"
 #include "EntityManager.h"
+#include "ConfigManager.h"
 
 
-EnemyWaves::EnemyWaves(EntityManager* em){
+EnemyWaves::EnemyWaves(EntityManager* em, ConfigManager* config_mgr){
 	SpawnTimer = 1024;
 	PreviousPlayerX = 0;
 	PlayerWalkDistance = 0;
 	wavenumber = 0;
 	entity_manager = em;
+
+	config_manager = config_mgr;
 }
 
 
@@ -22,6 +25,8 @@ EnemyWaves::~EnemyWaves(void){
 		delete entity_manager; //Om det blir error kolla här
 		entity_manager = nullptr;
 	}
+	if(config_manager != nullptr)
+		config_manager = nullptr;
 }
 
 //Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:
@@ -71,27 +76,48 @@ bool EnemyWaves::initialize(){
 //Här skräddarsyr vi hur varje våg ser ut:
 sf::Vector3i EnemyWaves::wave(){
 	wavenumber += 1;
+
+	int fire = 0;
+	int water = 0;
+	int wood = 0;
 	
 	//förklaring: sf::Vector31(X, Y, Z) där:
 	//X = FIRE, Y = WATER, Z= WOOD
 	if (wavenumber ==1){
-		return sf::Vector3i(2,0,0);
+		fire = config_manager->ReadInt("wave1fire");
+		water = config_manager->ReadInt("wave1water");
+		wood = config_manager->ReadInt("wave1wood");
+
+		return sf::Vector3i(fire,water,wood);
 	}
 
 	if (wavenumber ==2){
-		return sf::Vector3i(3,0,0);
+		fire = config_manager->ReadInt("wave2fire");
+		water = config_manager->ReadInt("wave2water");
+		wood = config_manager->ReadInt("wave2wood");
+
+		return sf::Vector3i(fire,water,wood);
 	}
 
 	if (wavenumber ==3){
-		return sf::Vector3i(3,0,0);
+		fire = config_manager->ReadInt("wave3fire");
+		water = config_manager->ReadInt("wave3water");
+		wood = config_manager->ReadInt("wave3wood");
+
+		return sf::Vector3i(fire,water,wood);
 	}
 
 	if (wavenumber ==4){
-		return sf::Vector3i(4,0,0);
+		fire = config_manager->ReadInt("wave4fire");
+		water = config_manager->ReadInt("wave4water");
+		wood = config_manager->ReadInt("wave4wood");
+
+		return sf::Vector3i(fire,water,wood);
 	}
 
+	//kommer den här ens kunna hända :?
 	if (wavenumber <1 && wavenumber> 4){
-		return sf::Vector3i (0,0,0);
+		return sf::Vector3i(fire,water,wood);
 	}
-	return sf::Vector3i(0,0,0);
+	return sf::Vector3i(fire,water,wood);
 }

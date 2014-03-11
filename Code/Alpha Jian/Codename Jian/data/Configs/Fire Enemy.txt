@@ -8,7 +8,7 @@ firehitpoints=5
 fireshootingdelay=3
 
 fireoffsetx=50
-fireoffsety=40
+fireoffsety=37
 
 firemovementspeed=150
 

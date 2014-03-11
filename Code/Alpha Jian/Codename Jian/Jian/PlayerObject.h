@@ -27,6 +27,10 @@ public:
 	void NextElement();
 	bool CanChangeElement();
 private:
+	//movement
+	void Movement(float deltatime);
+	void Souls();
+
 	//health
 	int fire_elements;
 	int water_elements;
