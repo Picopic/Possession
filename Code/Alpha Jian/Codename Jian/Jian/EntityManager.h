@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "WaterEnemyObject.h"
 #include "FireEnemyObject.h"
+#include "WoodEnemyObject.h"
 #include "PlayerObject.h"
 #include "Projectile.h"
 #include "LostSoulObject.h"
@@ -21,8 +22,8 @@ public:
 	EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr);
 	~EntityManager();
 
-	void Init();
-	void AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type);
+	void Init(EnemyWaves* enemywavesptr);
+	void AttachEntity(Alignment entity_name, Vector2 position, Type type);
 	void DetachEntity(int entity_index);
 	void Update(float deltatime);
 
@@ -39,6 +40,15 @@ private:
 
 	//Input from files
 	ConfigManager* config_manager;
+
+	int playerheight, playerwidth;
+	int fireprojectileheight, fireprojectilewidth;
+	int waterprojectileheight, waterprojectilewidth;
+	int woodprojectileheight, woodprojectilewidth;
+
+	int fireheight, firewidth;
+	int waterheight, waterwidth;
+	int woodheight, woodwidth;
 
 	EnemyWaves* waves;
 };

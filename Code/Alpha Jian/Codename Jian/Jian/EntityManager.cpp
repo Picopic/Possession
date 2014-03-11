@@ -22,7 +22,7 @@ EntityManager::~EntityManager()
 
 }
 
-void EntityManager::Init()
+void EntityManager::Init(EnemyWaves* enemywavesptr)
 {
 	//ConfigManager initalisation
 	config_manager = new ConfigManager;
@@ -31,9 +31,29 @@ void EntityManager::Init()
 	config_manager->ReadFile("Fire Enemy.txt");
 	config_manager->ReadFile("Projectile.txt");
 	config_manager->ReadFile("Enemywaves.txt");
+	config_manager->ReadFile("Water Enemy.txt");
+	config_manager->ReadFile("Wood Enemy.txt");
+
+	//Spritesheet width and height
+	playerheight = 210;
+	playerwidth = 210;
+
+	fireprojectileheight = 85;
+	fireprojectilewidth = 85;
+	waterprojectileheight = 85;
+	waterprojectilewidth = 85;
+	woodprojectileheight = 85;
+	woodprojectilewidth = 85;
+
+	fireheight = 210;
+	firewidth = 210;
+	waterheight = 315;
+	waterwidth = 315;
+	woodheight = 405;
+	woodwidth = 495;
 
 	//Enemy wave spawn:
-	waves = new EnemyWaves(this, config_manager);
+	waves = enemywavesptr;
 
 	//Collisionmap initalisation
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (PLAYER, WATERFOE), 0));
@@ -66,7 +86,7 @@ void EntityManager::Init()
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, WATERFOE), 20));
 }
 
-void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int width, int height, Type type)
+void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type type)
 {
 	/*
 	create new entity, appropriate to the string that followed
@@ -77,40 +97,72 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, int wi
 
 		game_entities.push_back(new PlayerObject(config_manager));
 
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 0));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2520));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 840));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, 210, 210, 0, 3360));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 2940));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, 210, 210, 0, 420));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 3780));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, 210, 210, 0, 1260));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, playerwidth, playerheight, 0, 0));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 7, 4, playerwidth, playerheight, 0, 2520));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, playerwidth, playerheight, 0, 840));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 5, 4, playerwidth, playerheight, 0, 3360));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, playerwidth, playerheight, 0, 2940));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 8, 4, playerwidth, playerheight, 0, 420));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, playerwidth, playerheight, 0, 3780));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 210p.png", 22, 4, playerwidth, playerheight, 0, 1260));
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 
 		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
 		break;
 	case WATERFOE:
-		game_entities.push_back(new WaterEnemyObject(position, width, height));
+		game_entities.push_back(new WaterEnemyObject(config_manager, position));
+
+		//add animations
+		//left
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("WATER SPRITESHEET 315p.png", 5, 4, waterwidth, waterheight, 0, 0));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("WATER SPRITESHEET 315p.png", 6, 4, waterwidth, waterheight, 0, 4*waterheight));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("WATER SPRITESHEET 315p.png", 8, 4, waterwidth, waterheight, 0, 6*waterheight));
+
+		//right
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("WATER SPRITESHEET 315p.png", 5, 4, waterwidth, waterheight, 0, 8*waterheight));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("WATER SPRITESHEET 315p.png", 6, 4, waterwidth, waterheight, 0, 12*waterheight));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("WATER SPRITESHEET 315p.png", 8, 4, waterwidth, waterheight, 0, 14*waterheight));
+
 		game_entities[game_entities.size()-1]->Init("Water enemy", entity_name, type);
+
+		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	case FIREFOE:
 		game_entities.push_back(new FireEnemyObject(config_manager, position));
 		//left
-		game_entities[game_entities.size()-1]->AddAnimation(IDLELEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 0));
-		game_entities[game_entities.size()-1]->AddAnimation(WALKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 210));
-		game_entities[game_entities.size()-1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 6, 4, 210, 210, 0, 420));
-		game_entities[game_entities.size()-1]->AddAnimation(DEATHLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 840));
+		game_entities[game_entities.size()-1]->AddAnimation(IDLELEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, firewidth, fireheight, 0, 0));
+		game_entities[game_entities.size()-1]->AddAnimation(WALKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, firewidth, fireheight, 0, 210));
+		game_entities[game_entities.size()-1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 6, 4, firewidth, fireheight, 0, 420));
+		game_entities[game_entities.size()-1]->AddAnimation(DEATHLEFT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, firewidth, fireheight, 0, 840));
 
 		//right
-		game_entities[game_entities.size()-1]->AddAnimation(IDLERIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 1260));
-		game_entities[game_entities.size()-1]->AddAnimation(WALKRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, 210, 210, 0, 1470));
-		game_entities[game_entities.size()-1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 6, 4, 210, 210, 0, 1680));
-		game_entities[game_entities.size()-1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, 210, 210, 0, 2100));
+		game_entities[game_entities.size()-1]->AddAnimation(IDLERIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, firewidth, fireheight, 0, 1260));
+		game_entities[game_entities.size()-1]->AddAnimation(WALKRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 4, 4, firewidth, fireheight, 0, 1470));
+		game_entities[game_entities.size()-1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 6, 4, firewidth, fireheight, 0, 1680));
+		game_entities[game_entities.size()-1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("FIRE SPRITESHEET 210p.png", 7, 4, firewidth, fireheight, 0, 2100));
 
 		game_entities[game_entities.size()-1]->Init("Fire enemy", entity_name, type);
+
+		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	case WOODFOE:
+		game_entities.push_back(new WoodEnemyObject(config_manager, position));
+		//left
+		game_entities[game_entities.size()-1]->AddAnimation(IDLELEFT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 6, 9, woodwidth, woodheight, 0, 0*woodheight));
+		game_entities[game_entities.size()-1]->AddAnimation(WALKLEFT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 8, 9, woodwidth, woodheight, 0, 1*woodheight));
+		game_entities[game_entities.size()-1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 9, 9, woodwidth, woodheight, 0, 2*woodheight));
+		game_entities[game_entities.size()-1]->AddAnimation(DEATHLEFT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 9, 9, woodwidth, woodheight, 0, 3*woodheight));
+
+		//right
+		game_entities[game_entities.size()-1]->AddAnimation(IDLERIGHT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 6, 9, woodwidth, woodheight, 0, 4*woodheight));
+		game_entities[game_entities.size()-1]->AddAnimation(WALKRIGHT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 8, 9, woodwidth, woodheight, 0, 5*woodheight));
+		game_entities[game_entities.size()-1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 9, 9, woodwidth, woodheight, 0, 6*woodheight));
+		game_entities[game_entities.size()-1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 9, 9, woodwidth, woodheight, 0, 7*woodheight));
+
+		game_entities[game_entities.size()-1]->Init("wood enemy", entity_name, type);
+
+		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	}
 
@@ -245,15 +297,7 @@ void EntityManager::Update(float deltatime)
 	int count = 0;
 	for(int i = 0; i < (game_entities.size()); i++)
 	{
-		if(game_entities[i]->getAlignment() != PLAYER && game_entities[i]->getAlignment() != FRIENDBULLET && game_entities[i]->getAlignment() != LOSTSOUL)
-		{
-			game_entities[i]->setplayer(game_entities[0]);
-		}
-
-
 		game_entities[i]->Update(deltatime);
-
-
 
 		//iterate through the collisionmap
 		for(int j = i + 1; j < game_entities.size(); j++)
@@ -289,8 +333,8 @@ void EntityManager::Update(float deltatime)
 						}
 					}
 				}
-			}
-		}
+			} //has collider
+		} //end of for loop
 
 		//Player associated actions
 		if(game_entities[i]->getAlignment() == PLAYER)
@@ -304,7 +348,7 @@ void EntityManager::Update(float deltatime)
 		}
 
 		//Fireenemy associated actions
-		else if(game_entities[i]->getAlignment() == FIREFOE)
+		else if(game_entities[i]->getAlignment() == FIREFOE || game_entities[i]->getAlignment() == WATERFOE || game_entities[i]->getAlignment() == WOODFOE)
 		{
 			for (int j=0; j<game_entities.size(); j++)
 			{
@@ -319,7 +363,18 @@ void EntityManager::Update(float deltatime)
 
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FIREFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+				switch (game_entities[i]->getAlignment())
+				{
+				case FIREFOE:
+					AttachProjectile(FIREFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+					break;
+				case WATERFOE:
+					AttachProjectile(WATERFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+					break;
+				case WOODFOE:
+					AttachProjectile(WOODFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+					break;
+				}
 			}
 			if(game_entities[i]->GetLostSoul())
 			{

@@ -20,9 +20,8 @@ EnemyWaves::EnemyWaves(EntityManager* em, ConfigManager* config_mgr){
 }
 
 
-EnemyWaves::~EnemyWaves(void){
+EnemyWaves::~EnemyWaves(){
 	if (entity_manager!=nullptr){
-		delete entity_manager; //Om det blir error kolla här
 		entity_manager = nullptr;
 	}
 	if(config_manager != nullptr)
@@ -32,26 +31,36 @@ EnemyWaves::~EnemyWaves(void){
 //Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:
 void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 
-		//enemies.x är fireleementals
-		for (int i = 0; i < enemies.x; i++){
-			//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
-			//läggs in i varje for nedan för varierande spawn-positions-intervall
-			int randomspawnposX = (rand()%(740-(640)+1))+(640);
-			int randomspawnposY = (rand()%(640-(290)+1))+(290);
+	float spawnX = PreviousPlayerX + 650;
+	float spawnY = 150;
 
-			entity_manager->	AttachEntity(FIREFOE, Vector2(PreviousPlayerX+randomspawnposX, randomspawnposY), 100, 80, FIRE);
-		}
+	//enemies.x är fireleementals
+	for (int i = 0; i < enemies.x; i++){
+		//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
+		//läggs in i varje for nedan för varierande spawn-positions-intervall
+		//int randomspawnposX = (rand()%(740-(640)+1))+(640);
+		//int randomspawnposY = (rand()%(640-(290)+1))+(290);
 
-		//enemies.y är waterelementals
-		for (int i = 0; i < enemies.y; i++){
-			//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
-			//läggs in i varje for nedan för varierande spawn-positions-intervall
-			int randomspawnposX = (rand()%(640-(500)+1))+(500);
-			int randomspawnposY = (rand()%(640-(290)+1))+(290);
+		entity_manager->AttachEntity(FIREFOE, Vector2(spawnX, spawnY), FIRE);
+	}
+
+	//enemies.y är waterelementals
+	for (int i = 0; i < enemies.y; i++){
+		//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
+		//läggs in i varje for nedan för varierande spawn-positions-intervall
+		//int randomspawnposX = (rand()%(640-(500)+1))+(500);
+		//int randomspawnposY = (rand()%(400-(290)+1))+(290);
 			
-			//BYT UT DESSA MOT WATERFOE NÄR DE ÄR IMPLEMENTERADE:
-			entity_manager->	AttachEntity(FIREFOE, Vector2(PreviousPlayerX+randomspawnposX, randomspawnposY), 100, 80, FIRE);
-		}
+		entity_manager->AttachEntity(WATERFOE, Vector2(spawnX, spawnY), WATER);
+	}
+
+	for(int i = 0; i < enemies.z; i++)
+	{
+		//int spawnX = (rand()%(640-(500)+1))+500;
+		//int spawnY = (rand()%(250-(150)+1))+(150);
+
+		entity_manager->AttachEntity(WOODFOE, Vector2(spawnX, spawnY), WOOD);
+	}
 
 };
 
@@ -61,10 +70,13 @@ void EnemyWaves::SpawnTimerAlarm(float CurrentPlayerX){
 	PreviousPlayerX = CurrentPlayerX;
 	PlayerWalkDistance +=DeltaX;
 
+	std::cout << PlayerWalkDistance << std::endl;
+
 	if(PlayerWalkDistance > SpawnTimer)
 	{
 		PlayerWalkDistance=0;
-		CreateEnemies(wave());
+		sf::Vector3i Nextwave = wave();
+		CreateEnemies(Nextwave);
 	}
 
 };
@@ -75,8 +87,9 @@ bool EnemyWaves::initialize(){
 
 //Här skräddarsyr vi hur varje våg ser ut:
 sf::Vector3i EnemyWaves::wave(){
-	wavenumber += 1;
-
+	//wavenumber++;
+	return sf::Vector3i(0, 0, 1);
+	/*
 	int fire = 0;
 	int water = 0;
 	int wood = 0;
@@ -87,37 +100,25 @@ sf::Vector3i EnemyWaves::wave(){
 		fire = config_manager->ReadInt("wave1fire");
 		water = config_manager->ReadInt("wave1water");
 		wood = config_manager->ReadInt("wave1wood");
-
-		return sf::Vector3i(fire,water,wood);
 	}
 
 	if (wavenumber ==2){
 		fire = config_manager->ReadInt("wave2fire");
 		water = config_manager->ReadInt("wave2water");
 		wood = config_manager->ReadInt("wave2wood");
-
-		return sf::Vector3i(fire,water,wood);
 	}
 
 	if (wavenumber ==3){
 		fire = config_manager->ReadInt("wave3fire");
 		water = config_manager->ReadInt("wave3water");
 		wood = config_manager->ReadInt("wave3wood");
-
-		return sf::Vector3i(fire,water,wood);
 	}
 
 	if (wavenumber ==4){
 		fire = config_manager->ReadInt("wave4fire");
 		water = config_manager->ReadInt("wave4water");
 		wood = config_manager->ReadInt("wave4wood");
-
-		return sf::Vector3i(fire,water,wood);
-	}
-
-	//kommer den här ens kunna hända :?
-	if (wavenumber <1 && wavenumber> 4){
-		return sf::Vector3i(fire,water,wood);
 	}
 	return sf::Vector3i(fire,water,wood);
+	*/
 }

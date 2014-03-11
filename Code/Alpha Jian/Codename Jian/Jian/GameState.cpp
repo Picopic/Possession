@@ -12,7 +12,51 @@ GameState::GameState(sf::RenderWindow* GameWindow){
 }
 
 GameState::~GameState(){
+	if(m_window != nullptr)
+	{
+		m_window = nullptr;
+	}
 
+	if(draw_manager != nullptr)
+	{
+		delete draw_manager;
+		draw_manager = nullptr;
+	}
+
+	if(sprite_manager != nullptr)
+	{
+		delete sprite_manager;
+		sprite_manager = nullptr;
+	}
+
+	if(entity_manager != nullptr)
+	{
+		delete entity_manager;
+		entity_manager = nullptr;
+	}
+
+	if(HUD != nullptr)
+	{
+		delete HUD;
+		HUD = nullptr;
+	}
+
+	if(sound_manager != nullptr)
+	{
+		delete sound_manager;
+		sound_manager = nullptr;
+	}
+
+	if(config_manager != nullptr)
+	{
+		config_manager = nullptr;
+	}
+
+	if(enemy_waves != nullptr)
+	{
+		delete enemy_waves;
+		enemy_waves = nullptr;
+	}
 }
 
 bool GameState::Initialize(){
@@ -79,8 +123,11 @@ bool GameState::Initialize(){
 	}
 	
 	entity_manager = new EntityManager(sprite_manager, sound_manager);
-	entity_manager->Init();
-	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), 50, 110, FIRE);
+
+	enemy_waves = new EnemyWaves(entity_manager, config_manager);
+
+	entity_manager->Init(enemy_waves);
+	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), FIRE);
 	//entity_manager->AttachWall(Vector2(800, 200), 210, 1000, FIRE);
 
 	previous_time = game_clock.restart();

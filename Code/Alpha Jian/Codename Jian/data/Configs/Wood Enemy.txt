@@ -1,0 +1,15 @@
+//waterenemy object attributes
+
+//NEED FIX ON VALUES
+
+woodwidth=65
+woodheight=250
+
+woodhitpoints=5
+
+woodshootingdelay=3
+
+woodoffsetx=140
+woodoffsety=37
+
+woodmovementspeed=150

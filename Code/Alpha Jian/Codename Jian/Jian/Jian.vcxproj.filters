@@ -147,6 +147,9 @@
     <ClCompile Include="Paralax3.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="WoodEnemyObject.cpp">
+      <Filter>Source Files\Objects\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="Paralax3.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodEnemyObject.h">
+      <Filter>Header Files\Objects\Entites</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

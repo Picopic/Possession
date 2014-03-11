@@ -17,6 +17,8 @@
 #include "ConfigManager.h"
 #include "Paralax3.h"
 
+#include "EnemyWaves.h"
+
 class GameState:public State{
 public:
 	GameState(sf::RenderWindow* StartMenuWindow);
@@ -71,4 +73,6 @@ private:
 	SoundManager *sound_manager;
 	ConfigManager *config_manager;
 	sf::Music background_music;
+
+	EnemyWaves* enemy_waves;
 };

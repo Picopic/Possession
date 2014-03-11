@@ -72,14 +72,8 @@ void FireEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 
 	current_animation->getSprite()->setPosition(position.x, position.y);
 
-	//HADE VILJAT HA MED DETTA PGA COLLISSION:
-	//current_animation->getSprite()->setOrigin(current_animation->getSprite()->getLocalBounds().width/2, current_animation->getSprite()->getLocalBounds().height-(current_animation->getSprite()->getLocalBounds().height/10));
-
 	//m_random = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
 	m_random = (rand()%(500-(400)+1))+(400);
-
-	//För att waterenemy ska spawna utanför rutan men gå till vänster:
-	//velocity= Vector2(0, 0.2);
 }
 
 void FireEnemyObject::Update(float deltatime)
@@ -94,9 +88,6 @@ void FireEnemyObject::Update(float deltatime)
 		//
 	}
 	
-
-
-
 	//Attack
 	if(created_projectile)
 	{
@@ -121,7 +112,7 @@ void FireEnemyObject::Update(float deltatime)
 		created_projectile = false;
 	}
 	
-	if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+	if(shooting_delay >= current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 	{
 		if(direction.x == 1)
 		{
@@ -135,44 +126,29 @@ void FireEnemyObject::Update(float deltatime)
 
 	//AI PLAYER CHASE
 	//följer efter spelaren i x-led
-		if(position.x > player->getPosition().x + m_random){
-			velocity.x = -0.1;
-		}
+	if(position.x > player->getPosition().x + m_random){
+		velocity.x = -0.1;
+	}
 	
-		//ska följa efter spelarens y-postiion sakta
-		if (position.y > player->getPosition().y + 100) {
-			velocity.y = -0.15;
-		}  
-		//ska följa efter spelarens y-position sakta
-		if (position.y < player -> getPosition().y - 100) {
-			velocity.y = +0.15;
-		}
-
-		//Den ska stanna på ett visst avstånd i X-led:
-		if (position.x < player->getPosition().x + m_random) {
-			velocity.x = 0.1;
-		}
-
-		if(position.y < player ->getPosition().y + 50 && position.y > player ->getPosition().y - 50){
-			velocity.y = 0;
-		}
-
-		position += velocity;
-
-	//MOVEMENT UPP OCH NER
-	/*if (position.y > 450){
-		position.y = 450;
-		velocity *= -1;
-
-	}
-	if (position.y < 200){
-		position.y = 200;
-		velocity *= -1;
-
+	//ska följa efter spelarens y-postiion sakta
+	if (position.y > player->getPosition().y + 100) {
+		velocity.y = -0.15;
+	}  
+	//ska följa efter spelarens y-position sakta
+	if (position.y < player -> getPosition().y - 100) {
+		velocity.y = +0.15;
 	}
 
-	position.x += speed*deltatime*velocity.x;
-	position.y += speed*deltatime*velocity.y;*/
+	//Den ska stanna på ett visst avstånd i X-led:
+	if (position.x < player->getPosition().x + m_random) {
+		velocity.x = 0.1;
+	}
+
+	if(position.y < player ->getPosition().y + 50 && position.y > player ->getPosition().y - 50){
+		velocity.y = 0;
+	}
+
+	position += velocity;
 
 	//Death
 
@@ -250,8 +226,4 @@ void FireEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		
 	}
 	
-}
-
-void Entity::setplayer(Entity* p_player){
-	player = p_player;
 }

@@ -176,6 +176,9 @@ void Entity::DontStack()
 		float deltaX = position.x - othersposition.at(i).x;
 		float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
 
+		if(distance == 0)
+			distance = 0.001;
+
 		if (distance < 70){
 			float offset = 70 - distance;
 			float offsetY = deltaY*offset/distance;
@@ -186,4 +189,8 @@ void Entity::DontStack()
 
 		}
 	}
+}
+
+void Entity::setplayer(Entity* p_player){
+	player = p_player;
 }
