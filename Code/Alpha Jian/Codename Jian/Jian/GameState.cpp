@@ -114,19 +114,6 @@ bool GameState::Initialize(){
 	{
 		return false;
 	}
-
-	for(int i = 0; i < 3; i++)
-	{
-		HUD->AddElementalPoint(FIRE);
-	}
-	for(int i = 0; i < 3; i++)
-	{
-		HUD->AddElementalPoint(WATER);
-	}
-	for(int i = 0; i < 3; i++)
-	{
-		HUD->AddElementalPoint(WOOD);
-	}
 	
 	entity_manager = new EntityManager(sprite_manager, sound_manager);
 
@@ -138,7 +125,6 @@ bool GameState::Initialize(){
 
 	entity_manager->Init(enemy_waves);
 	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), FIRE);
-	//entity_manager->AttachWall(Vector2(800, 200), 210, 1000, FIRE);
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
@@ -198,52 +184,16 @@ bool GameState::Update(){
 			//Add element points?
 			if(entity_manager->game_entities[0]->AddElementPoints())
 			{
-				if(entity_manager->game_entities[0]->GetAddFire() > 0)
-				{
-					for(int i = 0; i < entity_manager->game_entities[0]->GetAddFire(); i++)
-					{
-						HUD->AddElementalPoint(FIRE);
-					}
-				}
-				if(entity_manager->game_entities[0]->GetAddWater() > 0)
-				{
-					for(int i = 0; i < entity_manager->game_entities[0]->GetAddWater(); i++)
-					{
-						HUD->AddElementalPoint(WATER);
-					}
-				}
-				if(entity_manager->game_entities[0]->GetAddWood() > 0)
-				{
-					for(int i = 0; i < entity_manager->game_entities[0]->GetAddWood(); i++)
-					{
-						HUD->AddElementalPoint(WOOD);
-					}
-				}
+				HUD->AddElements(sf::Vector3i(entity_manager->game_entities[0]->GetAddFire(),
+					entity_manager->game_entities[0]->GetAddWater(),
+					entity_manager->game_entities[0]->GetAddWood()));
 			}
 			//Delete element points?
 			if(entity_manager->game_entities[0]->DeleteElementPoints())
 			{
-				if(entity_manager->game_entities[0]->GetDestroyFire() > 0)
-				{
-					for(int i = 0; i < entity_manager->game_entities[0]->GetDestroyFire(); i++)
-					{
-						HUD->DeleteElementalPoint(FIRE);
-					}
-				}
-				else if(entity_manager->game_entities[0]->GetDestroyWater() > 0)
-				{
-					for(int i = 0; i < entity_manager->game_entities[0]->GetDestroyWater(); i++)
-					{
-						HUD->DeleteElementalPoint(WATER);
-					}
-				}
-				else if(entity_manager->game_entities[0]->GetDestroyWood() > 0)
-				{
-					for(int i = 0; i < entity_manager->game_entities[0]->GetDestroyWood(); i++)
-					{
-						HUD->DeleteElementalPoint(WOOD);
-					}
-				}
+				HUD->DeleteElements(sf::Vector3i(entity_manager->game_entities[0]->GetDestroyFire(),
+					entity_manager->game_entities[0]->GetDestroyWater(),
+					entity_manager->game_entities[0]->GetDestroyWood()));
 			}
 		}
 
