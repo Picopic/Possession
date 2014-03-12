@@ -58,6 +58,15 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 	collider->position.x = position.x + entity_offset_x;
 	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
+
+	hitbox.setSize(sf::Vector2f(width, height));
+	hitbox.setOrigin(0, 0);
+	hitbox.setPosition(collider->position.x, collider->position.y);
+	hitbox.setFillColor(sf::Color(0,0,0,0));
+	hitbox.setOutlineThickness(1);
+	hitbox.setOutlineColor(sf::Color(255,0,0,255));
+
+	player = nullptr;
 }
 
 void Projectile::Init(std::string object_type, Alignment projectile_alignment, Type projectile_type)
@@ -82,7 +91,9 @@ void Projectile::Update(float deltatime)
 	if(hasCollider())
 	{
 		position.x += deltatime * 300 * direction.x;
-		collider->position = position;
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
+		hitbox.setPosition(collider->position.x, collider->position.y);
 	}
 	
 	current_animation->getSprite()->setPosition(position.x, position.y);

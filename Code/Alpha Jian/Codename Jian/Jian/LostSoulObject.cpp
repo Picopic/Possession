@@ -8,20 +8,31 @@ LostSoulObject::LostSoulObject()
 
 }
 
-LostSoulObject::LostSoulObject(Entity* enemydropping, int lostsoul_width, int lostsoul_height, Vector2 lostsoul_position)
+LostSoulObject::LostSoulObject(Entity* enemydropping, Vector2 lostsoul_position, ConfigManager* config_mgr)
 {
 	current_animation = nullptr;
 
-	position = lostsoul_position;
-	width = lostsoul_width;
-	height = lostsoul_height;
+	position.x = enemydropping->getPosition().x + enemydropping->getWidth();
+	position.y = enemydropping->getPosition().y + enemydropping->getHeight();
+	width = config_mgr->ReadInt("lostsoulwidth");
+	height = config_mgr->ReadInt("lostsoulheight");
+
+	entity_offset_x = config_mgr->ReadInt("lostsouloffsetx");
+	entity_offset_y = config_mgr->ReadInt("lostsouloffsety");
 
 	flagged_for_death = false;
 
 	collider = new Collider;
-	collider->position = position;
+	collider->position.x = position.x + entity_offset_x;
+	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 
+	hitbox.setSize(sf::Vector2f(width, height));
+	hitbox.setOrigin(0, 0);
+	hitbox.setPosition(collider->position.x, collider->position.y);
+	hitbox.setFillColor(sf::Color(0,0,0,0));
+	hitbox.setOutlineThickness(1);
+	hitbox.setOutlineColor(sf::Color(255,0,0,255));
 }
 
 void LostSoulObject::Init(std::string object_type, Alignment lostsoul_alignment, Type lostsoul_type)
@@ -34,16 +45,16 @@ void LostSoulObject::Init(std::string object_type, Alignment lostsoul_alignment,
 
 void LostSoulObject::Update(float deltatime)
 {
-	
 	current_animation->Update(deltatime);
 	if(hasCollider())
 	{
-		collider->position = position;
 		current_animation->getSprite()->setPosition(collider->position.x, collider->position.y);
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
+		hitbox.setPosition(collider->position.x, collider->position.y);
 	}
 
 	current_animation->getSprite()->setPosition(position.x, position.y);
-
 }
 
 void LostSoulObject::OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment other_alignment)

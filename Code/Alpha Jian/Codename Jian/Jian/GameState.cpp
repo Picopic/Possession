@@ -103,6 +103,12 @@ bool GameState::Initialize(){
 	sprite_manager = new SpriteManager;
 	sprite_manager->Initialise("../data/Spritesheets/");
 
+	//Precache the resources
+	sprite_manager->LoadTexture("MC SPRITESHEET 210p.png");
+	sprite_manager->LoadTexture("WATER SPRITESHEET 315p.png");
+	sprite_manager->LoadTexture("FIRE SPRITESHEET 210p.png");
+	sprite_manager->LoadTexture("WOOD SPRITESHEET 495x405p.png");
+
 	HUD = new HeadsUpDisplay;
 	if(!HUD->Initialise(sprite_manager))
 	{
@@ -124,6 +130,10 @@ bool GameState::Initialize(){
 	
 	entity_manager = new EntityManager(sprite_manager, sound_manager);
 
+	config_manager = new ConfigManager;
+	config_manager->Initialise("../data/Configs/");
+	config_manager->ReadFile("Enemywaves.txt");
+
 	enemy_waves = new EnemyWaves(entity_manager, config_manager);
 
 	entity_manager->Init(enemy_waves);
@@ -134,15 +144,16 @@ bool GameState::Initialize(){
 	deltatime = 0.01f;
 	
 	//music
-	if(!background_music.openFromFile("../data/Sound/wizhit.wav"))
-	{
-		return false;
-	}
+	//if(!background_music.openFromFile("../data/Sound/wizhit.wav"))
+	//{
+	//	return false;
+	//}
 
 	m_done = false;
-	return false;
 
-	
+	draw_hitbox = false;
+
+	return true;
 }
 
 bool GameState::Enter(){
@@ -163,10 +174,17 @@ bool GameState::Update(){
 
 		//while (window->isOpen()) {
 		sf::Event event;
-		while(m_window->pollEvent(event)) {
+		if(m_window->pollEvent(event)) {
 			if(event.type == sf::Event::Closed) {
 				m_window->close();
 			};
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F2))
+			{
+				if(draw_hitbox)
+					draw_hitbox = false;
+				else
+					draw_hitbox = true;
+			}
 		};
 
 		//player related HUD changes
@@ -377,7 +395,7 @@ bool GameState::Update(){
 		
 
 		//drawing portion of game loop
-		draw_manager->Draw(m_window, entity_manager, HUD);
+		draw_manager->Draw(m_window, entity_manager, HUD, draw_hitbox);
 		
 		//gräset som ska vara längst fram
 		paralax3.draw(m_window);

@@ -59,6 +59,8 @@ bool ConfigManager::ReadFile(const std::string &FileName)
 		{
 			for(int i = 0; i < FileLines.size(); i++)
 			{
+				std::cout << FileLines[i] << std::endl;
+
 				std::string Key;
 				std::string Value;
 				std::size_t WordLength = FileLines[i].find('=');

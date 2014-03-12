@@ -73,7 +73,7 @@ void Engine::Run()
 		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop
-		draw_manager->Draw(&window, entity_manager, HUD);
+		draw_manager->Draw(&window, entity_manager, HUD, false);
 
 		//std::cout << entity_manager->game_entities.size() << std::endl;
 	}

@@ -70,6 +70,13 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	collider->position.x = position.x + entity_offset_x;
 	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
+
+	hitbox.setSize(sf::Vector2f(width, height));
+	hitbox.setOrigin(0, 0);
+	hitbox.setPosition(collider->position.x, collider->position.y);
+	hitbox.setFillColor(sf::Color(0,0,0,0));
+	hitbox.setOutlineThickness(1);
+	hitbox.setOutlineColor(sf::Color(255,0,0,255));
 }
 
 void PlayerObject::Init(std::string object_type, Alignment entity_alignment, Type entity_type)
@@ -105,6 +112,7 @@ void PlayerObject::Update(float deltatime)
 			collision_refresh_timer += deltatime;
 			
 			position.x += deltatime * knockback_speed * collision_direction.x;
+			position.y += deltatime * knockback_speed * collision_direction.y;
 
 			//can collide again
 			if(collision_refresh_timer > knockback_time)
@@ -205,6 +213,7 @@ void PlayerObject::Update(float deltatime)
 	{
 		collider->position.x = position.x + entity_offset_x;
 		collider->position.y = position.y + entity_offset_y;
+		hitbox.setPosition(sf::Vector2f(collider->position.x, collider->position.y));
 	}
 	current_animation->getSprite()->setPosition(position.x, position.y);
 }
@@ -357,8 +366,16 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 			break;
 		}
 	}
-
-	collision_direction = collision_entity->getDirection();
+	if(collision_alignment == FIREFOEBULLET || collision_alignment == WATERFOEBULLET || collision_alignment == WOODFOEBULLET)
+	{
+		collision_direction = collision_entity->getDirection();
+	}
+	else
+	{
+		collision_direction.x = -direction.x;
+		collision_direction.y = -direction.y;
+	}
+	
 	
 	
 	std::cout << "Fire: " << fire_elements << std::endl;
@@ -738,6 +755,7 @@ void PlayerObject::Movement(float deltatime)
 			}
 		//}
 		position.y -= speed*deltatime;
+		direction.y = -1;
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
@@ -754,6 +772,7 @@ void PlayerObject::Movement(float deltatime)
 			}
 		//}
 		position.y += speed*deltatime;
+		direction.y = 1;
 	}
 
 	//horizontal movement
@@ -764,7 +783,6 @@ void PlayerObject::Movement(float deltatime)
 			SetCurrentAnimation(WALKLEFT);
 		//}
 		position.x -= speed*deltatime;
-		direction.y = 0;
 		direction.x = -1;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -774,22 +792,20 @@ void PlayerObject::Movement(float deltatime)
 			SetCurrentAnimation(WALKRIGHT);
 		//}
 		position.x += speed*deltatime;
-		direction.y = 0;
 		direction.x = 1;
 	}
 	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 	{
-		//if(!created_projectile)
-		//{
-			if(direction.x == 1)
-			{
-				SetCurrentAnimation(IDLERIGHT);
-			}
-			else
-			{
-				SetCurrentAnimation(IDLELEFT);
-			}
-		//}
+		if(direction.x == 1)
+		{
+			SetCurrentAnimation(IDLERIGHT);
+			direction.y = 0;
+		}
+		else
+		{
+			SetCurrentAnimation(IDLELEFT);
+			direction.y = 0;
+		}
 	}
 }
 

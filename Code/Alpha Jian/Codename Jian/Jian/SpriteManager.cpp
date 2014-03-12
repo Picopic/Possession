@@ -69,10 +69,28 @@ AnimatedSprite* SpriteManager::Load(const std::string &filename, int number_of_f
 	return anim_sprite;
 }
 
+/**
+  *	Preload a spritesheet
+  * This is so that we can precache our resources
+  *
+  */
+void SpriteManager::LoadTexture(const std::string &filename)
+{
+	std::map<std::string, sf::Texture*>::iterator it = spritesheets.find(filename);
+	if(it == spritesheets.end())
+	{
+		//Om det inte går att ladda in spritesheeten
+		if(!LoadImage(filename))
+		{
+			std::cout << filename << " is not a valid picture." << std::endl;
+		}
+	}
+}
+
 /*
  * Laddar in ett spritesheet
  * returna false om det inte gick
-*/
+ */
 bool SpriteManager::LoadImage(const std::string &filename)
 {
 	std::string path = directory + filename;

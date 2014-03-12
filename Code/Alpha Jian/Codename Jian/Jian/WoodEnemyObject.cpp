@@ -52,6 +52,13 @@ WoodEnemyObject::WoodEnemyObject(ConfigManager* config_manager, Vector2 enemy_po
 	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 
+	hitbox.setSize(sf::Vector2f(width, height));
+	hitbox.setOrigin(0, 0);
+	hitbox.setPosition(collider->position.x, collider->position.y);
+	hitbox.setFillColor(sf::Color(0,0,0,0));
+	hitbox.setOutlineThickness(1);
+	hitbox.setOutlineColor(sf::Color(255,0,0,255));
+
 	player = nullptr;
 }
 
@@ -118,9 +125,11 @@ void WoodEnemyObject::Update(float deltatime)
 	//Lastly update the sprites position if there is a collider
 	if(hasCollider())
 	{
+		current_animation->getSprite()->setPosition(position.x, position.y);
+
 		collider->position.x = position.x + entity_offset_x;
 		collider->position.y = position.y + entity_offset_y;
-		current_animation->getSprite()->setPosition(position.x, position.y);
+		hitbox.setPosition(collider->position.x, collider->position.y);
 	}
 }
 

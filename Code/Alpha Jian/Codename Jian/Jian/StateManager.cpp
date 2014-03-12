@@ -75,7 +75,10 @@ bool StateManager::IsRunning(){
 
 bool StateManager::Initialize(){
 	for (unsigned int i =0; i < m_states.size(); i++){
-		m_states.at(i)->Initialize();
+		if(!m_states.at(i)->Initialize())
+		{
+			return false;
+		}
 	};
 	return true;
 }
