@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "LostSoulObject.h"
 #include "Wall.h"
+#include "AltarObject.h"
 #include "Spritemanager.h"
 #include "SoundManager.h"
 #include "EnemyWaves.h"
