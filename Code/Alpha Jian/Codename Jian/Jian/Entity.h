@@ -60,6 +60,7 @@ public:
 	int getWidth();
 	int getHeight();
 	sf::Sprite* GetSprite();
+	sf::RectangleShape GetHitbox();
 
 	//animations
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);
@@ -116,6 +117,7 @@ protected:
 	float entity_offset_y;
 	bool can_collide;
 	float collision_refresh_timer;
+	sf::RectangleShape hitbox;
 
 	//movement
 	float movement_time;

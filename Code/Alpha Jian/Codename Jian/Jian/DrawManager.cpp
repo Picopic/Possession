@@ -8,13 +8,21 @@ DrawManager::DrawManager()
 
 }
 
-void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager, HeadsUpDisplay* HUD)
+void DrawManager::Draw(sf::RenderWindow *window, EntityManager *entity_manager, HeadsUpDisplay* HUD, bool draw_hitbox)
 {
 	SortEntities(entity_manager);
 
 	for(int i = (sorted_entity_mgr.size() - 1); i >= 0; i--)
 	{
 		window->draw(*sorted_entity_mgr[i]->GetCurrentAnimation()->getSprite());
+	}
+
+	if(draw_hitbox)
+	{
+		for(int i = (sorted_entity_mgr.size() - 1); i >= 0; i--)
+		{
+			window->draw(sorted_entity_mgr[i]->GetHitbox());
+		}
 	}
 
 	HUD->DrawHUD(window);

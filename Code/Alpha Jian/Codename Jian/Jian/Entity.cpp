@@ -47,6 +47,11 @@ Collider* Entity::getCollider()
 	return collider;
 }
 
+sf::RectangleShape Entity::GetHitbox()
+{
+	return hitbox;
+}
+
 Type Entity::getType()
 {
 	return type;

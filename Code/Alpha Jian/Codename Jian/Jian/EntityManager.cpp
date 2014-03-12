@@ -30,9 +30,9 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	config_manager->ReadFile("Player.txt");
 	config_manager->ReadFile("Fire Enemy.txt");
 	config_manager->ReadFile("Projectile.txt");
-	config_manager->ReadFile("Enemywaves.txt");
 	config_manager->ReadFile("Water Enemy.txt");
 	config_manager->ReadFile("Wood Enemy.txt");
+	config_manager->ReadFile("LostSoul.txt");
 
 	//Spritesheet width and height
 	playerheight = 210;
@@ -257,7 +257,7 @@ void EntityManager::AttachWall(Vector2 position, int width, int height, Type wal
 void EntityManager::AttachLostSoul(Alignment entity_name, Entity* enemydropping, int width, int height, Type entity_type, Vector2 entity_position)
 {
 
-	game_entities.push_back(new LostSoulObject(enemydropping, width, height, entity_position));
+	game_entities.push_back(new LostSoulObject(enemydropping, entity_position, config_manager));
 
 	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("Lost Souls Spritesheet.png", 7, 4, 100, 100, 0, 0));
 	game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, entity_type);

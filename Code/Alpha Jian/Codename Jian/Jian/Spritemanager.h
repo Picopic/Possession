@@ -15,6 +15,7 @@ public:
 	void Cleanup();
 
 	AnimatedSprite* Load(const std::string &filename, int number_of_frames, int number_of_columns, int width, int height, int startx, int starty);
+	void LoadTexture(const std::string &filename);
 
 private:
 	bool LoadImage(const std::string &filename);

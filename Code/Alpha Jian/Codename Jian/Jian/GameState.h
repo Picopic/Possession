@@ -75,4 +75,6 @@ private:
 	sf::Music background_music;
 
 	EnemyWaves* enemy_waves;
+
+	bool draw_hitbox;
 };

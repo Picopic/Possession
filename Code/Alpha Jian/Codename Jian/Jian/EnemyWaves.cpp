@@ -70,8 +70,6 @@ void EnemyWaves::SpawnTimerAlarm(float CurrentPlayerX){
 	PreviousPlayerX = CurrentPlayerX;
 	PlayerWalkDistance +=DeltaX;
 
-	std::cout << PlayerWalkDistance << std::endl;
-
 	if(PlayerWalkDistance > SpawnTimer)
 	{
 		PlayerWalkDistance=0;
@@ -87,15 +85,21 @@ bool EnemyWaves::initialize(){
 
 //Här skräddarsyr vi hur varje våg ser ut:
 sf::Vector3i EnemyWaves::wave(){
-	//wavenumber++;
-	return sf::Vector3i(0, 0, 1);
-	/*
+	wavenumber++;
+	
 	int fire = 0;
 	int water = 0;
 	int wood = 0;
 	
 	//förklaring: sf::Vector31(X, Y, Z) där:
 	//X = FIRE, Y = WATER, Z= WOOD
+	if(wavenumber == 0)
+	{
+		fire = 0;
+		water = 0;
+		wood = 0;
+	}
+
 	if (wavenumber ==1){
 		fire = config_manager->ReadInt("wave1fire");
 		water = config_manager->ReadInt("wave1water");
@@ -120,5 +124,5 @@ sf::Vector3i EnemyWaves::wave(){
 		wood = config_manager->ReadInt("wave4wood");
 	}
 	return sf::Vector3i(fire,water,wood);
-	*/
+	
 }

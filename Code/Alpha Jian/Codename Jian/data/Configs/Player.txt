@@ -15,13 +15,13 @@ playerdiry=0
 //Spelarens bredd och höjd
 //även hitboxens bredd och höjd
 
-playerwidth=50
-playerheight=50
+playerwidth=40
+playerheight=75
 
 //offset från vänster kant och toppen av bilden
 
-playeroffsetx=50
-playeroffsety=37
+playeroffsetx=80
+playeroffsety=65
 
 //återhämtningstiden mellan kollisioner
 playerknockbacktime=0.3

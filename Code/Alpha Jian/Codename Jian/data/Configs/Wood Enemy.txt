@@ -10,6 +10,6 @@ woodhitpoints=5
 woodshootingdelay=3
 
 woodoffsetx=140
-woodoffsety=37
+woodoffsety=200
 
 woodmovementspeed=150

@@ -47,17 +47,17 @@ int main()
 	st_mgr.Initialize();
 
 	st_mgr.SetState("StartMenuState");
-	while (true){
-		Event event;
-		while(m_window->pollEvent(event)) {
-			if(event.type == Event::Closed) {
-				m_window->close();
-			};
-			if(Keyboard::isKeyPressed(Keyboard::Escape)) {
-			m_window->close();
-			return 0;
-			}
-		};
+	while (m_window->isOpen()){
+		//Denna pollen är onödig, då det tydligen körs en poll i själva staten också
+		//Event event;
+		//while(m_window->pollEvent(event)) {
+		//	if(event.type == Event::Closed) {
+		//		m_window->close();
+		//	};
+		//	if(Keyboard::isKeyPressed(Keyboard::Escape)) {
+		//		m_window->close();
+		//	}
+		//};
 		st_mgr.Update();
 		//m_window->clear(Color(0x99, 0x20, 0x55, 0xff));
 		st_mgr.Draw();
