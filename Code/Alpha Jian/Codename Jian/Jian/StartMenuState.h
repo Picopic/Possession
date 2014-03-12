@@ -6,7 +6,16 @@
 #pragma once
 #include "stdafx.h"
 #include "State.h"
+#include "EntityManager.h"
+#include "Spritemanager.h"
 
+enum MenuOptions
+{
+	PLAY,
+	HOWTOPLAY,
+	OPTIONS,
+	QUIT
+};
 
 class StartMenuState:public State{
 public:
@@ -28,8 +37,19 @@ public:
 
 private:
 	std::string m_next_state;
+	MenuOptions current_option;
+	bool options_changed;
+	float options_changed_delay;
 
 	//m_done är false tills man är klar med statet
 	bool m_done;
 	sf::RenderWindow* m_window;
+	
+	void UpdateDeltatime();
+	sf::Clock game_clock;
+	sf::Time previous_time;
+	float deltatime;
+
+	SpriteManager* sprite_manager;
+	EntityManager *entity_manager;
 };
