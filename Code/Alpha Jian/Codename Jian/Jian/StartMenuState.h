@@ -6,7 +6,24 @@
 #pragma once
 #include "stdafx.h"
 #include "State.h"
+#include "EntityManager.h"
+#include "Spritemanager.h"
+#include "SMClouds.h"
+#include "SMFogB.h"
+#include "SMFogF.h"
+#include "SMHimmel.h"
+#include "SMMoon.h"
+#include "SMMountainsB.h"
+#include "SMMountainsF.h"
+#include "SMPagoda.h"
 
+enum MenuOptions
+{
+	PLAY,
+	HOWTOPLAY,
+	OPTIONS,
+	QUIT
+};
 
 class StartMenuState:public State{
 public:
@@ -28,8 +45,28 @@ public:
 
 private:
 	std::string m_next_state;
+	MenuOptions current_option;
+	bool options_changed;
+	float options_changed_delay;
 
 	//m_done är false tills man är klar med statet
 	bool m_done;
 	sf::RenderWindow* m_window;
+	
+	void UpdateDeltatime();
+	sf::Clock game_clock;
+	sf::Time previous_time;
+	float deltatime;
+
+	SMClouds smclouds;
+	SMFogB smfogb;
+	SMFogF smfogf;
+	SMHimmel smhimmel;
+	SMMoon smmoon;
+	SMMountainsB smmountainsb;
+	SMMountainsF smmountainsf;
+	SMPagoda smpagoda;
+
+	SpriteManager* sprite_manager;
+	EntityManager *entity_manager;
 };

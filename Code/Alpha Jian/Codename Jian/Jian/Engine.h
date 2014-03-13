@@ -30,7 +30,7 @@ public:
 private:
 	void UpdateDeltatime();
 
-	sf::RenderWindow window;
+	sf::RenderWindow* window;
 	sf::ContextSettings window_settings;
 	sf::Clock game_clock;
 	sf::Time previous_time;

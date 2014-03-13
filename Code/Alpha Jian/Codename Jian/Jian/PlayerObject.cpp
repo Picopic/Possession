@@ -741,7 +741,7 @@ bool PlayerObject::CanChangeElement()
 void PlayerObject::Movement(float deltatime)
 {
 	//Vertical movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		//if(!created_projectile)
 		//{
@@ -758,7 +758,7 @@ void PlayerObject::Movement(float deltatime)
 		direction.y = -1;
 	}
 
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		//if(!created_projectile)
 		//{
@@ -776,7 +776,7 @@ void PlayerObject::Movement(float deltatime)
 	}
 
 	//horizontal movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		//if(!created_projectile)
 		//{
@@ -785,7 +785,7 @@ void PlayerObject::Movement(float deltatime)
 		position.x -= speed*deltatime;
 		direction.x = -1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		//if(!created_projectile)
 		//{
@@ -794,7 +794,7 @@ void PlayerObject::Movement(float deltatime)
 		position.x += speed*deltatime;
 		direction.x = 1;
 	}
-	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		if(direction.x == 1)
 		{

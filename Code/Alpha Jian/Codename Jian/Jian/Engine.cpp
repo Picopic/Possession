@@ -17,7 +17,7 @@ Engine::~Engine()
 bool Engine::Init()
 {
 	window_settings.antialiasingLevel = window_anti_aliasing;
-	window.create(sf::VideoMode(window_width, window_height), "Jian", sf::Style::Default, window_settings);
+	window=new sf::RenderWindow(sf::VideoMode(window_width, window_height), "Jian", sf::Style::Fullscreen, window_settings);
 
 	draw_manager = new DrawManager;
 	
@@ -45,21 +45,21 @@ bool Engine::Init()
 void Engine::Run()
 {
 	//gameloop
-	while(window.isOpen())
+	while(window->isOpen())
 	{
 		//event handling
 		sf::Event event;
-		while(window.pollEvent(event))
+		while(window->pollEvent(event))
 		{
 			switch(event.type)
 			{
 			case sf::Event::Closed:
-				window.close();
+				window->close();
 				break;
 			case sf::Event::KeyPressed:
 				if(event.key.code == sf::Keyboard::Escape)
 				{
-					window.close();
+					window->close();
 				}
 				break;
 			}
@@ -73,7 +73,7 @@ void Engine::Run()
 		entity_manager->Update(deltatime);
 
 		//drawing portion of game loop
-		draw_manager->Draw(&window, entity_manager, HUD, false);
+		draw_manager->Draw(window, entity_manager, HUD, false);
 
 		//std::cout << entity_manager->game_entities.size() << std::endl;
 	}

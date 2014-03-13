@@ -19,51 +19,40 @@ public:
 	//Move the indicator to the designated Type
 	void MoveIndicator(Type type);
 
-	//Add/delete Elemental point
-	void AddElementalPoint(Type element_type);
-	void DeleteElementalPoint(Type element_type);
-
-	//Empty points
-	void AddEmptyPoint(Type element_type);
-	void DeleteEmptyPoint(Type element_type);
+	//Add the values
+	void AddElements(sf::Vector3i elements);
+	//Delete the values
+	void DeleteElements(sf::Vector3i elements);
 
 private:
-	std::vector<AnimatedSprite*> hud_indicator;
-	AnimatedSprite* current_indicator;
-	std::vector<AnimatedSprite*> symbols;
+	float sprite_width, sprite_height;
 
-	SpriteManager* sprite_manager;
+	//Number of different images in the HUD spritesheet
+	int NumberOfImages;
 
-	std::vector<AnimatedSprite*> fire_points;
-	std::vector<AnimatedSprite*> water_points;
-	std::vector<AnimatedSprite*> wood_points;
+	//Inactive symbols
+	std::vector<AnimatedSprite*> InactiveFireSymbols;
+	std::vector<AnimatedSprite*> InactiveWaterSymbols;
+	std::vector<AnimatedSprite*> InactiveWoodSymbols;
 
-	//Empty points
-	std::vector<AnimatedSprite*> empty_fire;
-	std::vector<AnimatedSprite*> empty_water;
-	std::vector<AnimatedSprite*> empty_wood;
+	//Active symbols
+	std::vector<AnimatedSprite*> ActiveFireSymbols;
+	std::vector<AnimatedSprite*> ActiveWaterSymbols;
+	std::vector<AnimatedSprite*> ActiveWoodSymbols;
 
-	//The vector active at the moment
-	Type active_points;
-	
-	//the 3 positions
-	std::vector<sf::Vector2f> symbol_positions;
+	//Dead symbols
+	AnimatedSprite* DeadFire;
+	AnimatedSprite* DeadWater;
+	AnimatedSprite* DeadWood;
+	bool deadfire, deadwater, deadwood;
 
-	float current_empty_fire;
-	float current_empty_water;
-	float current_empty_wood;
+	//Predefined symbol positions
+	sf::Vector2f position[3];
 
-	//the position of the last elemental point
-	float current_fire_pos;
-	float current_water_pos;
-	float current_wood_pos;
+	//Active element
+	Type ActiveElement;
 
-	//Offset between elemental points
-	float x_offset;
-	float y_offset;
-
-	//The size of the symbols sides
-	int symbol_height;
-	int symbol_width;
+	//Current number of points in symbols
+	int fire, water, wood;
 };
 

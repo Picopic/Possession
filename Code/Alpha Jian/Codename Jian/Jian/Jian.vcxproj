@@ -163,6 +163,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SMClouds.cpp" />
+    <ClCompile Include="SMFogB.cpp" />
+    <ClCompile Include="SMFogF.cpp" />
+    <ClCompile Include="SMHimmel.cpp" />
+    <ClCompile Include="SMMoon.cpp" />
+    <ClCompile Include="SMMountainsB.cpp" />
+    <ClCompile Include="SMMountainsF.cpp" />
+    <ClCompile Include="SMPagoda.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteManager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -222,6 +230,14 @@
     <ClInclude Include="Paralax3.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="SMClouds.h" />
+    <ClInclude Include="SMFogB.h" />
+    <ClInclude Include="SMFogF.h" />
+    <ClInclude Include="SMHimmel.h" />
+    <ClInclude Include="SMMoon.h" />
+    <ClInclude Include="SMMountainsB.h" />
+    <ClInclude Include="SMMountainsF.h" />
+    <ClInclude Include="SMPagoda.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spritemanager.h" />
     <ClInclude Include="StartMenuState.h" />

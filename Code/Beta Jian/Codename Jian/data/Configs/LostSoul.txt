@@ -1,0 +1,7 @@
+//Lost soulluuuuu
+
+lostsoulwidth=45
+lostsoulheight=45
+
+lostsouloffsetx=28
+lostsouloffsety=43

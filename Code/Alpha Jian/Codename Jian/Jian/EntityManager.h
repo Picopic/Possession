@@ -10,6 +10,7 @@
 #include "Projectile.h"
 #include "LostSoulObject.h"
 #include "Wall.h"
+#include "AltarObject.h"
 #include "Spritemanager.h"
 #include "SoundManager.h"
 #include "EnemyWaves.h"
@@ -30,6 +31,7 @@ public:
 	void AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction);
 	void AttachWall(Vector2 position, int width, int height, Type wall_type);
 	void AttachLostSoul(Alignment entity_name, Entity* enemydropping, int width, int height, Type entity_type, Vector2 entity_position);
+	void AttachAltar(Alignment entity_name, int width, int height, Type entity_type, Vector2 entity_position);
 
 	void Cleanup();
 	std::vector<Entity*> game_entities;
