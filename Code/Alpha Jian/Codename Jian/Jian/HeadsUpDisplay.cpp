@@ -43,6 +43,7 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	for(int i = 0; i < NumberOfImages; i++)
 	{
 		//Inactive symbols
+
 		InactiveFireSymbols.push_back(sprite_mgr->Load("Elements GUI.png", 10, 10, sprite_width, sprite_height, i*sprite_width, 1*sprite_height));
 		InactiveWaterSymbols.push_back(sprite_mgr->Load("Elements GUI.png", 10, 10, sprite_width, sprite_height, i*sprite_width, 3*sprite_height));
 		InactiveWoodSymbols.push_back(sprite_mgr->Load("Elements GUI.png", 10, 10, sprite_width, sprite_height, i*sprite_width, 5*sprite_height));
@@ -57,6 +58,7 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	DeadFire = sprite_mgr->Load("Elements GUI.png", 10, 10, sprite_width, sprite_height, 0*sprite_width, 6*sprite_height);
 	DeadWater = sprite_mgr->Load("Elements GUI.png", 10, 10, sprite_width, sprite_height, 1*sprite_width, 6*sprite_height);
 	DeadWood = sprite_mgr->Load("Elements GUI.png", 10, 10, sprite_width, sprite_height, 2*sprite_width, 6*sprite_height);
+
 	deadfire = false;
 	deadwater = false;
 	deadwood = false;
@@ -168,6 +170,7 @@ void HeadsUpDisplay::Cleanup()
 
 		//Active
 		if(ActiveFireSymbols[i] != nullptr)
+
 		{
 			delete ActiveFireSymbols[i];
 			ActiveFireSymbols[i] = nullptr;
@@ -182,6 +185,7 @@ void HeadsUpDisplay::Cleanup()
 			delete ActiveWoodSymbols[i];
 			ActiveWoodSymbols[i] = nullptr;
 		}
+
 	}
 }
 

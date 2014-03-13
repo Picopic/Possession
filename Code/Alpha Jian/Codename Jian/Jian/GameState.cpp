@@ -108,6 +108,7 @@ bool GameState::Initialize(){
 	sprite_manager->LoadTexture("WATER SPRITESHEET 315p.png");
 	sprite_manager->LoadTexture("FIRE SPRITESHEET 210p.png");
 	sprite_manager->LoadTexture("WOOD SPRITESHEET 495x405p.png");
+	sprite_manager->LoadTexture("altarspritesheet_small.png");
 
 	HUD = new HeadsUpDisplay;
 	if(!HUD->Initialise(sprite_manager))

@@ -174,7 +174,6 @@ bool StartMenuState::Update()
 			options_changed_delay = 0.0f;
 		}
 
-
 	}
 
 
@@ -191,6 +190,7 @@ bool StartMenuState::IsType(const std::string& Type){
 
 bool StartMenuState::Draw(){
 	m_window->clear(Color(0x99, 0x20, 0x55, 0xff));
+
 		
 		smhimmel.draw(m_window);
 		smmoon.draw(m_window);
@@ -200,6 +200,7 @@ bool StartMenuState::Draw(){
 		smmountainsf.draw(m_window);
 		smfogf.draw(m_window);
 		smpagoda.draw(m_window);
+
 
 	m_window->display();
 	return false;

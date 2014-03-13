@@ -8,6 +8,7 @@
 #include "State.h"
 #include "EntityManager.h"
 #include "Spritemanager.h"
+
 #include "SMClouds.h"
 #include "SMFogB.h"
 #include "SMFogF.h"
@@ -16,6 +17,7 @@
 #include "SMMountainsB.h"
 #include "SMMountainsF.h"
 #include "SMPagoda.h"
+
 
 enum MenuOptions
 {
@@ -58,6 +60,7 @@ private:
 	sf::Time previous_time;
 	float deltatime;
 
+
 	SMClouds smclouds;
 	SMFogB smfogb;
 	SMFogF smfogf;
@@ -66,6 +69,7 @@ private:
 	SMMountainsB smmountainsb;
 	SMMountainsF smmountainsf;
 	SMPagoda smpagoda;
+
 
 	SpriteManager* sprite_manager;
 	EntityManager *entity_manager;
