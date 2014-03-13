@@ -26,12 +26,12 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	sprite_height = 115;
 
 	//Symbolpositions
-	position[0].x = 20;
+	position[0].x = 10;
 	position[0].y = 10;
-	position[1].x = 20 + sprite_width;
-	position[1].y = 10 + sprite_height/2;
-	position[2].x = 20;
-	position[2].y = 10 + sprite_height;
+	position[1].x = 20 + sprite_width * 2/3;
+	position[1].y = 10 + sprite_height * 2/5;
+	position[2].x = 10;
+	position[2].y = 10 + sprite_height * 5/7;
 
 	//Active element
 	ActiveElement = FIRE;
