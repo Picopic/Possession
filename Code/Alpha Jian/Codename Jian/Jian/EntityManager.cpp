@@ -33,6 +33,7 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	config_manager->ReadFile("Water Enemy.txt");
 	config_manager->ReadFile("Wood Enemy.txt");
 	config_manager->ReadFile("LostSoul.txt");
+	config_manager->ReadFile("Altar.txt");
 
 	//Spritesheet width and height
 	playerheight = 210;
@@ -78,12 +79,12 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WOODFOEBULLET), 18));
 
 	//Enemy collision
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WATERFOE), 18));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WOODFOE), 19));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WATERFOE), 20));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FIREFOE), 20));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WOODFOE), 20));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, WATERFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WATERFOE), 19));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WOODFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WATERFOE), 21));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FIREFOE), 22));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WOODFOE), 23));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, WATERFOE), 24));
 }
 
 void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type type)
@@ -160,12 +161,11 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size()-1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 9, 9, woodwidth, woodheight, 0, 6*woodheight));
 		game_entities[game_entities.size()-1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("WOOD SPRITESHEET 495x405p.png", 9, 9, woodwidth, woodheight, 0, 7*woodheight));
 
-		game_entities[game_entities.size()-1]->Init("wood enemy", entity_name, type);
+		game_entities[game_entities.size()-1]->Init("Wood enemy", entity_name, type);
 
 		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	}
-
 }
 
 void EntityManager::DetachEntity(int entity_index)
@@ -261,6 +261,16 @@ void EntityManager::AttachLostSoul(Alignment entity_name, Entity* enemydropping,
 
 	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("Lost Souls Spritesheet.png", 7, 4, 100, 100, 0, 0));
 	game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, entity_type);
+
+}
+
+void EntityManager::AttachAltar(Alignment entity_name, int width, int height, Type entity_type, Vector2 entity_position)
+{
+
+	game_entities.push_back(new AltarObject(entity_position, config_manager));
+
+	game_entities[game_entities.size()-1]->AddAnimation(IDLELEFT, sprite_manager->Load("altarspritesheet_small.png", 21, 6, 225, 312, 0, 0));
+	game_entities[game_entities.size()-1]->Init("Altar", entity_name, entity_type);
 
 }
 
@@ -382,7 +392,6 @@ void EntityManager::Update(float deltatime)
 			}
 		}
 	}
-
 	for(int i = 0; i < game_entities.size(); i++)
 	{
 		if(game_entities[i]->IsFlaggedForDeath())

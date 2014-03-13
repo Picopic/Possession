@@ -125,6 +125,8 @@ bool GameState::Initialize(){
 
 	entity_manager->Init(enemy_waves);
 	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), FIRE);
+	entity_manager->AttachAltar(ALTAR, 225, 312, NONE, Vector2(500, 300));
+	
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
