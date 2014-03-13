@@ -16,6 +16,10 @@
 #include "SMMountainsB.h"
 #include "SMMountainsF.h"
 #include "SMPagoda.h"
+#include "SMop1.h"
+#include "SMop2.h"
+#include "SMop3.h"
+#include "SMop4.h"
 
 enum MenuOptions
 {
@@ -69,6 +73,10 @@ private:
 	SMMountainsB smmountainsb;
 	SMMountainsF smmountainsf;
 	SMPagoda smpagoda;
+	SMop1 smop1;
+	SMop2 smop2;
+	SMop3 smop3;
+	SMop4 smop4;
 
 	SpriteManager* sprite_manager;
 	EntityManager *entity_manager;

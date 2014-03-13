@@ -22,12 +22,18 @@ bool StartMenuState::Initialize(){
 
 	smclouds.setPosition(sf::Vector2f(0, 0));
 	smclouds.initialize();
+	smclouds2.setPosition(sf::Vector2f(3840, 0));
+	smclouds2.initialize();
 
 	smfogb.setPosition(sf::Vector2f(0, 0));
 	smfogb.initialize();
+	smfogb2.setPosition(sf::Vector2f(3840, 0));
+	smfogb2.initialize();
 
 	smfogf.setPosition(sf::Vector2f(0, 0));
 	smfogf.initialize();
+	smfogf2.setPosition(sf::Vector2f(3840, 0));
+	smfogf2.initialize();
 
 	smhimmel.setPosition(sf::Vector2f(0, 0));
 	smhimmel.initialize();
@@ -43,6 +49,18 @@ bool StartMenuState::Initialize(){
 
 	smpagoda.setPosition(sf::Vector2f(0, 0));
 	smpagoda.initialize();
+
+	smop1.setPosition(sf::Vector2f(0, 0));
+	smop1.initialize();
+
+	smop2.setPosition(sf::Vector2f(0, 0));
+	smop2.initialize();
+
+	smop3.setPosition(sf::Vector2f(0, 0));
+	smop3.initialize();
+
+	smop4.setPosition(sf::Vector2f(0, 0));
+	smop4.initialize();
 
 	m_done = false;
 	current_option = PLAY;
@@ -82,8 +100,8 @@ bool StartMenuState::Update()
 	smfogb.moveX(-0.25);
 	smfogb2.moveX(-0.25);
 
-	smfogf.moveX(-0.35);
-	smfogf2.moveX(-0.35);
+	smfogf.moveX(-0.45);
+	smfogf2.moveX(-0.45);
 
 	//För att molnen ska spawna och despawna på rätt positioner:
 	if(smclouds.getPosition().x <= -3840){
@@ -240,15 +258,34 @@ bool StartMenuState::Draw(){
 		
 		smhimmel.draw(m_window);
 		smmoon.draw(m_window);
+
 		smclouds.draw(m_window);
 		smclouds2.draw(m_window);
+
 		smmountainsb.draw(m_window);
+
 		smfogb.draw(m_window);
 		smfogb2.draw(m_window);
+
 		smmountainsf.draw(m_window);
+
 		smfogf.draw(m_window);
 		smfogf2.draw(m_window);
+
 		smpagoda.draw(m_window);
+
+		if (current_option == PLAY){
+			smop1.draw(m_window);
+		}
+		else if (current_option == HOWTOPLAY){
+			smop2.draw(m_window);
+		}
+		else if (current_option == OPTIONS){
+			smop3.draw(m_window);
+		}
+		else if (current_option == QUIT){
+			smop4.draw(m_window);
+		}
 
 	m_window->display();
 	return false;

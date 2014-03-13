@@ -170,6 +170,10 @@
     <ClCompile Include="SMMoon.cpp" />
     <ClCompile Include="SMMountainsB.cpp" />
     <ClCompile Include="SMMountainsF.cpp" />
+    <ClCompile Include="SMop1.cpp" />
+    <ClCompile Include="SMop2.cpp" />
+    <ClCompile Include="SMop3.cpp" />
+    <ClCompile Include="SMop4.cpp" />
     <ClCompile Include="SMPagoda.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteManager.cpp">
@@ -237,6 +241,10 @@
     <ClInclude Include="SMMoon.h" />
     <ClInclude Include="SMMountainsB.h" />
     <ClInclude Include="SMMountainsF.h" />
+    <ClInclude Include="SMop1.h" />
+    <ClInclude Include="SMop2.h" />
+    <ClInclude Include="SMop3.h" />
+    <ClInclude Include="SMop4.h" />
     <ClInclude Include="SMPagoda.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spritemanager.h" />
