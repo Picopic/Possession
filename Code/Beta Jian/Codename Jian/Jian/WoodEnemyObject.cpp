@@ -80,6 +80,8 @@ void WoodEnemyObject::Update(float deltatime)
 	//Firstly update the animation
 	current_animation->Update(deltatime);
 
+	
+	//*********************** KOMMENTERA BORT OM DET EJ PASSAR BETA
 	//enemy ai chase
 	float deltaY = position.y - player->getPosition().y+120;
 	float deltaX = position.x - player->getPosition().x-60;
@@ -89,7 +91,11 @@ void WoodEnemyObject::Update(float deltatime)
 
 	if(distance<=150){
 		velocity =Vector2(0, 0);
+		SetCurrentAnimation(WALKLEFT);
+		current_animations_name = WALKLEFT;
 	}
+	//*********************** tills hit
+	
 
 	position+=velocity*deltatime;
 

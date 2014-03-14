@@ -9,7 +9,7 @@ AltarObject::AltarObject()
 }
 
 AltarObject::AltarObject(Vector2 altar_position, ConfigManager* config_mgr)
-{
+{  
 	current_animation = nullptr;
 	flagged_for_death = false;
 

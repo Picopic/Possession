@@ -35,8 +35,8 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	config_manager->ReadFile("LostSoul.txt");
 
 	//Spritesheet width and height
-	playerheight = 315;
-	playerwidth = 315;
+	playerheight = 252;
+	playerwidth = 252;
 
 	fireprojectileheight = 130;
 	fireprojectilewidth = 130;
@@ -97,14 +97,14 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 
 		game_entities.push_back(new PlayerObject(config_manager));
 
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 315p.png", 7, 4, playerwidth, playerheight, 0, 0));
-		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 315p.png", 7, 4, playerwidth, playerheight, 0, playerheight*12));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 315p.png", 5, 4, playerwidth, playerheight, 0, playerheight*4));
-		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 315p.png", 5, 4, playerwidth, playerheight, 0, playerheight*16));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 315p.png", 8, 4, playerwidth, playerheight, 0, playerheight*14));
-		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 315p.png", 8, 4, playerwidth, playerheight, 0, playerheight*2));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 315p.png", 22, 4, playerwidth, playerheight, 0, playerheight*18));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 315p.png", 22, 4, playerwidth, playerheight, 0, playerheight*6));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLERIGHT, sprite_manager->Load("MC SPRITESHEET 252p.png", 7, 4, playerwidth, playerheight, 0, 0));
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load("MC SPRITESHEET 252p.png", 7, 4, playerwidth, playerheight, 0, playerheight*12));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load("MC SPRITESHEET 252p.png", 5, 4, playerwidth, playerheight, 0, playerheight*4));
+		game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load("MC SPRITESHEET 252p.png", 5, 4, playerwidth, playerheight, 0, playerheight*16));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKLEFT, sprite_manager->Load("MC SPRITESHEET 252p.png", 8, 4, playerwidth, playerheight, 0, playerheight*14));
+		game_entities[game_entities.size() - 1]->AddAnimation(WALKRIGHT, sprite_manager->Load("MC SPRITESHEET 252p.png", 8, 4, playerwidth, playerheight, 0, playerheight*2));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load("MC SPRITESHEET 252p.png", 22, 4, playerwidth, playerheight, 0, playerheight*18));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load("MC SPRITESHEET 252p.png", 22, 4, playerwidth, playerheight, 0, playerheight*6));
 		//sounds
 		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 

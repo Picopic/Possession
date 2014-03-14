@@ -1,7 +1,7 @@
 //Altar yeah
 
-altarwidth=45
-altarheight=45
+altarwidth=60
+altarheight=95
 
-altaroffsetx=28
-altaroffsety=43
+altaroffsetx=85
+altaroffsety=140
