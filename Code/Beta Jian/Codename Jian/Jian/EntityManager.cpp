@@ -347,7 +347,7 @@ void EntityManager::Update(float deltatime)
 			}
 		}
 
-		//Fireenemy associated actions
+		//enemy associated actions
 		else if(game_entities[i]->getAlignment() == FIREFOE || game_entities[i]->getAlignment() == WATERFOE || game_entities[i]->getAlignment() == WOODFOE)
 		{
 			for (int j=0; j<game_entities.size(); j++)

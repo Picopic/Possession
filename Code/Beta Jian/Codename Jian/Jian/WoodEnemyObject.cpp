@@ -75,8 +75,23 @@ void WoodEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 
 void WoodEnemyObject::Update(float deltatime)
 {
+
+
 	//Firstly update the animation
 	current_animation->Update(deltatime);
+
+	//enemy ai chase
+	float deltaY = position.y - player->getPosition().y+120;
+	float deltaX = position.x - player->getPosition().x-60;
+	float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
+
+	velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
+
+	if(distance<=150){
+		velocity =Vector2(0, 0);
+	}
+
+	position+=velocity*deltatime;
 
 
 	//Death
@@ -152,6 +167,6 @@ void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 	}
 	else
 	{
-		
+
 	}
 }

@@ -4,7 +4,7 @@
 #include "EnemyWaves.h"
 #include "FireEnemyObject.h"
 #include "WaterEnemyObject.h"
-//#include "WoodEnemyObject.h"
+#include "WoodEnemyObject.h"
 #include "EntityManager.h"
 #include "ConfigManager.h"
 
@@ -32,7 +32,7 @@ EnemyWaves::~EnemyWaves(){
 void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 
 	float spawnX = PreviousPlayerX + 650;
-	float spawnY = 150;
+	float spawnY = 200;
 
 	//enemies.x är fireleementals
 	for (int i = 0; i < enemies.x; i++){

@@ -75,6 +75,8 @@ bool StartMenuState::Initialize(){
 }
 
 bool StartMenuState::Enter(){
+	m_window->setView(m_window->getDefaultView());
+
 	std::cout << "Welcome to the StartMenuState" << std::endl;
 	std::cout << "Please select which state you want to enter" <<std::endl;
 	std::cout << "Press 1 to go to the Gamestate" <<std::endl;

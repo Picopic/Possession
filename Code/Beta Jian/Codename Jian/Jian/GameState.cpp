@@ -76,9 +76,9 @@ bool GameState::Initialize(){
 	gameplayarea2.setPosition(sf::Vector2f(3619, 0));
 	gameplayarea2.initialize();
 
-	paralax1.setPosition(sf::Vector2f(-150, -15+70));
+	paralax1.setPosition(sf::Vector2f(-150, -15+90));
 	paralax1.initialize();
-	paralax11.setPosition(sf::Vector2f(3850, -15+70));
+	paralax11.setPosition(sf::Vector2f(3850, -15+90));
 	paralax11.initialize();
 
 	paralax2.setPosition(sf::Vector2f(-150, +50+70));
@@ -291,14 +291,14 @@ bool GameState::Update(){
 		
 		
 		//För att molnen ska spawna och despawna på rätt positioner:
-		if(cloud.getPosition().x <= camera.getPosition().x - 1280 - 512){
+		if(cloud.getPosition().x <= camera.getPosition().x - 2200){
 			sf::Vector2f vect = cloud.getPosition();
-			vect.x = camera.getPosition().x + 512;
+			vect.x = camera.getPosition().x + 1920/2;
 			cloud.setPosition(vect);
 		}
-		if(cloud2.getPosition().x <= camera.getPosition().x - 1280 - 512){
+		if(cloud2.getPosition().x <= camera.getPosition().x - 2200){
 			sf::Vector2f vect = cloud2.getPosition();
-			vect.x = camera.getPosition().x + 512;
+			vect.x = camera.getPosition().x + 1920/2;
 			cloud2.setPosition(vect);
 		}
 
@@ -323,7 +323,7 @@ bool GameState::Update(){
 		
 		//kommer fixa så att man kan köra delete på dom senare när dom är pekare så blir allt perfa:
 		//spelplan1
-		if (entity_manager->game_entities.at(0)->getPosition().x >= 0 && entity_manager->game_entities.at(0)->getPosition().x <= 3840){
+		if (entity_manager->game_entities.at(0)->getPosition().x >= 0 && entity_manager->game_entities.at(0)->getPosition().x <= 4500){
 				gameplayarea.draw(m_window);
 				//std::cout << "Gra bakgrund framme" << std::endl;
 			};

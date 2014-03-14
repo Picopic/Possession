@@ -72,7 +72,7 @@ void WaterEnemyObject::Init(std::string object_type, Alignment enemy_alignment, 
 	current_animation->getSprite()->setPosition(position.x, position.y);
 
 	//m_random = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
-	m_random = (rand()%(500-(400)+1))+(400);
+	m_random = (rand()%(600-(500)+1))+(500);
 }
 
 void WaterEnemyObject::Update(float deltatime)
@@ -83,7 +83,7 @@ void WaterEnemyObject::Update(float deltatime)
 	if(current_animations_name != ATTACKLEFT || current_animations_name != ATTACKRIGHT)
 	{
 		//
-		
+
 		//
 	}
 
@@ -111,7 +111,7 @@ void WaterEnemyObject::Update(float deltatime)
 		shooting_delay = 0.001f;
 		created_projectile = false;
 	}
-	
+
 	if(shooting_delay >= current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 	{
 		if(direction.x == 1)
@@ -124,35 +124,92 @@ void WaterEnemyObject::Update(float deltatime)
 		}
 	}
 
-	//AI PLAYER CHASE
-	//följer efter spelaren i x-led
+	//enemy ai chase
+	float deltaY = position.y - player->getPosition().y+120;
+	float deltaX = position.x - player->getPosition().x-60;
+	float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
 
-	
-	if(position.x > player->getPosition().x + m_random){
-		velocity.x = -0.1;
-	}
-	
-	//ska följa efter spelarens y-postiion sakta
-	if (position.y > player->getPosition().y + 100) {
-		velocity.y = -0.15;
-	}  
-	//ska följa efter spelarens y-position sakta
-	if (position.y < player->getPosition().y - 100) {
-		velocity.y = +0.15;
-	}
+	velocity=Vector2((deltaX/distance)*40, (deltaY/distance)*100);
 
-	//Den ska stanna på ett visst avstånd i X-led:
-	if (position.x < player->getPosition().x + m_random) {
-		velocity.x = 0.1;
+	if(distance>=800){
+		velocity =Vector2(0, 0);
+		//if (deltaY>=-60 && deltaY <=60){
+		//	if(position.y>=600){
+		//	velocity.y = -140;
+		//	}
+		//	else if(position.y<=260){
+		//	velocity.y=140;
+		//	}
+		//}
 	}
-
-	//Stop the movement
-	if(position.y < player->getPosition().y + 50 && position.y > player->getPosition().y - 50){
-		velocity.y = 0;
+	if (distance>=900){
+		velocity=Vector2((deltaX/distance)*-100, (deltaY/distance)*-100);
 	}
 
-	position += velocity;
-	
+	position+=velocity*deltatime;
+
+	if(position.y>=800){
+		position.y=800;
+	}
+	if (position.y<=240){
+		position.y=240;
+	}
+
+	////AI PLAYER CHASE
+
+
+	////följer efter spelaren i x-led
+	//if(position.x > player->getPosition().x + m_random){
+	//	velocity.x = -0.1;
+	//}
+
+	////ska följa efter spelarens y-postiion sakta
+	//if (position.y > player->getPosition().y + 200) {
+	//	velocity.y = -0.3;
+	//}  
+	////ska följa efter spelarens y-position sakta
+	//if (position.y < player -> getPosition().y - 200) {
+	//	velocity.y = +0.3;
+	//}
+
+	//////ska undvika spelarens y-postiion snabbt
+	////if (position.y <= player->getPosition().y + 10) {
+	////	velocity.y = -0.5;
+	////	//waterenemys collision med nedre kanten
+	////	if (position.y>=1080){
+	////		velocity.y = 0;
+	////		position.y = 1080;
+	////		//om spelaren också går ner till nedre kanten kommer waterenemy undivka uppåt
+	////		if (player->getPosition().y<=1070){
+	////			velocity.y = -0.5;
+	////		}
+	////	}
+	////}  
+	//////ska undvika spelarens y-position snabbt
+	////if (position.y >= player->getPosition().y - 10) {
+	////	velocity.y = +0.5;
+	////	//waterenemys collision med horisontlinjen
+	////	if (position.y<= 240){
+	////		velocity.y = 0;
+	////		position.y =240;
+	////		//om spelaren också går till horisontlinjen kommer waterenemy undivka neråt
+	////		if (player->getPosition().y>=230){
+	////			velocity.y = +0.5;
+	////		}
+	////	}
+
+	////Den ska stanna på ett visst avstånd i X-led:
+	//if (position.x < player->getPosition().x + 800) {
+	//	velocity.x = 0.1;
+	//}
+
+	////Stop the movement
+	//if(position.y < player->getPosition().y + 50 && position.y > player->getPosition().y - 50){
+	//	velocity.y = 0;
+	//}
+
+	//position += velocity;
+
 	//Death
 
 	if(hitpoints <= 0)
@@ -205,28 +262,28 @@ void WaterEnemyObject::Update(float deltatime)
 		collider->position.y = position.y + entity_offset_y;
 		hitbox.setPosition(collider->position.x, collider->position.y);
 	}
-}
 
+}
 void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment)
 {
 	if(enemy_alignment == FRIENDBULLET)
 	{
 		if(enemy_type == WOOD)
-			{
-				hitpoints -= 3;
-			}
-			else if(enemy_type == WATER)
-			{
-				hitpoints -= 2;
-			}
-			else if(enemy_type == FIRE)
-			{
-				hitpoints--;
-			}
+		{
+			hitpoints -= 3;
+		}
+		else if(enemy_type == WATER)
+		{
+			hitpoints -= 2;
+		}
+		else if(enemy_type == FIRE)
+		{
+			hitpoints--;
+		}
 	}
 	else if(enemy_alignment == PLAYER)
 	{
 
 	}
-	
+
 }
