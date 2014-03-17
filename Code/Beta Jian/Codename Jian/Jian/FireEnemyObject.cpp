@@ -52,7 +52,9 @@ FireEnemyObject::FireEnemyObject(ConfigManager* config_manager, Vector2 enemy_po
 	//movement
 	speed = config_manager->ReadInt("firemovementspeed");
 	direction = Vector2(-1, 1);
-
+	
+	collision_refresh_timer = 0.0f;
+	knockback_time = 0.2f;
 	death_animation_time = 0.0f;
 	movement_time = 0.0f;
 
@@ -86,91 +88,87 @@ void FireEnemyObject::Update(float deltatime)
 {
 	//Firstly update the animation
 	current_animation->Update(deltatime);
-	//movement
-	if(current_animations_name != ATTACKLEFT || current_animations_name != ATTACKRIGHT)
-	{
-		//
-		
-		//
-	}
-	
-	//Attack
-	if(created_projectile)
-	{
-		shooting_delay += deltatime;
-	}
 
-	if(shooting_delay == 0.001f && !created_projectile)
+	if(!dead)
 	{
-		create_projectile = true;
-		created_projectile = true;
-		SetCurrentAnimation(ATTACKLEFT);
-		current_animations_name = ATTACKLEFT;
-	}
-	else
-	{
-		create_projectile = false;
-	}
-
-	if(shooting_delay > delay)
-	{
-		shooting_delay = 0.001f;
-		created_projectile = false;
-	}
-	
-	if(shooting_delay >= current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
-	{
-		if(direction.x == 1)
+		if(!can_collide)
 		{
-			SetCurrentAnimation(IDLERIGHT);
+			collision_refresh_timer += deltatime;
+			//can collide again
+			if(collision_refresh_timer > knockback_time)
+			{
+				can_collide = true;
+				collision_refresh_timer = 0.0f;
+			}
 		}
 		else
 		{
-			SetCurrentAnimation(IDLELEFT);
-		}
-	}
+			//Attack
+			if(created_projectile)
+			{
+				shooting_delay += deltatime;
+			}
 
-	//AI PLAYER CHASE
-	//följer efter spelaren i x-led
-	if(position.x > player->getPosition().x + m_random){
-		velocity.x = -0.1;
-	}
+			if(shooting_delay == 0.001f && !created_projectile)
+			{
+				create_projectile = true;
+				created_projectile = true;
+				if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
+					SetCurrentAnimation(ATTACKRIGHT);
+				else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
+					SetCurrentAnimation(ATTACKLEFT);
+			}
+			else
+			{
+				create_projectile = false;
+			}
+
+			if(shooting_delay > delay)
+			{
+				shooting_delay = 0.001f;
+				created_projectile = false;
+			}
 	
-	//ska följa efter spelarens y-postiion sakta
-	if (position.y > player->getPosition().y + 100) {
-		velocity.y = -0.15;
-	}  
-	//ska följa efter spelarens y-position sakta
-	if (position.y < player -> getPosition().y - 100) {
-		velocity.y = +0.15;
-	}
+			if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+			{
+				if(direction.x == 1 && current_animations_name != IDLERIGHT)
+				{
+					SetCurrentAnimation(IDLERIGHT);
+				}
+				else if(direction.x == -1 && current_animations_name != IDLELEFT)
+				{
+					SetCurrentAnimation(IDLELEFT);
+				}
+			}
 
-	//Den ska stanna på ett visst avstånd i X-led:
-	if (position.x < player->getPosition().x + m_random) {
-		velocity.x = 0.1;
-	}
+			//AI PLAYER CHASE
+			//följer efter spelaren i x-led
+			if(position.x > player->getPosition().x + m_random){
+				velocity.x = -0.1;
+			}
+	
+			//ska följa efter spelarens y-postiion sakta
+			if (position.y > player->getPosition().y + 100) {
+				velocity.y = -0.15;
+			}  
+			//ska följa efter spelarens y-position sakta
+			if (position.y < player -> getPosition().y - 100) {
+				velocity.y = +0.15;
+			}
 
-	if(position.y < player ->getPosition().y + 50 && position.y > player ->getPosition().y - 50){
-		velocity.y = 0;
-	}
+			//Den ska stanna på ett visst avstånd i X-led:
+			if (position.x < player->getPosition().x + m_random) {
+				velocity.x = 0.1;
+			}
 
-	position += velocity;
+			if(position.y < player ->getPosition().y + 50 && position.y > player ->getPosition().y - 50){
+				velocity.y = 0;
+			}
 
-	//Death
-
-	if(hitpoints <= 0)
-	{
-		if(hasCollider())
-		{
-			delete collider;
-			collider = nullptr;
+			position += velocity;
 		}
-		dead = true;
-		SetCurrentAnimation(DEATHLEFT);
-		current_animations_name = DEATHLEFT;
-		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
-	if(dead)
+	else
 	{
 		death_animation_time += deltatime;
 		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
@@ -227,10 +225,29 @@ void FireEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		{
 			hitpoints--;
 		}
+
+		can_collide = false;
+		
+		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+			SetCurrentAnimation(HITLEFT);
+		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+			SetCurrentAnimation(HITRIGHT);
 	}
 	else
 	{
 		
 	}
 	
+	//Death
+	if(hitpoints <= 0)
+	{
+		if(hasCollider())
+		{
+			delete collider;
+			collider = nullptr;
+		}
+		dead = true;
+		SetCurrentAnimation(DEATHLEFT);
+		current_animation->getSprite()->setPosition(position.x, position.y);
+	}
 }

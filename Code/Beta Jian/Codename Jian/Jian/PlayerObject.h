@@ -40,13 +40,12 @@ private:
 	float lost_souls_counter;
 	bool used_lost_souls;
 
-	//changing element
+	//HUD changing element
 	bool element_changed;
 	float element_changed_delay;
 	float change_delay;
 
 	//Collision
-	float knockback_time;
 	float knockback_speed;
 	Vector2 collision_direction;
 };

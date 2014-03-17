@@ -35,7 +35,7 @@ int main()
 	m_sInputString = config_manager->GetValueFromKey("WindowAntiAliasing");
 	window_settings.antialiasingLevel = std::stoi(m_sInputString);
 
-	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::/*Default*/Fullscreen, window_settings);
+	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Default/*Fullscreen*/, window_settings);
 
 
 	StateManager st_mgr;
@@ -48,16 +48,22 @@ int main()
 
 	st_mgr.SetState("StartMenuState");
 	while (m_window->isOpen()){
-		//Denna pollen är onödig, då det tydligen körs en poll i själva staten också
-		//Event event;
-		//while(m_window->pollEvent(event)) {
-		//	if(event.type == Event::Closed) {
-		//		m_window->close();
-		//	};
-		//	if(Keyboard::isKeyPressed(Keyboard::Escape)) {
-		//		m_window->close();
-		//	}
-		//};
+		Event event;
+		while(m_window->pollEvent(event)) {
+			if(event.type == Event::Closed) {
+				m_window->close();
+			};
+			if(Keyboard::isKeyPressed(Keyboard::Escape)) {
+				m_window->close();
+			}
+			if(Keyboard::isKeyPressed(Keyboard::F2))
+			{
+				if(st_mgr.GetState("GameState")->draw_hitbox)
+					st_mgr.GetState("GameState")->draw_hitbox = false;
+				else
+					st_mgr.GetState("GameState")->draw_hitbox = true;
+			}
+		};
 		st_mgr.Update();
 		//m_window->clear(Color(0x99, 0x20, 0x55, 0xff));
 		st_mgr.Draw();

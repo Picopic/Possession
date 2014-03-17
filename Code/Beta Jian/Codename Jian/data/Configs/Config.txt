@@ -1,5 +1,5 @@
 #bleeeh
-WindowWidth=1920
-WindowHeight=1080
+WindowWidth=1024
+WindowHeight=720
 
 WindowAntiAliasing=4

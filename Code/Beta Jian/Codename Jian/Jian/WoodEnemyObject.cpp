@@ -44,6 +44,8 @@ WoodEnemyObject::WoodEnemyObject(ConfigManager* config_manager, Vector2 enemy_po
 	speed = config_manager->ReadInt("woodmovementspeed");
 	direction = Vector2(-1, 1);
 
+	collision_refresh_timer = 0.0f;
+	knockback_time = 0.2f;
 	death_animation_time = 0.0f;
 	movement_time = 0.0f;
 
@@ -80,40 +82,44 @@ void WoodEnemyObject::Update(float deltatime)
 	//Firstly update the animation
 	current_animation->Update(deltatime);
 
-	
-	//*********************** KOMMENTERA BORT OM DET EJ PASSAR BETA
-	//enemy ai chase
-	float deltaY = position.y - player->getPosition().y+120;
-	float deltaX = position.x - player->getPosition().x-60;
-	float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
-
-	velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
-
-	if(distance<=150){
-		velocity =Vector2(0, 0);
-		SetCurrentAnimation(WALKLEFT);
-		current_animations_name = WALKLEFT;
-	}
-	//*********************** tills hit
-	
-
-	position+=velocity*deltatime;
-
-
-	//Death
-	if(hitpoints <= 0)
+	if(!dead)
 	{
-		if(hasCollider())
+		if(!can_collide)
 		{
-			delete collider;
-			collider = nullptr;
+			collision_refresh_timer += deltatime;
+			//can collide again
+			if(collision_refresh_timer > knockback_time)
+			{
+				can_collide = true;
+				collision_refresh_timer = 0.0f;
+			}
 		}
-		dead = true;
-		SetCurrentAnimation(DEATHLEFT);
-		current_animations_name = DEATHLEFT;
-		current_animation->getSprite()->setPosition(position.x, position.y);
+		else
+		{
+			//*********************** KOMMENTERA BORT OM DET EJ PASSAR BETA
+			//enemy ai chase
+			float deltaY = position.y - player->getPosition().y+120;
+			float deltaX = position.x - player->getPosition().x-60;
+			float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
+
+			velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
+
+			if(distance<=150){
+				velocity =Vector2(0, 0);
+				if(current_animations_name != IDLELEFT)
+					SetCurrentAnimation(IDLELEFT);
+			}
+			else if(direction.x == -1 && current_animations_name != WALKLEFT)
+			{
+				SetCurrentAnimation(WALKLEFT);
+			}
+			//*********************** tills hit
+	
+
+			position+=velocity*deltatime;
+		}
 	}
-	if(dead)
+	else
 	{
 		death_animation_time += deltatime;
 		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
@@ -170,9 +176,31 @@ void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		{
 			hitpoints -= 2;
 		}
+
+		can_collide = false;
+		
+		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+			SetCurrentAnimation(HITLEFT);
+		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+			SetCurrentAnimation(HITRIGHT);
 	}
 	else
 	{
 
+	}
+
+	//Death
+	if(hitpoints <= 0)
+	{
+		if(hasCollider())
+		{
+			delete collider;
+			collider = nullptr;
+		}
+		dead = true;
+		if(current_animations_name != DEATHLEFT)
+			SetCurrentAnimation(DEATHLEFT);
+
+		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
 }

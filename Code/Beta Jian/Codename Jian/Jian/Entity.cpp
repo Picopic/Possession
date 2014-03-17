@@ -145,6 +145,8 @@ void Entity::SetCurrentAnimation(AnimationName animation_name)
 	else
 	{
 		current_animation = it->second;
+		current_animation->SetCurrentFrame(0);
+		current_animations_name = animation_name;
 	}
 }
 

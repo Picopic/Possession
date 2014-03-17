@@ -42,7 +42,8 @@ void DrawManager::SortEntities(EntityManager* entity_mgr)
 	{
 		temp_entity = sorted_entity_mgr[i];
 
-		for(j = i-1; (j >= 0) && (sorted_entity_mgr[j]->getPosition().y < temp_entity->getPosition().y); j--)
+		for(j = i-1; (j >= 0) && ((sorted_entity_mgr[j]->getPosition().y + sorted_entity_mgr[j]->GetCurrentAnimation()->getSprite()->getTextureRect().height) 
+			< (temp_entity->getPosition().y + temp_entity->GetCurrentAnimation()->getSprite()->getTextureRect().height)); j--)
 		{
 			sorted_entity_mgr[j+1] = sorted_entity_mgr[j];
 		}

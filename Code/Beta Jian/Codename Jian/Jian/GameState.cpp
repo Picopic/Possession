@@ -9,6 +9,9 @@
 
 GameState::GameState(sf::RenderWindow* GameWindow){
 	m_window = GameWindow;
+	Pause = true;
+	StartPauseTimer = false;
+	PauseTimer = 0.0f;
 }
 
 GameState::~GameState(){
@@ -61,6 +64,8 @@ GameState::~GameState(){
 
 bool GameState::Initialize(){
 	
+	PauseTimer = 0.0f;
+
 	camera.setPosition(sf::Vector2f(1920/2, 1080/2));
 	cameras_last_position = camera.getPosition();
 		
@@ -104,10 +109,12 @@ bool GameState::Initialize(){
 	sprite_manager->Initialise("../data/Spritesheets2/");
 
 	//Precache the resources
-	sprite_manager->LoadTexture("MC SPRITESHEET 315p.png");
+	sprite_manager->LoadTexture("MC SPRITESHEET 252p w transparency.png");
 	sprite_manager->LoadTexture("WATER SPRITESHEET 315p.png");
 	sprite_manager->LoadTexture("FIRE SPRITESHEET 315p.png");
 	sprite_manager->LoadTexture("WOOD SPRITESHEET 495x405p.png");
+	sprite_manager->LoadTexture("Projectile Spritesheet Small.png");
+	sprite_manager->LoadTexture("Lost Souls Spritesheet.png");
 
 	HUD = new HeadsUpDisplay;
 	if(!HUD->Initialise(sprite_manager))
@@ -146,6 +153,9 @@ bool GameState::Enter(){
 
 	std::cout << "Welcome to the GameState" << std::endl;
 	std::cout << "Press 4 to go back to StartMenuState" <<std::endl;
+
+	UpdateDeltatime();
+
 	return false;
 }
 
@@ -161,9 +171,6 @@ bool GameState::Update(){
 		//while (window->isOpen()) {
 		sf::Event event;
 		if(m_window->pollEvent(event)) {
-			if(event.type == sf::Event::Closed) {
-				m_window->close();
-			};
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::F2))
 			{
 				if(draw_hitbox)
@@ -181,6 +188,11 @@ bool GameState::Update(){
 				HUD->MoveIndicator(entity_manager->game_entities[0]->GetArrow());
 			}
 
+			if(entity_manager->game_entities[0]->AddSoul())
+				HUD->AddSoul();
+			else if(entity_manager->game_entities[0]->DeleteSoul())
+				HUD->DeleteSoul();
+
 			//Add element points?
 			if(entity_manager->game_entities[0]->AddElementPoints())
 			{
@@ -189,7 +201,7 @@ bool GameState::Update(){
 					entity_manager->game_entities[0]->GetAddWood()));
 			}
 			//Delete element points?
-			if(entity_manager->game_entities[0]->DeleteElementPoints())
+			else if(entity_manager->game_entities[0]->DeleteElementPoints())
 			{
 				HUD->DeleteElements(sf::Vector3i(entity_manager->game_entities[0]->GetDestroyFire(),
 					entity_manager->game_entities[0]->GetDestroyWater(),
@@ -203,9 +215,9 @@ bool GameState::Update(){
 		};
 		
 			//kan inte gå över horisontlinjen:
-			if (entity_manager->game_entities.at(0)->getPosition().y < 240){
+			if (entity_manager->game_entities.at(0)->getPosition().y < 280){
 				Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
-				vect.y = 240;
+				vect.y = 280;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			};
 
@@ -217,16 +229,16 @@ bool GameState::Update(){
 			};
 
 			//kan inte gå under nedre kant:
-			if (entity_manager->game_entities.at(0)->getPosition().y > 1110-315/*playerheight*/){
+			if (entity_manager->game_entities.at(0)->getPosition().y > 800/*playerheight*/){
 				Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
 				vect.y = 1110-315/*playerheight*/;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			};
 
 			//kan inte gå ur höger vägg:
-			if (entity_manager->game_entities.at(0)->getPosition().x > 2485+2560){
+			if (entity_manager->game_entities.at(0)->getPosition().x > 3619*2){
 				Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
-				vect.x = 2485+2560;
+				vect.x = 3619*2;
 				entity_manager->game_entities.at(0)->setPosition(vect);
 			}
 			
@@ -235,9 +247,9 @@ bool GameState::Update(){
 		//Camera focus/movement:
 		//kameran ska dock inte kunna visa vad som finns utanför banan åt höger(banans slut):
 		//OBS MYCKET VIKTIGT MED > OCH = TILLSAMMANS
-		if (camera.getPosition().x >= 2042+2560){
+		if (camera.getPosition().x >= 3619*2){
 			sf::Vector2f vect = camera.getPosition();
-			vect.x = 2042+2560;
+			vect.x = 3619*2;
 			camera.setPosition(vect);
 		}
 
@@ -313,6 +325,8 @@ bool GameState::Update(){
 		paralax2.draw(m_window);
 		paralax22.draw(m_window);
 
+		
+
 		cloud.draw(m_window);
 		cloud2.draw(m_window);
 		
@@ -337,11 +351,32 @@ bool GameState::Update(){
 		
 		
 		
-		HUD->Move((camera.getPosition().x-cameras_last_position.x), 0);
+		HUD->Move((camera.getPosition().x-cameras_last_position.x), camera.getPosition().y - cameras_last_position.y);
 		cameras_last_position = camera.getPosition();
 
-		entity_manager->Update(deltatime);
 
+		//Update portion
+		if(!Pause)
+		{
+			entity_manager->Update(deltatime);
+			HUD->Update(deltatime);
+		}
+		else
+		{
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+				StartPauseTimer = true;
+		}
+		if(StartPauseTimer)
+		{
+			PauseTimer += deltatime;
+
+			if(PauseTimer > 0.2)
+			{
+				StartPauseTimer = false;
+				PauseTimer = 0.0f;
+				Pause = false;
+			}
+		}
 		
 
 		//drawing portion of game loop

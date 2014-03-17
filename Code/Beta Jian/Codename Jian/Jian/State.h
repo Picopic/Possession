@@ -23,4 +23,6 @@ public:
 	//virtual void Cleanup()=0;
 	//Draw går att ha i Update, men blir snyggare som egen. Allt som visas på skärmen har man i Draw.
 	virtual bool Draw() = 0;
+
+	bool draw_hitbox;
 };

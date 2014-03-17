@@ -43,13 +43,26 @@ private:
 	ConfigManager* config_manager;
 
 	int playerheight, playerwidth;
+	std::string playerspritesheet;
+	//projectiles
 	int fireprojectileheight, fireprojectilewidth;
+	std::string fireprojectilespritesheet;
 	int waterprojectileheight, waterprojectilewidth;
+	std::string waterprojectilespritesheet;
 	int woodprojectileheight, woodprojectilewidth;
+	std::string woodprojectilespritesheet;
 
 	int fireheight, firewidth;
+	std::string firespritesheet;
+
 	int waterheight, waterwidth;
+	std::string waterspritesheet;
+	
 	int woodheight, woodwidth;
+	std::string woodspritesheet;
+
+	int lostsoulheight, lostsoulwidth;
+	std::string lostsoulspritesheet;
 
 	EnemyWaves* waves;
 };

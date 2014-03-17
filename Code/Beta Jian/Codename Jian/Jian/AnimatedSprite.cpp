@@ -18,24 +18,28 @@ AnimatedSprite::AnimatedSprite(sf::Texture* animation_spritesheet, int sprite_wi
 	width = sprite_width;
 	height = sprite_height;
 	spritesheet = animation_spritesheet;
+	PlayAnimation = true;
 	image = new sf::Sprite(*spritesheet, sf::IntRect(x, y, width, height));
 }
 
 void AnimatedSprite::Update(float deltatime)
 {
 	time += deltatime;
-	if(time >= animation[current_frame].duration)
+	if(PlayAnimation)
 	{
-		time = 0.0f;
-		current_frame = ++current_frame  % animation.size();
+		if(time >= animation[current_frame].duration)
+		{
+			time = 0.0f;
+			current_frame = ++current_frame  % animation.size();
 
-		Frame &frame = animation[current_frame];
-		x = frame.x;
-		y = frame.y;
-		width = frame.w;
-		height = frame.h;
+			Frame &frame = animation[current_frame];
+			x = frame.x;
+			y = frame.y;
+			width = frame.w;
+			height = frame.h;
 
-		image->setTextureRect(sf::IntRect(x, y, width, height));
+			image->setTextureRect(sf::IntRect(x, y, width, height));
+		}
 	}
 }
 
@@ -57,4 +61,37 @@ int AnimatedSprite::GetNumberOfFrames()
 float AnimatedSprite::GetFrameDuration()
 {
 	return animation[0].duration;
+}
+
+bool AnimatedSprite::IsLastFrame()
+{
+	if(current_frame % animation.size() == 0)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+void AnimatedSprite::StopAnimation()
+{
+	PlayAnimation = false;
+}
+
+void AnimatedSprite::StartAnimation()
+{
+	PlayAnimation = true;
+}
+
+int AnimatedSprite::GetCurrentFrame()
+{
+	return current_frame;
+}
+
+void AnimatedSprite::SetCurrentFrame(int frame)
+{
+	if(frame >= 0 && frame < animation.size())
+		current_frame = frame;
+	else
+		std::cout << "The frame specified does not exist" << std::endl;
 }

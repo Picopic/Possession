@@ -1,0 +1,43 @@
+#-The length of each wave-#
+WaveWidth=1500
+
+#-The enemies in each wave-#
+
+EnemyFireWave1=0
+EnemyWaterWave1=0
+EnemyWoodWave1=1
+
+EnemyFireWave1=1
+EnemyWaterWave1=0
+EnemyWoodWave1=0
+
+EnemyFireWave1=0
+EnemyWaterWave1=1
+EnemyWoodWave1=0
+
+EnemyFireWave1=1
+EnemyWaterWave1=0
+EnemyWoodWave1=2
+
+EnemyFireWave1=2
+EnemyWaterWave1=1
+EnemyWoodWave1=0
+
+#-The objects in each wave-#
+
+//What sort of object?
+Object1Type=Tree1
+
+//Where is the object?
+Object1PosX=400
+Object1PosY=500
+
+//How big is the objects hitbox?
+Object1Width=40
+Object1Height=50
+
+//How much from the top left hand corner
+//is the hitbox?
+Object1OffsetX=200
+Object1OffsetY=300
+

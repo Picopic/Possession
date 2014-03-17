@@ -12,10 +12,11 @@ LostSoulObject::LostSoulObject(Entity* enemydropping, Vector2 lostsoul_position,
 {
 	current_animation = nullptr;
 
-	position.x = enemydropping->getPosition().x + enemydropping->getWidth();
-	position.y = enemydropping->getPosition().y + enemydropping->getHeight();
 	width = config_mgr->ReadInt("lostsoulwidth");
 	height = config_mgr->ReadInt("lostsoulheight");
+
+	position.x = enemydropping->getPosition().x + enemydropping->GetCurrentAnimation()->getSprite()->getTextureRect().width / 2;
+	position.y = enemydropping->getPosition().y + (enemydropping->GetCurrentAnimation()->getSprite()->getTextureRect().height);
 
 	entity_offset_x = config_mgr->ReadInt("lostsouloffsetx");
 	entity_offset_y = config_mgr->ReadInt("lostsouloffsety");
@@ -37,6 +38,8 @@ LostSoulObject::LostSoulObject(Entity* enemydropping, Vector2 lostsoul_position,
 
 void LostSoulObject::Init(std::string object_type, Alignment lostsoul_alignment, Type lostsoul_type)
 {
+	position.y -= current_animation->getSprite()->getTextureRect().height;
+
 	alignment = lostsoul_alignment;
 	type = lostsoul_type;
 

@@ -58,6 +58,8 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	destroy_fire = 0;
 	destroy_water = 0;
 	destroy_wood = 0;
+	addSoul = false;
+	deleteSoul = false;
 
 	fire_elements = Config_Manager->ReadFloat("playerfire");
 	water_elements = Config_Manager->ReadFloat("playerwater");
@@ -99,8 +101,9 @@ void PlayerObject::Update(float deltatime)
 	add_water = 0;
 	add_wood = 0;
 	add_element = false;
-
-	current_animation->Update(deltatime);
+	//Reset the soul HUD change variables
+	addSoul = false;
+	deleteSoul = false;
 
 	add_element = false;
 
@@ -157,11 +160,11 @@ void PlayerObject::Update(float deltatime)
 			{
 				create_projectile = true;
 				created_projectile = true;
-				if(direction.x == 1)
+				if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
 				{
 					SetCurrentAnimation(ATTACKRIGHT);
 				}
-				else
+				else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
 				{
 					SetCurrentAnimation(ATTACKLEFT);
 				}
@@ -184,7 +187,7 @@ void PlayerObject::Update(float deltatime)
 			if(used_lost_souls)
 			{
 				lost_souls_counter += deltatime;
-				if(lost_souls_counter > 0.3)
+				if(lost_souls_counter > 0.5)
 				{
 					used_lost_souls = false;
 					lost_souls_counter = 0.0f;
@@ -216,6 +219,7 @@ void PlayerObject::Update(float deltatime)
 		hitbox.setPosition(sf::Vector2f(collider->position.x, collider->position.y));
 	}
 	current_animation->getSprite()->setPosition(position.x, position.y);
+	current_animation->Update(deltatime);
 }
 
 //COLLISION
@@ -225,6 +229,7 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 	{
 		collectedSouls++;
 		hasLostSoul = true;
+		addSoul = true;
 	}
 	else if(collision_alignment == ALTAR)
 	{
@@ -362,9 +367,20 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 					wood_elements = 0;
 				}
 			}
-
 			break;
 		}
+
+		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+		{
+			SetCurrentAnimation(HITLEFT);
+			current_animations_name = HITLEFT;
+		}
+		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+		{
+			SetCurrentAnimation(HITRIGHT);
+			current_animations_name = HITRIGHT;
+		}
+			
 	}
 	if(collision_alignment == FIREFOEBULLET || collision_alignment == WATERFOEBULLET || collision_alignment == WOODFOEBULLET)
 	{
@@ -741,70 +757,72 @@ bool PlayerObject::CanChangeElement()
 void PlayerObject::Movement(float deltatime)
 {
 	//Vertical movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		//if(!created_projectile)
-		//{
-			if(direction.x == 1)
-			{
-				SetCurrentAnimation(WALKRIGHT);
-			}
-			else
-			{
-				SetCurrentAnimation(WALKLEFT);
-			}
-		//}
+		if((direction.x == 1) && current_animations_name != WALKRIGHT)
+		{
+			SetCurrentAnimation(WALKRIGHT);
+		}
+		else if((direction.x == -1) && current_animations_name != WALKLEFT)
+		{
+			SetCurrentAnimation(WALKLEFT);
+		}
+		
 		position.y -= speed*deltatime;
 		direction.y = -1;
 	}
 
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		//if(!created_projectile)
-		//{
-			if(direction.x == 1)
-			{
-				SetCurrentAnimation(WALKRIGHT);
-			}
-			else
-			{
-				SetCurrentAnimation(WALKLEFT);
-			}
-		//}
+		if(direction.x == 1 && current_animations_name != WALKRIGHT)
+		{
+			SetCurrentAnimation(WALKRIGHT);
+		}
+		else if(direction.x == -1 && current_animations_name != WALKLEFT)
+		{
+			SetCurrentAnimation(WALKLEFT);
+		}
+		
 		position.y += speed*deltatime;
 		direction.y = 1;
 	}
 
 	//horizontal movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		//if(!created_projectile)
-		//{
+		if(direction.x == -1 && current_animations_name != WALKLEFT)
+		{
 			SetCurrentAnimation(WALKLEFT);
-		//}
+		}
+		
 		position.x -= speed*deltatime;
 		direction.x = -1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		//if(!created_projectile)
-		//{
+		if(current_animations_name != WALKRIGHT)
+		{
 			SetCurrentAnimation(WALKRIGHT);
-		//}
+		}
+
 		position.x += speed*deltatime;
 		direction.x = 1;
 	}
-	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) 
+		&& !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		if(direction.x == 1)
+		if(!used_lost_souls)
 		{
-			SetCurrentAnimation(IDLERIGHT);
-			direction.y = 0;
-		}
-		else
-		{
-			SetCurrentAnimation(IDLELEFT);
-			direction.y = 0;
+			if(direction.x == 1 && current_animations_name != IDLERIGHT)
+			{
+				SetCurrentAnimation(IDLERIGHT);
+				direction.y = 0;
+			}
+			else if(direction.x == -1 && current_animations_name != IDLELEFT)
+			{
+				SetCurrentAnimation(IDLELEFT);
+				direction.y = 0;
+			}
 		}
 	}
 }
@@ -823,8 +841,18 @@ void PlayerObject::Souls()
 			}
 
 			used_lost_souls = true;
-			std::cout << "SACRIFICE!" << std::endl;
-			std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+			deleteSoul = true;
+
+			if(direction.x == 1 && current_animations_name != EATRIGHT)
+			{
+				SetCurrentAnimation(EATRIGHT);
+				current_animations_name = EATRIGHT;
+			}
+			else if(direction.x == -1 && current_animations_name != EATLEFT)
+			{
+				SetCurrentAnimation(EATLEFT);
+				current_animations_name = EATLEFT;
+			}
 		}
 	}
 	//free lost soul
@@ -839,9 +867,29 @@ void PlayerObject::Souls()
 			}
 
 			used_lost_souls = true;
-			std::cout << "RELEASE!" << std::endl;
-			std::cout << "LostSouls: " << collectedSouls << "\n" << std::endl;
+			deleteSoul = true;
+			
+			if(direction.x == 1 && current_animations_name  != RELEASERIGHT)
+			{
+				SetCurrentAnimation(RELEASERIGHT);
+				current_animations_name = RELEASERIGHT;
+			}
+			else if(direction.x == -1 && current_animations_name != RELEASELEFT)
+			{
+				SetCurrentAnimation(RELEASELEFT);
+				current_animations_name = RELEASELEFT;
+			}
 		}
 			
 	}
+}
+
+bool Entity::AddSoul()
+{
+	return addSoul;
+}
+
+bool Entity::DeleteSoul()
+{
+	return deleteSoul;
 }

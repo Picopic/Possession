@@ -8,6 +8,7 @@
 #include "AnimatedSprite.h"
 #include "SpriteManager.h"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
 #include "HeadsUpDisplay.h"
+#include "ConfigManager.h"
 
 HeadsUpDisplay::HeadsUpDisplay()
 {
@@ -16,6 +17,21 @@ HeadsUpDisplay::HeadsUpDisplay()
 
 bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 {
+	m_ConfigManager = new ConfigManager;
+	if(!m_ConfigManager->Initialise("../data/Configs/"))
+		return false;
+
+	m_ConfigManager->ReadFile("Config.txt");
+
+	//Souls
+	SoulWidth = 100;
+	SoulHeight = 100;
+	SoulXPos = m_ConfigManager->ReadInt("WindowWidth") - SoulWidth;
+	SoulYPos = 10;
+
+	//Spritemanagers
+	m_SpriteManager = sprite_mgr;
+
 	//Points
 	fire = 3;
 	water = 3;
@@ -26,12 +42,12 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	sprite_height = 115;
 
 	//Symbolpositions
-	position[0].x = 20;
+	position[0].x = 20;					//Water
 	position[0].y = 10;
-	position[1].x = 20 + sprite_width;
-	position[1].y = 10 + sprite_height/2;
-	position[2].x = 20;
-	position[2].y = 10 + sprite_height;
+	position[1].x = 20 + sprite_width;	//Fire
+	position[1].y = 10;
+	position[2].x = 20 + 2*sprite_width;//Wood
+	position[2].y = 10;
 
 	//Active element
 	ActiveElement = FIRE;
@@ -61,75 +77,21 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	deadwater = false;
 	deadwood = false;
 
-
-	//Set symbol positions
-	for(int i = 0; i < NumberOfImages; i++)
-	{
-		switch (ActiveElement)
-		{
-		case FIRE:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[1]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[0]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[2]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[1]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[0]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[2]);
-
-			if(i > 0)
-				continue;
-
-			//Dead
-			DeadFire->getSprite()->setPosition(position[1]);
-			DeadWater->getSprite()->setPosition(position[0]);
-			DeadWood->getSprite()->setPosition(position[2]);
-			break;
-		case WATER:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[2]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[1]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[0]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[2]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[1]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[0]);
-
-			if(i > 0)
-				continue;
-			//Dead
-			DeadFire->getSprite()->setPosition(position[2]);
-			DeadWater->getSprite()->setPosition(position[1]);
-			DeadWood->getSprite()->setPosition(position[0]);
-			break;
-		case WOOD:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[0]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[2]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[1]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[0]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[2]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[1]);
-
-			if(i > 0)
-				continue;
-			//Dead
-			DeadFire->getSprite()->setPosition(position[0]);
-			DeadWater->getSprite()->setPosition(position[2]);
-			DeadWood->getSprite()->setPosition(position[1]);
-			break;
-		}
-	}
-
 	return true;
 }
 
 void HeadsUpDisplay::Cleanup()
 {
+	//SpriteManager
+	if(m_SpriteManager != nullptr)
+		m_SpriteManager = nullptr;
+	//Configmanager
+	if(m_ConfigManager != nullptr)
+	{
+		delete m_ConfigManager;
+		m_ConfigManager = nullptr;
+	}
+
 	//Dead symbols
 	if(DeadFire != nullptr)
 	{
@@ -183,10 +145,55 @@ void HeadsUpDisplay::Cleanup()
 			ActiveWoodSymbols[i] = nullptr;
 		}
 	}
+
+	for(int i = 0; i < Souls.size(); i++)
+	{
+		if(Souls[i] != nullptr)
+		{
+			delete Souls[i];
+			Souls[i] = nullptr;
+		}
+	}
+}
+
+void HeadsUpDisplay::Update(float deltatime)
+{
+	for(int i = 0; i < Souls.size(); i++)
+	{
+		Souls[i]->Update(deltatime);
+	}
+	
+	if(ActiveElement == FIRE)
+		ActiveFireSymbols[fire - 1]->getSprite()->setPosition(position[1]);
+	else if(fire <= 0)
+		DeadFire->getSprite()->setPosition(position[1]);
+	else
+		InactiveFireSymbols[fire - 1]->getSprite()->setPosition(position[1]);
+
+	if(ActiveElement == WATER)
+		ActiveWaterSymbols[water - 1]->getSprite()->setPosition(position[0]);
+	else if(water <= 0)
+		DeadWater->getSprite()->setPosition(position[0]);
+	else
+		InactiveWaterSymbols[water - 1]->getSprite()->setPosition(position[0]);
+
+	if(ActiveElement == WOOD)
+		ActiveWoodSymbols[wood - 1]->getSprite()->setPosition(position[2]);
+	else if(wood <= 0)
+		DeadWood->getSprite()->setPosition(position[2]);
+	else
+		InactiveWoodSymbols[wood - 1]->getSprite()->setPosition(position[2]);
+		
 }
 
 void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)
 {	
+	//DrawSouls
+	for(int i = 0; i < Souls.size(); i++)
+	{
+		window->draw(*Souls[i]->getSprite());
+	}
+
 	//Draw fire
 	if(fire > 0 && ActiveElement == FIRE)
 		window->draw(*ActiveFireSymbols[fire - 1]->getSprite());
@@ -214,141 +221,27 @@ void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)
 
 void HeadsUpDisplay::Move(float x, float y)
 {
+	//Souls
+	SoulXPos += x;
+	SoulYPos += y;
+	for(int i = 0; i < Souls.size(); i++)
+	{
+		Souls[i]->getSprite()->move(x, y);
+	}
+
+	//Positions movement
 	for(int i = 0; i < 3; i++)
 	{
 		position[i].x += x;
 		position[i].y += y;
 	}
 
-	//Move symbols
-	for(int i = 0; i < NumberOfImages; i++)
-	{
-		switch (ActiveElement)
-		{
-		case FIRE:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[1]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[0]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[2]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[1]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[0]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[2]);
-
-			if(i > 0)
-				continue;
-
-			//Dead
-			DeadFire->getSprite()->setPosition(position[1]);
-			DeadWater->getSprite()->setPosition(position[0]);
-			DeadWood->getSprite()->setPosition(position[2]);
-			break;
-		case WATER:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[2]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[1]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[0]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[2]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[1]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[0]);
-
-			if(i > 0)
-				continue;
-			//Dead
-			DeadFire->getSprite()->setPosition(position[2]);
-			DeadWater->getSprite()->setPosition(position[1]);
-			DeadWood->getSprite()->setPosition(position[0]);
-			break;
-		case WOOD:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[0]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[2]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[1]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[0]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[2]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[1]);
-
-			if(i > 0)
-				continue;
-			//Dead
-			DeadFire->getSprite()->setPosition(position[0]);
-			DeadWater->getSprite()->setPosition(position[2]);
-			DeadWood->getSprite()->setPosition(position[1]);
-			break;
-		}
-	}
+	
 }
 
 void HeadsUpDisplay::MoveIndicator(Type type)
 {
 	ActiveElement = type;
-
-	for(int i = 0; i < NumberOfImages; i++)
-	{
-		switch (ActiveElement)
-		{
-		case FIRE:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[1]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[0]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[2]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[1]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[0]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[2]);
-
-			if(i > 0)
-				continue;
-
-			//Dead
-			DeadFire->getSprite()->setPosition(position[1]);
-			DeadWater->getSprite()->setPosition(position[0]);
-			DeadWood->getSprite()->setPosition(position[2]);
-			break;
-		case WATER:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[2]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[1]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[0]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[2]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[1]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[0]);
-
-			if(i > 0)
-				continue;
-			//Dead
-			DeadFire->getSprite()->setPosition(position[2]);
-			DeadWater->getSprite()->setPosition(position[1]);
-			DeadWood->getSprite()->setPosition(position[0]);
-			break;
-		case WOOD:
-			//Inactive
-			InactiveFireSymbols[i]->getSprite()->setPosition(position[0]);
-			InactiveWaterSymbols[i]->getSprite()->setPosition(position[2]);
-			InactiveWoodSymbols[i]->getSprite()->setPosition(position[1]);
-
-			//Active
-			ActiveFireSymbols[i]->getSprite()->setPosition(position[0]);
-			ActiveWaterSymbols[i]->getSprite()->setPosition(position[2]);
-			ActiveWoodSymbols[i]->getSprite()->setPosition(position[1]);
-
-			if(i > 0)
-				continue;
-			//Dead
-			DeadFire->getSprite()->setPosition(position[0]);
-			DeadWater->getSprite()->setPosition(position[2]);
-			DeadWood->getSprite()->setPosition(position[1]);
-			break;
-		}
-	}
 }
 
 void HeadsUpDisplay::AddElements(sf::Vector3i elements)
@@ -403,4 +296,23 @@ void HeadsUpDisplay::DeleteElements(sf::Vector3i elements)
 	}
 	else
 		wood -= elements.z;
+}
+
+void HeadsUpDisplay::AddSoul()
+{
+	Souls.push_back(m_SpriteManager->Load("Lost Souls Spritesheet.png", 7, 4, SoulWidth, SoulHeight, 0, 0));
+	Souls[Souls.size() - 1]->getSprite()->setPosition(SoulXPos, SoulYPos);
+	SoulXPos -= SoulWidth;
+}
+
+void HeadsUpDisplay::DeleteSoul()
+{
+	if(Souls[Souls.size() - 1] != nullptr)
+	{
+		delete Souls[Souls.size() - 1];
+		Souls[Souls.size() - 1] = nullptr;
+		Souls.erase(Souls.begin() + (Souls.size() - 1));
+
+		SoulXPos += SoulWidth;
+	}
 }

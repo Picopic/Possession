@@ -20,8 +20,17 @@ public:
 	void AddFrame(Frame &frame);
 	int GetNumberOfFrames();
 	float GetFrameDuration();
+	bool IsLastFrame();
+	
+	void StopAnimation();
+	void StartAnimation();
+
+	int GetCurrentFrame();
+	void SetCurrentFrame(int frame);
 
 private:
+	bool PlayAnimation;
+
 	sf::Sprite* image;
 	sf::Texture* spritesheet;
 	float x, y;

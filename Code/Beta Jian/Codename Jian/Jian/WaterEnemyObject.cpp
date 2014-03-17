@@ -46,6 +46,8 @@ WaterEnemyObject::WaterEnemyObject(ConfigManager* config_mgr, Vector2 enemy_posi
 	speed = config_mgr->ReadInt("watermovementspeed");
 	direction = Vector2(-1, 1);
 
+	collision_refresh_timer = 0.0f;
+	knockback_time = 0.2f;
 	death_animation_time = 0.0f;
 	movement_time = 0.0f;
 
@@ -79,81 +81,122 @@ void WaterEnemyObject::Update(float deltatime)
 {
 	//Firstly update the animation
 	current_animation->Update(deltatime);
-	//movement
-	if(current_animations_name != ATTACKLEFT || current_animations_name != ATTACKRIGHT)
-	{
-		//
 
-		//
-	}
-
-
-	//Attack
-	if(created_projectile)
+	if(!dead)
 	{
-		shooting_delay += deltatime;
-	}
-
-	if(shooting_delay == 0.001f && !created_projectile)
-	{
-		create_projectile = true;
-		created_projectile = true;
-		SetCurrentAnimation(ATTACKLEFT);
-		current_animations_name = ATTACKLEFT;
-	}
-	else
-	{
-		create_projectile = false;
-	}
-
-	if(shooting_delay > delay)
-	{
-		shooting_delay = 0.001f;
-		created_projectile = false;
-	}
-
-	if(shooting_delay >= current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
-	{
-		if(direction.x == 1)
+		if(!can_collide)
 		{
-			SetCurrentAnimation(IDLERIGHT);
+			collision_refresh_timer += deltatime;
+			//can collide again
+			if(collision_refresh_timer > knockback_time)
+			{
+				can_collide = true;
+				collision_refresh_timer = 0.0f;
+			}
 		}
 		else
 		{
-			SetCurrentAnimation(IDLELEFT);
+			//Attack
+			if(created_projectile)
+			{
+				shooting_delay += deltatime;
+			}
+
+			if(shooting_delay == 0.001f && !created_projectile)
+			{
+				create_projectile = true;
+				created_projectile = true;
+				if(current_animations_name != ATTACKLEFT)
+					SetCurrentAnimation(ATTACKLEFT);
+			}
+			else
+			{
+				create_projectile = false;
+			}
+
+			if(shooting_delay > delay)
+			{
+				shooting_delay = 0.001f;
+				created_projectile = false;
+			}
+	
+	
+			if(shooting_delay > current_animation->GetNumberOfFrames()*current_animation->GetFrameDuration())
+			{
+				if(direction.x == 1 && current_animations_name != IDLERIGHT)
+				{
+					SetCurrentAnimation(IDLERIGHT);
+				}
+				else if(direction.x == -1 && current_animations_name != IDLELEFT)
+				{
+					SetCurrentAnimation(IDLELEFT);
+				}
+			}
+	
+
+			//enemy ai chase
+			float deltaY = position.y - player->getPosition().y+120;
+			float deltaX = position.x - player->getPosition().x-60;
+			float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
+
+			velocity=Vector2((deltaX/distance)*40, (deltaY/distance)*100);
+
+			if(distance>=800){
+				velocity =Vector2(0, 0);
+				//if (deltaY>=-60 && deltaY <=60){
+				//	if(position.y>=600){
+				//	velocity.y = -140;
+				//	}
+				//	else if(position.y<=260){
+				//	velocity.y=140;
+				//	}
+				//}
+			}
+			if (distance>=900){
+				velocity=Vector2((deltaX/distance)*-100, (deltaY/distance)*-100);
+			}
+
+			position+=velocity*deltatime;
+
+			if(position.y>=800){
+				position.y=800;
+			}
+			if (position.y<=240){
+				position.y=240;
+			}
+		}
+	}
+	else
+	{
+		death_animation_time += deltatime;
+		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+		{
+			flagged_for_death = true;
+		}
+		//drop lost soul delay
+		if(dropped_lostsoul == true)
+		{
+			lostsouldrop_delay += deltatime;
+		}
+
+		if(lostsouldrop_delay == 0.001f && !dropped_lostsoul && random_number<=2)
+		{
+			drop_lostsoul = true;
+			dropped_lostsoul = true;
+		}
+		else
+		{
+			drop_lostsoul = false;
+		}
+
+		if(lostsouldrop_delay > lostsoulgoahead_delay)
+		{
+			lostsouldrop_delay = 0.001f;
+			dropped_lostsoul = false;
 		}
 	}
 
-	//enemy ai chase
-	float deltaY = position.y - player->getPosition().y+120;
-	float deltaX = position.x - player->getPosition().x-60;
-	float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
-
-	velocity=Vector2((deltaX/distance)*40, (deltaY/distance)*100);
-
-	if(distance>=800){
-		velocity =Vector2(0, 0);
-		//if (deltaY>=-60 && deltaY <=60){
-		//	if(position.y>=600){
-		//	velocity.y = -140;
-		//	}
-		//	else if(position.y<=260){
-		//	velocity.y=140;
-		//	}
-		//}
-	}
-	if (distance>=900){
-		velocity=Vector2((deltaX/distance)*-100, (deltaY/distance)*-100);
-	}
-
-	position+=velocity*deltatime;
-
-	if(position.y>=800){
-		position.y=800;
-	}
-	if (position.y<=240){
-		position.y=240;
-	}
+	
 
 	////AI PLAYER CHASE
 
@@ -210,50 +253,6 @@ void WaterEnemyObject::Update(float deltatime)
 
 	//position += velocity;
 
-	//Death
-
-	if(hitpoints <= 0)
-	{
-		if(hasCollider())
-		{
-			delete collider;
-			collider = nullptr;
-		}
-		dead = true;
-		SetCurrentAnimation(DEATHLEFT);
-		current_animations_name = DEATHLEFT;
-		current_animation->getSprite()->setPosition(position.x, position.y);
-	}
-	if(dead)
-	{
-		death_animation_time += deltatime;
-		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
-		{
-			flagged_for_death = true;
-		}
-		//drop lost soul delay
-		if(dropped_lostsoul == true)
-		{
-			lostsouldrop_delay += deltatime;
-		}
-
-		if(lostsouldrop_delay == 0.001f && !dropped_lostsoul && random_number<=2)
-		{
-			drop_lostsoul = true;
-			dropped_lostsoul = true;
-		}
-		else
-		{
-			drop_lostsoul = false;
-		}
-
-		if(lostsouldrop_delay > lostsoulgoahead_delay)
-		{
-			lostsouldrop_delay = 0.001f;
-			dropped_lostsoul = false;
-		}
-	}
-
 	//Lastly update the sprites position if there is a collider
 	if(hasCollider())
 	{
@@ -280,10 +279,31 @@ void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Ve
 		{
 			hitpoints--;
 		}
+
+		can_collide = false;
+		
+		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+			SetCurrentAnimation(HITLEFT);
+		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+			SetCurrentAnimation(HITRIGHT);
 	}
 	else if(enemy_alignment == PLAYER)
 	{
 
 	}
 
+	//Death
+	if(hitpoints <= 0)
+	{
+		if(hasCollider())
+		{
+			delete collider;
+			collider = nullptr;
+		}
+		dead = true;
+		if(current_animations_name != DEATHLEFT)
+			SetCurrentAnimation(DEATHLEFT);
+
+		current_animation->getSprite()->setPosition(position.x, position.y);
+	}
 }

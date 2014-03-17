@@ -38,12 +38,12 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 	if(projectile_direction.x == 1)
 	{
 		position.x = shooter_entity->getPosition().x + shooter_entity->GetSprite()->getTextureRect().width/2;
-		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight()*0.3;
+		position.y = shooter_entity->getPosition().y;
 	}
 	else if(projectile_direction.x == -1)
 	{
 		position.x = shooter_entity->getPosition().x;
-		position.y = shooter_entity->getPosition().y + shooter_entity->getHeight()*0.3;
+		position.y = shooter_entity->getPosition().y;
 	}
 
 	start_pos = position;
@@ -118,7 +118,7 @@ void Projectile::Update(float deltatime)
 	if(dead)
 	{
 		death_animation_time += deltatime;
-		if(death_animation_time > 0.5)
+		if(death_animation_time > 0.4)
 		{
 			flagged_for_death = true;
 		}
@@ -157,10 +157,10 @@ void Projectile::OutOfBounds()
 
 	if(direction.x == 1)
 	{
-		SetCurrentAnimation(DEATHRIGHT);
+		SetCurrentAnimation(FADEOUTRIGHT);
 	}
 	else
 	{
-		SetCurrentAnimation(DEATHLEFT);
+		SetCurrentAnimation(FADEOUTLEFT);
 	}
 }

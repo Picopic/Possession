@@ -2,6 +2,8 @@
 
 #pragma once
 
+class ConfigManager;
+
 class HeadsUpDisplay
 {
 public:
@@ -23,6 +25,11 @@ public:
 	void AddElements(sf::Vector3i elements);
 	//Delete the values
 	void DeleteElements(sf::Vector3i elements);
+
+	//Add a soul
+	void AddSoul();
+	//Delete a soul
+	void DeleteSoul();
 
 private:
 	float sprite_width, sprite_height;
@@ -54,5 +61,17 @@ private:
 
 	//Current number of points in symbols
 	int fire, water, wood;
+
+	//Souls
+	float SoulXPos;
+	float SoulYPos;
+	std::vector<AnimatedSprite*> Souls;
+	int SoulWidth;
+	int SoulHeight;
+
+	//Input from files
+	ConfigManager* m_ConfigManager;
+	//Loading sprites
+	SpriteManager* m_SpriteManager;
 };
 

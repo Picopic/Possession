@@ -29,6 +29,8 @@ public:
 	int GetDestroyWood();
 	Type GetArrow();
 	bool ChangedElement();
+	bool AddSoul();
+	bool DeleteSoul();
 
 	//For EnemyAI and assosiated
 	void setplayer(Entity* p_player);
@@ -117,6 +119,7 @@ protected:
 	float entity_offset_y;
 	bool can_collide;
 	float collision_refresh_timer;
+	float knockback_time;
 	sf::RectangleShape hitbox;
 
 	//movement
@@ -134,6 +137,8 @@ protected:
 	int destroy_wood;
 	Type arrow;
 	bool changed_element;
+	bool addSoul;
+	bool deleteSoul;
 
 	//Animations
 	AnimatedSprite* current_animation;
@@ -154,5 +159,4 @@ protected:
 
 	//Enemy AI to not stack on each other
 	std::vector<Vector2> othersposition;
-
 };

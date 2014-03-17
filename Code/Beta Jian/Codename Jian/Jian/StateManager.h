@@ -21,6 +21,8 @@ public:
 	bool IsRunning();
 	bool Initialize();
 
+	State* GetState(std::string name);
+
 	void Cleanup();
 
 private:

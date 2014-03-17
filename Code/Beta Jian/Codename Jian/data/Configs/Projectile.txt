@@ -1,20 +1,20 @@
 //Projectile related variables
 
 //collision
-fireprojectileoffsetx=45
-fireprojectileoffsety=50
+fireprojectileoffsetx=56
+fireprojectileoffsety=217
 
-waterprojectileoffsetx=45
-waterprojectileoffsety=50
+waterprojectileoffsetx=56
+waterprojectileoffsety=217
 
-woodprojectileoffsetx=45
-woodprojectileoffsety=50
+woodprojectileoffsetx=56
+woodprojectileoffsety=217
 
-fireprojectilewidth=57
-fireprojectileheight=45
+fireprojectilewidth=53
+fireprojectileheight=26
 
-waterprojectilewidth=57
-waterprojectileheight=45
+waterprojectilewidth=53
+waterprojectileheight=26
 
-woodprojectilewidth=57
-woodprojectileheight=45
+woodprojectilewidth=53
+woodprojectileheight=26

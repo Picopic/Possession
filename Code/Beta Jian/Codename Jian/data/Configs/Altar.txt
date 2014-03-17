@@ -1,0 +1,7 @@
+//Altar yeah
+
+altarwidth=50
+altarheight=30
+
+altaroffsetx=150
+altaroffsety=80

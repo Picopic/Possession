@@ -69,6 +69,46 @@ AnimatedSprite* SpriteManager::Load(const std::string &filename, int number_of_f
 	return anim_sprite;
 }
 
+AnimatedSprite* SpriteManager::LoadReversed(const std::string &filename, int number_of_frames, int number_of_columns, int width, int height, int startx, int starty)
+{
+	std::map<std::string, sf::Texture*>::iterator it = spritesheets.find(filename);
+	if(it == spritesheets.end())
+	{
+		//Om det inte går att ladda in spritesheeten
+		if(!LoadImage(filename))
+		{
+			return nullptr;
+		}
+
+		it = spritesheets.find(filename);
+	}
+
+	AnimatedSprite* anim_sprite = new AnimatedSprite(it->second, width, height, startx, starty);
+	int row = 0;
+	int column = 0;
+	for(int i = 1; i <= number_of_frames; i++)
+	{
+		AnimatedSprite::Frame frame;
+
+		frame.duration = 0.1f;
+		frame.x = startx - (column * width);
+		frame.y = starty + (row * height);
+		frame.w = width;
+		frame.h = height;
+		anim_sprite->AddFrame(frame);
+		
+		column ++;
+
+		if(i%number_of_columns == 0)
+		{
+			column = 0;
+			row++;
+		}
+	}
+	
+	return anim_sprite;
+}
+
 /**
   *	Preload a spritesheet
   * This is so that we can precache our resources

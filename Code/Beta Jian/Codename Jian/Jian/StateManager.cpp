@@ -88,3 +88,16 @@ void StateManager::Cleanup(){
 		m_states.at(i)->Cleanup();
 	};*/
 }
+
+State* StateManager::GetState(std::string name)
+{
+	for(int i = 0; i < m_states.size(); i++)
+	{
+		if(m_states[i]->IsType(name))
+		{
+			return m_states[i];
+		}
+	}
+
+	return nullptr;
+}
