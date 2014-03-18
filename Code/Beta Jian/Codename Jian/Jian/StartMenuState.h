@@ -20,6 +20,7 @@
 #include "SMop2.h"
 #include "SMop3.h"
 #include "SMop4.h"
+#include "SMhowtoplay.h"
 
 enum MenuOptions
 {
@@ -77,6 +78,7 @@ private:
 	SMop2 smop2;
 	SMop3 smop3;
 	SMop4 smop4;
+	SMhowtoplay smhowtoplay;
 
 	SpriteManager* sprite_manager;
 	EntityManager *entity_manager;

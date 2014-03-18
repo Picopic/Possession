@@ -170,6 +170,7 @@
     <ClCompile Include="SMFogB.cpp" />
     <ClCompile Include="SMFogF.cpp" />
     <ClCompile Include="SMHimmel.cpp" />
+    <ClCompile Include="SMhowtoplay.cpp" />
     <ClCompile Include="SMMoon.cpp" />
     <ClCompile Include="SMMountainsB.cpp" />
     <ClCompile Include="SMMountainsF.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="SMFogB.h" />
     <ClInclude Include="SMFogF.h" />
     <ClInclude Include="SMHimmel.h" />
+    <ClInclude Include="SMhowtoplay.h" />
     <ClInclude Include="SMMoon.h" />
     <ClInclude Include="SMMountainsB.h" />
     <ClInclude Include="SMMountainsF.h" />

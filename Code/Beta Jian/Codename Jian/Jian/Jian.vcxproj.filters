@@ -210,6 +210,9 @@
     <ClCompile Include="StaticObject.cpp">
       <Filter>Source Files\Objects\PlayareaObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SMhowtoplay.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="StaticObject.h">
       <Filter>Header Files\Objects\PlayareaObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMhowtoplay.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

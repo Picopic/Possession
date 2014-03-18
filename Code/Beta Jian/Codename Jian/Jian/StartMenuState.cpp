@@ -62,6 +62,9 @@ bool StartMenuState::Initialize(){
 	smop4.setPosition(sf::Vector2f(0, 0));
 	smop4.initialize();
 
+	smhowtoplay.setPosition(sf::Vector2f(0, 0));
+	smhowtoplay.initialize();
+
 	m_done = false;
 	current_option = PLAY;
 	options_changed = false;
@@ -216,10 +219,11 @@ bool StartMenuState::Update()
 			m_next_state = "GameState";
 			m_done=true;
 		break;
-		case HOWTOPLAY:
+/*		case HOWTOPLAY:
+
 			m_next_state = "HowToPlayState";
 			m_done=true;
-		break;
+		break;*/
 		case OPTIONS:
 			m_next_state = "OptionsState";
 			m_done=true;
@@ -281,6 +285,9 @@ bool StartMenuState::Draw(){
 		}
 		else if (current_option == HOWTOPLAY){
 			smop2.draw(m_window);
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
+				smhowtoplay.draw(m_window);
+			}
 		}
 		else if (current_option == OPTIONS){
 			smop3.draw(m_window);

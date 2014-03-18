@@ -27,7 +27,7 @@ void SMop3::draw(sf::RenderWindow* window){
 }
 	
 bool SMop3::initialize(){
-	texture.loadFromFile("../data/f/SMtextop2.png");
+	texture.loadFromFile("../data/f/SMtextop3.png");
 	sprite.setTexture(texture);
 
 	return true;
