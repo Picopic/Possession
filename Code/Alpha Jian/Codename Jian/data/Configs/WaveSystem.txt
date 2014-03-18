@@ -1,43 +1,52 @@
 #-The length of each wave-#
 WaveWidth=1500
 
+#-How many waves are there-#
+NumberOfWaves=5
+
 #-The enemies in each wave-#
 
 EnemyFireWave1=0
 EnemyWaterWave1=0
 EnemyWoodWave1=1
 
-EnemyFireWave1=1
-EnemyWaterWave1=0
-EnemyWoodWave1=0
+EnemyFireWave2=1
+EnemyWaterWave2=0
+EnemyWoodWave2=0
 
-EnemyFireWave1=0
-EnemyWaterWave1=1
-EnemyWoodWave1=0
+EnemyFireWave3=0
+EnemyWaterWave3=1
+EnemyWoodWave3=0
 
-EnemyFireWave1=1
-EnemyWaterWave1=0
-EnemyWoodWave1=2
+EnemyFireWave4=1
+EnemyWaterWave4=0
+EnemyWoodWave4=2
 
-EnemyFireWave1=2
-EnemyWaterWave1=1
-EnemyWoodWave1=0
+EnemyFireWave5=2
+EnemyWaterWave5=1
+EnemyWoodWave5=0
 
 #-The objects in each wave-#
 
+//How many objects in wave?
+NumberOfObjectsWave1=1
+
 //What sort of object?
-Object1Type=Tree1
+Object1Wave1Spritesheet=Shitbox
+Object1Wave1NumberOfFrames=1
+Object1Wave1NumberOfColumns=1
+Object1Wave1SpriteWidth=100
+Object1Wave1SpriteHeight=100
 
 //Where is the object?
-Object1PosX=400
-Object1PosY=500
+Object1Wave1PosX=400
+Object1Wave1PosY=500
 
 //How big is the objects hitbox?
-Object1Width=40
-Object1Height=50
+Object1Wave1Width=40
+Object1Wave1Height=50
 
 //How much from the top left hand corner
 //is the hitbox?
-Object1OffsetX=200
-Object1OffsetY=300
-
+Object1Wave1OffsetX=200
+Object1Wave1OffsetY=300

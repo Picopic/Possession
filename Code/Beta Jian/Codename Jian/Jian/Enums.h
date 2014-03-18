@@ -15,6 +15,7 @@ enum Alignment
 	LOSTSOUL,
 	ALTAR,
 	WALL,
+	STATICOBJECT,
 	ALIGNMENT_SIZE
 };
 

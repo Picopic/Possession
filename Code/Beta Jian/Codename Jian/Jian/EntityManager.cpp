@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 
+#include "StaticObject.h"
 #include "EntityManager.h"
 
 
@@ -301,6 +302,28 @@ void EntityManager::AttachLostSoul(Alignment entity_name, Entity* enemydropping,
 	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load(lostsoulspritesheet, 7, 4, lostsoulwidth, lostsoulheight, lostsoulwidth*0, lostsoulheight*0));
 	game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, entity_type);
 
+}
+
+void EntityManager::AttachStaticObject(ConfigManager* ConfigMgr, std::string Object)
+{
+	//Position
+	Vector2 ObjectPosition;
+	ObjectPosition.x = ConfigMgr->ReadFloat(Object + "PosX");
+	ObjectPosition.y = ConfigMgr->ReadFloat(Object + "PosY");
+
+	//Animation/Sprite
+	std::string ObjectSpritesheet = ConfigMgr->GetValueFromKey(Object + "Spritesheet");
+	int NumberOfFrames = ConfigMgr->ReadInt(Object + "NumberOfFrames");
+	int NumberOfColums = ConfigMgr->ReadInt(Object + "NumberOfColumns");
+	int SpriteWidth = ConfigMgr->ReadInt(Object + "SpriteWidth");
+	int SpriteHeight = ConfigMgr->ReadInt(Object + "SpriteHeight");
+
+	game_entities.push_back(new StaticObject(ConfigMgr, ObjectPosition, Object));
+
+	//Set the Animation
+	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load(ObjectSpritesheet, NumberOfFrames, NumberOfColums, SpriteWidth, SpriteHeight, 0, 0));
+
+	game_entities[game_entities.size() - 1]->Init("Static Object", STATICOBJECT, NONE);
 }
 
 void EntityManager::Cleanup()

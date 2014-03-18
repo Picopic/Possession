@@ -72,6 +72,11 @@ bool Entity::IsFlaggedForDeath()
 	return flagged_for_death;
 }
 
+void Entity::FlagEntity()
+{
+	flagged_for_death = true;
+}
+
 Vector2 Entity::getDirection()
 {
 	return direction;

@@ -10,10 +10,15 @@
 #include "HowToPlayState.h"
 #include "ConfigManager.h"
 
+#include <ctime>
+
 using namespace sf;
 
 int main()
 {
+	//Create a new seed for randomisation
+	srand(time(NULL));
+
 	sf::RenderWindow* m_window;
 
 	ConfigManager *config_manager = new ConfigManager;

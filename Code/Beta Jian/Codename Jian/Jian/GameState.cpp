@@ -126,6 +126,7 @@ bool GameState::Initialize(){
 
 	config_manager = new ConfigManager;
 	config_manager->Initialise("../data/Configs/");
+	config_manager->ReadFile("Config.txt");
 	config_manager->ReadFile("Enemywaves.txt");
 
 	enemy_waves = new EnemyWaves(entity_manager, config_manager);
