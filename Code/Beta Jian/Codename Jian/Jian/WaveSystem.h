@@ -21,8 +21,11 @@ public:
 	//essential components
 	bool Initalise(ConfigManager* ConfigMgr, EntityManager* EntityMgr);
 	
+	//Update the Wave system to see if it is time to change wave
+	void Update(float PlayerDeltaX);
+
 	//See if it is time to change wave
-	bool ChangeWave(float PlayerDeltaX);
+	void ChangeWave(int WaveNumber);
 private:
 	//The length of a one wave
 	float m_fWidth;

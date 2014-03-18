@@ -49,6 +49,8 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 	start_pos = position;
 	direction = projectile_direction;
 
+	speed = 300;
+
 	dead = false;
 	death_animation_time = 0.0f;
 	flagged_for_death = false;
@@ -88,9 +90,10 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 void Projectile::Update(float deltatime)
 {
 	current_animation->Update(deltatime);
+	position.x += deltatime * speed * direction.x;
 	if(hasCollider())
 	{
-		position.x += deltatime * 300 * direction.x;
+		//position.x += deltatime * speed * direction.x;
 		collider->position.x = position.x + entity_offset_x;
 		collider->position.y = position.y + entity_offset_y;
 		hitbox.setPosition(collider->position.x, collider->position.y);
@@ -115,10 +118,12 @@ void Projectile::Update(float deltatime)
 	{
 		OutOfBounds();
 	}
+
 	if(dead)
 	{
 		death_animation_time += deltatime;
-		if(death_animation_time > 0.4)
+		std::cout << current_animation->GetCurrentFrame() << std::endl;
+		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 		{
 			flagged_for_death = true;
 		}
@@ -147,20 +152,26 @@ void Projectile::OnCollision(Entity* collision_entity, Type collision_type, Vect
 
 void Projectile::OutOfBounds()
 {
-	dead = true;
-
-	if(collider != nullptr)
+	if(!dead)
 	{
-		delete collider;
-		collider = nullptr;
-	}
+		dead = true;
 
-	if(direction.x == 1)
-	{
-		SetCurrentAnimation(FADEOUTRIGHT);
+		if(collider != nullptr)
+		{
+			delete collider;
+			collider = nullptr;
+		}
+		if(direction.x == 1)
+		{
+			SetCurrentAnimation(FADEOUTRIGHT);
+		}
+		else
+		{
+			SetCurrentAnimation(FADEOUTLEFT);
+		}
 	}
 	else
 	{
-		SetCurrentAnimation(FADEOUTLEFT);
+
 	}
 }
