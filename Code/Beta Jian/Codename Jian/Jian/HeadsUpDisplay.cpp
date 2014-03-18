@@ -158,65 +158,70 @@ void HeadsUpDisplay::Cleanup()
 
 void HeadsUpDisplay::Update(float deltatime)
 {
-	for(int i = 0; i < Souls.size(); i++)
+	if(fire > 0 || water > 0 || wood > 0)
 	{
-		Souls[i]->Update(deltatime);
-	}
+		for(int i = 0; i < Souls.size(); i++)
+		{
+			Souls[i]->Update(deltatime);
+		}
 	
-	if(ActiveElement == FIRE)
-		ActiveFireSymbols[fire - 1]->getSprite()->setPosition(position[1]);
-	else if(fire <= 0)
-		DeadFire->getSprite()->setPosition(position[1]);
-	else
-		InactiveFireSymbols[fire - 1]->getSprite()->setPosition(position[1]);
+		if(ActiveElement == FIRE)
+			ActiveFireSymbols[fire - 1]->getSprite()->setPosition(position[1]);
+		else if(fire <= 0)
+			DeadFire->getSprite()->setPosition(position[1]);
+		else
+			InactiveFireSymbols[fire - 1]->getSprite()->setPosition(position[1]);
 
-	if(ActiveElement == WATER)
-		ActiveWaterSymbols[water - 1]->getSprite()->setPosition(position[0]);
-	else if(water <= 0)
-		DeadWater->getSprite()->setPosition(position[0]);
-	else
-		InactiveWaterSymbols[water - 1]->getSprite()->setPosition(position[0]);
+		if(ActiveElement == WATER)
+			ActiveWaterSymbols[water - 1]->getSprite()->setPosition(position[0]);
+		else if(water <= 0)
+			DeadWater->getSprite()->setPosition(position[0]);
+		else
+			InactiveWaterSymbols[water - 1]->getSprite()->setPosition(position[0]);
 
-	if(ActiveElement == WOOD)
-		ActiveWoodSymbols[wood - 1]->getSprite()->setPosition(position[2]);
-	else if(wood <= 0)
-		DeadWood->getSprite()->setPosition(position[2]);
-	else
-		InactiveWoodSymbols[wood - 1]->getSprite()->setPosition(position[2]);
-		
+		if(ActiveElement == WOOD)
+			ActiveWoodSymbols[wood - 1]->getSprite()->setPosition(position[2]);
+		else if(wood <= 0)
+			DeadWood->getSprite()->setPosition(position[2]);
+		else
+			InactiveWoodSymbols[wood - 1]->getSprite()->setPosition(position[2]);
+	}	
 }
 
 void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)
 {	
-	//DrawSouls
-	for(int i = 0; i < Souls.size(); i++)
+	if(fire > 0 || water > 0 || wood > 0)
 	{
-		window->draw(*Souls[i]->getSprite());
+		//DrawSouls
+		for(int i = 0; i < Souls.size(); i++)
+		{
+			window->draw(*Souls[i]->getSprite());
+		}
+
+		//Draw fire
+		if(fire > 0 && ActiveElement == FIRE)
+			window->draw(*ActiveFireSymbols[fire - 1]->getSprite());
+		else if(fire > 0)
+			window->draw(*InactiveFireSymbols[fire - 1]->getSprite());
+		else
+			window->draw(*DeadFire->getSprite());
+
+		//Draw water
+		if(water > 0 && ActiveElement == WATER)
+			window->draw(*ActiveWaterSymbols[water - 1]->getSprite());
+		else if(water > 0)
+			window->draw(*InactiveWaterSymbols[water - 1]->getSprite());
+		else
+			window->draw(*DeadWater->getSprite());
+
+		//Draw wood
+		if(wood > 0 && ActiveElement == WOOD)
+			window->draw(*ActiveWoodSymbols[wood - 1]->getSprite());
+		else if(wood > 0)
+			window->draw(*InactiveWoodSymbols[wood - 1]->getSprite());
+		else
+			window->draw(*DeadWood->getSprite());
 	}
-
-	//Draw fire
-	if(fire > 0 && ActiveElement == FIRE)
-		window->draw(*ActiveFireSymbols[fire - 1]->getSprite());
-	else if(fire > 0)
-		window->draw(*InactiveFireSymbols[fire - 1]->getSprite());
-	else
-		window->draw(*DeadFire->getSprite());
-
-	//Draw water
-	if(water > 0 && ActiveElement == WATER)
-		window->draw(*ActiveWaterSymbols[water - 1]->getSprite());
-	else if(water > 0)
-		window->draw(*InactiveWaterSymbols[water - 1]->getSprite());
-	else
-		window->draw(*DeadWater->getSprite());
-
-	//Draw wood
-	if(wood > 0 && ActiveElement == WOOD)
-		window->draw(*ActiveWoodSymbols[wood - 1]->getSprite());
-	else if(wood > 0)
-		window->draw(*InactiveWoodSymbols[wood - 1]->getSprite());
-	else
-		window->draw(*DeadWood->getSprite());
 }
 
 void HeadsUpDisplay::Move(float x, float y)
