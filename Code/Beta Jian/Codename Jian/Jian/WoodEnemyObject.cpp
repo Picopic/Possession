@@ -105,9 +105,11 @@ void WoodEnemyObject::Update(float deltatime)
 			velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
 
 			if(distance<=150){
+				//HIT
+				//velocity =Vector2(+60, 0);
 				velocity =Vector2(0, 0);
 				if(current_animations_name != IDLELEFT)
-					SetCurrentAnimation(IDLELEFT);
+				SetCurrentAnimation(IDLELEFT);
 			}
 			else if(direction.x == -1 && current_animations_name != WALKLEFT)
 			{

@@ -72,7 +72,7 @@ bool GameState::Initialize(){
 	cloud.setPosition(sf::Vector2f(0, 0));
 	cloud.initialize();
 
-	cloud2.setPosition(sf::Vector2f(1280,0));
+	cloud2.setPosition(sf::Vector2f(3840,0));
 	cloud2.initialize();
 
 	gameplayarea.setPosition(sf::Vector2f(0, 0));
@@ -304,14 +304,14 @@ bool GameState::Update(){
 		
 		
 		//För att molnen ska spawna och despawna på rätt positioner:
-		if(cloud.getPosition().x <= camera.getPosition().x - 2200){
+		if(cloud.getPosition().x <= camera.getPosition().x - 4760){
 			sf::Vector2f vect = cloud.getPosition();
-			vect.x = camera.getPosition().x + 1920/2;
+			vect.x = camera.getPosition().x + 1920/2 + 1920;
 			cloud.setPosition(vect);
 		}
-		if(cloud2.getPosition().x <= camera.getPosition().x - 2200){
+		if(cloud2.getPosition().x <= camera.getPosition().x - 4760){
 			sf::Vector2f vect = cloud2.getPosition();
-			vect.x = camera.getPosition().x + 1920/2;
+			vect.x = camera.getPosition().x + 1920/2 + 1920;
 			cloud2.setPosition(vect);
 		}
 
