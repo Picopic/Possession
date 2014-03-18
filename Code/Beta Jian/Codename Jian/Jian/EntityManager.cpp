@@ -40,16 +40,16 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	playerwidth = 252;
 	playerspritesheet = "MC SPRITESHEET 252p w transparency.png";
 
-	fireprojectileheight = 252;
+	fireprojectileheight = 250;
 	fireprojectilewidth = 180;
-	waterprojectileheight = 252;
+	waterprojectileheight = 250;
 	waterprojectilewidth = 180;
-	woodprojectileheight = 252;
+	woodprojectileheight = 250;
 	woodprojectilewidth = 180;
 
-	fireprojectilespritesheet = "Projectile Spritesheet Small.png";
-	waterprojectilespritesheet = "Projectile Spritesheet Small.png";
-	woodprojectilespritesheet = "Projectile Spritesheet Small.png";
+	fireprojectilespritesheet = "Projectiles 180x250p.png";
+	waterprojectilespritesheet = "Projectiles 180x250p.png";
+	woodprojectilespritesheet = "Projectiles 180x250p.png";
 
 	fireheight = 315;
 	firewidth = 315;

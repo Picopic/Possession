@@ -94,11 +94,28 @@ bool WaveSystem::Initalise(ConfigManager* ConfigMgr, EntityManager* EntityMgr)
 	return true;
 }
 
-bool WaveSystem::ChangeWave(float PlayerDeltaX)
+void WaveSystem::Update(float PlayerDeltaX)
 {
 	m_fPlayerX += PlayerDeltaX;
 
-	return true;
+	if(m_fPlayerX > m_fWidth)
+	{
+		m_iCurrentWave++;
+		m_fPlayerX = 0.0f;
+		ChangeWave(m_iCurrentWave);
+	}
+		
+	else if(m_fPlayerX < 0.0f)
+	{
+		m_iCurrentWave--;
+		m_fPlayerX = m_fWidth;
+		ChangeWave(m_iCurrentWave);
+	}
+}
+
+void WaveSystem::ChangeWave(int WaveNumber)
+{
+
 }
 
 //----------------------End of Essential Functions-------------------------------------------//

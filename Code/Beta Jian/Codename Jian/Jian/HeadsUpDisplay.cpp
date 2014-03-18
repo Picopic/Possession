@@ -162,7 +162,7 @@ void HeadsUpDisplay::Update(float deltatime)
 	{
 		for(int i = 0; i < Souls.size(); i++)
 		{
-			Souls[i]->Update(deltatime);
+			//Souls[i]->Update(deltatime);
 		}
 	
 		if(ActiveElement == FIRE)
