@@ -12,6 +12,7 @@ using namespace sf;
 
 StartMenuState::StartMenuState(sf::RenderWindow* StartMenuWindow){
 	m_window = StartMenuWindow;
+	chosenhowtoplay = false;
 }
 
 StartMenuState::~StartMenuState(){
@@ -70,7 +71,7 @@ bool StartMenuState::Initialize(){
 	options_changed = false;
 	options_changed_delay = 0.001f;
 
-	
+
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
 
@@ -85,7 +86,7 @@ bool StartMenuState::Enter(){
 	std::cout << "Press 1 to go to the Gamestate" <<std::endl;
 	std::cout << "Press 2 to go to the Optionsstate" <<std::endl;
 	std::cout << "Press 3 to go to the HowToPlayState" <<std::endl;
-	
+
 	return false;
 
 }
@@ -119,7 +120,7 @@ bool StartMenuState::Update()
 		vect.x = 3840;
 		smclouds2.setPosition(vect);
 	}
-	
+
 	//För att bakre dimma ska spawna och despawna på rätt positioner:
 	if(smfogb.getPosition().x <= -3840){
 		sf::Vector2f vect = smfogb.getPosition();
@@ -148,66 +149,69 @@ bool StartMenuState::Update()
 	if(Keyboard::isKeyPressed(Keyboard::Num1)) {
 		m_next_state = "GameState";
 		m_done=true;
-		
+
 	}
 	else if(Keyboard::isKeyPressed(Keyboard::Num2)) {
 		m_next_state = "OptionsState";
 		m_done=true;
-		
+
 	}
 	else if(Keyboard::isKeyPressed(Keyboard::Num3)) {
 		m_next_state = "HowToPlayState";
 		m_done=true;
-		
+
 	}
 	//Go up in list of menu options
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !options_changed)
 	{
-		switch(current_option)
-		{
-		case PLAY:
-			current_option = QUIT;
-			options_changed = true;
-		break;
-		case HOWTOPLAY:
-			current_option = PLAY;
-			options_changed = true;
-		break;
-		case OPTIONS:
-			current_option = HOWTOPLAY;
-			options_changed = true;
-		break;
-		case QUIT:
-			current_option = OPTIONS;
-			options_changed = true;
-		break;
+		if(!chosenhowtoplay){
+			switch(current_option)
+			{
+			case PLAY:
+				current_option = QUIT;
+				options_changed = true;
+				break;
+			case HOWTOPLAY:
+				current_option = PLAY;
+				options_changed = true;
+				break;
+			case OPTIONS:
+				current_option = HOWTOPLAY;
+				options_changed = true;
+				break;
+			case QUIT:
+				current_option = OPTIONS;
+				options_changed = true;
+				break;
+			}
+			std::cout << current_option << std::endl;
 		}
-		std::cout << current_option << std::endl;
 	}
-
 	//Go down in list of menu options
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !options_changed)
 	{
-		switch(current_option)
-		{
-		case PLAY:
-			current_option = HOWTOPLAY;
-			options_changed = true;
-		break;
-		case HOWTOPLAY:
-			current_option = OPTIONS;
-			options_changed = true;
-		break;
-		case OPTIONS:
-			current_option = QUIT;
-			options_changed = true;
-		break;
-		case QUIT:
-			current_option = PLAY;
-			options_changed = true;
-		break;
+		if(!chosenhowtoplay){
+			switch(current_option)
+			{
+			case PLAY:
+				current_option = HOWTOPLAY;
+				options_changed = true;
+				break;
+			case HOWTOPLAY:
+				current_option = OPTIONS;
+				options_changed = true;
+				break;
+			case OPTIONS:
+				current_option = QUIT;
+				options_changed = true;
+				break;
+			case QUIT:
+				current_option = PLAY;
+				options_changed = true;
+				break;
+			}
+			std::cout << current_option << std::endl;
 		}
-		std::cout << current_option << std::endl;
 	}
 
 	//Choose in list of menu options
@@ -218,19 +222,19 @@ bool StartMenuState::Update()
 		case PLAY:
 			m_next_state = "GameState";
 			m_done=true;
-		break;
-/*		case HOWTOPLAY:
+			break;
+			/*		case HOWTOPLAY:
 
 			m_next_state = "HowToPlayState";
 			m_done=true;
-		break;*/
+			break;*/
 		case OPTIONS:
 			m_next_state = "OptionsState";
 			m_done=true;
-		break;
+			break;
 		case QUIT:
-		
-		break;
+
+			break;
 		}
 	}
 
@@ -261,40 +265,48 @@ bool StartMenuState::IsType(const std::string& Type){
 
 bool StartMenuState::Draw(){
 	m_window->clear(Color(0x99, 0x20, 0x55, 0xff));
-		
-		smhimmel.draw(m_window);
-		smmoon.draw(m_window);
 
-		smclouds.draw(m_window);
-		smclouds2.draw(m_window);
+	smhimmel.draw(m_window);
+	smmoon.draw(m_window);
 
-		smmountainsb.draw(m_window);
+	smclouds.draw(m_window);
+	smclouds2.draw(m_window);
 
-		smfogb.draw(m_window);
-		smfogb2.draw(m_window);
+	smmountainsb.draw(m_window);
 
-		smmountainsf.draw(m_window);
+	smfogb.draw(m_window);
+	smfogb2.draw(m_window);
 
-		smfogf.draw(m_window);
-		smfogf2.draw(m_window);
+	smmountainsf.draw(m_window);
 
-		smpagoda.draw(m_window);
+	smfogf.draw(m_window);
+	smfogf2.draw(m_window);
 
-		if (current_option == PLAY){
-			smop1.draw(m_window);
+	smpagoda.draw(m_window);
+
+	if (current_option == PLAY){
+		smop1.draw(m_window);
+	}
+	else if (current_option == HOWTOPLAY){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown){
+			chosenhowtoplay = true;
+			previousisdown = true;
 		}
-		else if (current_option == HOWTOPLAY){
-			smop2.draw(m_window);
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
-				smhowtoplay.draw(m_window);
-			}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && chosenhowtoplay && !previousisdown){
+			chosenhowtoplay = false;
+			previousisdown = true;
 		}
-		else if (current_option == OPTIONS){
-			smop3.draw(m_window);
-		}
-		else if (current_option == QUIT){
-			smop4.draw(m_window);
-		}
+		if(chosenhowtoplay) smhowtoplay.draw(m_window);
+		else smop2.draw(m_window);
+	}
+	else if (current_option == OPTIONS){
+		smop3.draw(m_window);
+	}
+	else if (current_option == QUIT){
+		smop4.draw(m_window);
+	}
+
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) previousisdown = false;
 
 	m_window->display();
 	return false;

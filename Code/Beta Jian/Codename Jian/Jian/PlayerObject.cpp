@@ -407,15 +407,15 @@ void PlayerObject::NextElement()
 	switch(type)
 	{
 	case FIRE:
-		if(water_elements > 0)
-		{
-			type = WATER;
-			arrow = WATER;
-		}
-		else if(wood_elements > 0)
+		if(wood_elements > 0)
 		{
 			type = WOOD;
 			arrow = WOOD;
+		}
+		else if(water_elements > 0)
+		{
+			type = WATER;
+			arrow = WATER;
 		}
 		
 		else
@@ -433,15 +433,15 @@ void PlayerObject::NextElement()
 		
 		break;
 	case WATER:
-		if(wood_elements > 0)
-		{
-			type = WOOD;
-			arrow = WOOD;
-		}
-		else if(fire_elements > 0)
+		if(fire_elements > 0)
 		{
 			type = FIRE;
 			arrow = FIRE;
+		}
+		else if(wood_elements > 0)
+		{
+			type = WOOD;
+			arrow = WOOD;
 		}
 		else
 		{
@@ -457,15 +457,15 @@ void PlayerObject::NextElement()
 		}
 		break;
 	case WOOD:
-		if(fire_elements > 0)
-		{
-			type = FIRE;
-			arrow = FIRE;
-		}
-		else if(water_elements > 0)
+		if(water_elements > 0)
 		{
 			type = WATER;
 			arrow = WATER;
+		}
+		else if(fire_elements > 0)
+		{
+			type = FIRE;
+			arrow = FIRE;
 		}
 		else
 		{

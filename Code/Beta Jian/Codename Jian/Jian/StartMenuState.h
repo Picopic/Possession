@@ -63,6 +63,9 @@ private:
 	sf::Time previous_time;
 	float deltatime;
 
+	bool previousisdown;
+	bool chosenhowtoplay;
+
 	SMClouds smclouds;
 	SMClouds smclouds2;
 	SMFogB smfogb;
