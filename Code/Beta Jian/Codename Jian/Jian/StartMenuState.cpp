@@ -13,6 +13,8 @@ using namespace sf;
 StartMenuState::StartMenuState(sf::RenderWindow* StartMenuWindow){
 	m_window = StartMenuWindow;
 	chosenhowtoplay = false;
+	chosenoptions = false;
+	chosenquit = false;
 }
 
 StartMenuState::~StartMenuState(){
@@ -164,7 +166,7 @@ bool StartMenuState::Update()
 	//Go up in list of menu options
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !options_changed)
 	{
-		if(!chosenhowtoplay){
+		if(!chosenhowtoplay && !chosenoptions){
 			switch(current_option)
 			{
 			case PLAY:
@@ -190,7 +192,7 @@ bool StartMenuState::Update()
 	//Go down in list of menu options
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !options_changed)
 	{
-		if(!chosenhowtoplay){
+		if(!chosenhowtoplay && !chosenoptions){
 			switch(current_option)
 			{
 			case PLAY:
@@ -284,26 +286,63 @@ bool StartMenuState::Draw(){
 
 	smpagoda.draw(m_window);
 
+
+	/* ************ PLAY */
 	if (current_option == PLAY){
 		smop1.draw(m_window);
 	}
+
+	/* ************ HOW TO PLAY */
 	else if (current_option == HOWTOPLAY){
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown){
+		// Säger att man går in i How to play om den är markerad:
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
 			chosenhowtoplay = true;
 			previousisdown = true;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && chosenhowtoplay && !previousisdown){
+		// Säger att man går ur How to play om man är inne i den och trycker space:
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
 			chosenhowtoplay = false;
 			previousisdown = true;
 		}
+		// Säger att den ska drawa en viss sprite när man är i How to play:
 		if(chosenhowtoplay) smhowtoplay.draw(m_window);
+		// Säger att den annars ska drawa den markerade How to play-knappen i Startmenyn
 		else smop2.draw(m_window);
 	}
+
+	/* ************ OPTIONS */
 	else if (current_option == OPTIONS){
-		smop3.draw(m_window);
+		// Säger att den går in i Options om den är markerad och man trycker Space:
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
+			chosenoptions = true;
+			previousisdown = true;
+		}
+		// Säger att man går ur Options om man är inne i den och trycker Space:
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && chosenoptions && !chosenquit){
+			chosenoptions = false;
+			previousisdown = true;
+		}
+		// Säger att den ska drawa vissa sprites om man har valt Options:
+		// Kommer bli en massa ifsatser och styrning med W A S D för att bestämma ljudnivå samt vilket alternativ man markerar 
+		//if(chosenoptions) såkommerdomdärknapparnaattsynas där man får välja ljud osv
+
+		// Säger att den annars ska drawa den markerade Options-knappen i Startmenyn
+		else smop3.draw(m_window);
 	}
+
+	/* ************ QUIT GAME */
 	else if (current_option == QUIT){
-		smop4.draw(m_window);
+		//smop4.draw(m_window);
+		// Säger att den ska sätta Quit till true om den är markerad:
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && !chosenoptions){
+			chosenoptions = true;
+			previousisdown = true;
+		}
+		// Säger att om man väljer Quit så stängs allt ner:
+		//if(chosenquit) så kommer allt stängas ner 
+
+		//Säger att den annars ska drawa den markerade Quit-knappen i Startmenyn
+		else smop4.draw(m_window);
 	}
 
 	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) previousisdown = false;

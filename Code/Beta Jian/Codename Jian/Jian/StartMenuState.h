@@ -65,6 +65,8 @@ private:
 
 	bool previousisdown;
 	bool chosenhowtoplay;
+	bool chosenoptions;
+	bool chosenquit;
 
 	SMClouds smclouds;
 	SMClouds smclouds2;

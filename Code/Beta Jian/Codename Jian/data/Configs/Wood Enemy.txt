@@ -3,13 +3,13 @@
 //NEED FIX ON VALUES
 
 woodwidth=115
-woodheight=30
+woodheight=60
 
 woodhitpoints=5
 
 woodshootingdelay=3
 
 woodoffsetx=220
-woodoffsety=368
+woodoffsety=328
 
 woodmovementspeed=150

@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Objects\PlayareaObjects">
       <UniqueIdentifier>{a625fc9d-9610-4222-a517-bed0178fc7f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SMObjects">
+      <UniqueIdentifier>{a92deab1-3687-4f5a-a573-696149308bad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SMObjects">
+      <UniqueIdentifier>{6392ee57-4a1f-47e2-b687-a75ac3ccf3de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -162,42 +168,6 @@
     <ClCompile Include="WoodEnemyObject.cpp">
       <Filter>Source Files\Objects\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="SMClouds.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMFogB.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMFogF.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMHimmel.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMMoon.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMMountainsB.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMMountainsF.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMPagoda.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMop1.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMop3.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMop4.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="SMop2.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="WaveSystem.cpp">
       <Filter>Source Files\Wave System</Filter>
     </ClCompile>
@@ -210,8 +180,44 @@
     <ClCompile Include="StaticObject.cpp">
       <Filter>Source Files\Objects\PlayareaObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SMClouds.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMFogB.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMFogF.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMHimmel.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
     <ClCompile Include="SMhowtoplay.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMMoon.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMMountainsB.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMMountainsF.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop1.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop2.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop3.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop4.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SMPagoda.cpp">
+      <Filter>Source Files\SMObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,42 +332,6 @@
     <ClInclude Include="WoodEnemyObject.h">
       <Filter>Header Files\Objects\Entites</Filter>
     </ClInclude>
-    <ClInclude Include="SMClouds.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMFogB.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMFogF.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMHimmel.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMMoon.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMMountainsB.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMMountainsF.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMPagoda.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMop1.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMop2.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMop3.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="SMop4.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="WaveSystem.h">
       <Filter>Header Files\Wave System</Filter>
     </ClInclude>
@@ -374,8 +344,44 @@
     <ClInclude Include="StaticObject.h">
       <Filter>Header Files\Objects\PlayareaObjects</Filter>
     </ClInclude>
+    <ClInclude Include="SMPagoda.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMClouds.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMFogB.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMFogF.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMHimmel.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
     <ClInclude Include="SMhowtoplay.h">
-      <Filter>Header Files\Objects</Filter>
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMMoon.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMMountainsB.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMMountainsF.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop1.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop2.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop3.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop4.h">
+      <Filter>Header Files\SMObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

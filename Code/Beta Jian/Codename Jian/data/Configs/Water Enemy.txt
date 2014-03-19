@@ -1,13 +1,13 @@
 //waterenemy object attributes
-
+//20
 waterwidth=60
-waterheight=20
+waterheight=60
 
 waterhitpoints=5
 
 watershootingdelay=3
 
 wateroffsetx=130
-wateroffsety=260
+wateroffsety=220
 
 watermovementspeed=150
