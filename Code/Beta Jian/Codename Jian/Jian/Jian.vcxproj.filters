@@ -219,6 +219,9 @@
     <ClCompile Include="SMPagoda.cpp">
       <Filter>Source Files\SMObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SMoptions.cpp">
+      <Filter>Source Files\SMObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -381,6 +384,9 @@
       <Filter>Header Files\SMObjects</Filter>
     </ClInclude>
     <ClInclude Include="SMop4.h">
+      <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMoptions.h">
       <Filter>Header Files\SMObjects</Filter>
     </ClInclude>
   </ItemGroup>

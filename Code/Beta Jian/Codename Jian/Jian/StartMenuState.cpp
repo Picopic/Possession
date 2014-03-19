@@ -68,6 +68,9 @@ bool StartMenuState::Initialize(){
 	smhowtoplay.setPosition(sf::Vector2f(0, 0));
 	smhowtoplay.initialize();
 
+	smoptions.setPosition(sf::Vector2f(0,0));
+	smoptions.initialize();
+
 	m_done = false;
 	current_option = PLAY;
 	options_changed = false;
@@ -230,10 +233,10 @@ bool StartMenuState::Update()
 			m_next_state = "HowToPlayState";
 			m_done=true;
 			break;*/
-		case OPTIONS:
+			/*		case OPTIONS:
 			m_next_state = "OptionsState";
 			m_done=true;
-			break;
+			break; */
 		case QUIT:
 
 			break;
@@ -324,7 +327,7 @@ bool StartMenuState::Draw(){
 		}
 		// Säger att den ska drawa vissa sprites om man har valt Options:
 		// Kommer bli en massa ifsatser och styrning med W A S D för att bestämma ljudnivå samt vilket alternativ man markerar 
-		//if(chosenoptions) såkommerdomdärknapparnaattsynas där man får välja ljud osv
+		if(chosenoptions) smoptions.draw(m_window);
 
 		// Säger att den annars ska drawa den markerade Options-knappen i Startmenyn
 		else smop3.draw(m_window);
