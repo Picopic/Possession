@@ -19,6 +19,9 @@ AltarObject::AltarObject(Vector2 altar_position, int altar_width, int altar_heig
 	entity_offset_x = -50; //change according to the sprites
 	entity_offset_y = -30; //^
 
+	used_counter = 0.0f;
+	used_by_player = false;
+
 	collider = new Collider;
 	collider->position.x = position.x + entity_offset_x;
 	collider->position.y = position.y + entity_offset_y;
@@ -43,6 +46,17 @@ void AltarObject::Update(float deltatime)
 		current_animation->getSprite()->setPosition(collider->position.x, collider->position.y);
 	}
 
+	if(used_by_player)
+	{
+		used_counter += deltatime;
+		if(used_counter > 5.0)
+		{
+			used_by_player = false;
+			used_counter = 0.0f;
+		}
+	}
+
+
 	current_animation->getSprite()->setPosition(position.x, position.y);
 
 }
@@ -50,5 +64,10 @@ void AltarObject::Update(float deltatime)
 void AltarObject::OnCollision(Entity* collision_entity, Type altar_type, Vector2 offset, Alignment altar_alignment)
 {
 	//if water-/wood-/firePoints <= 0, ta +1, händer i playerobject.cpp
+
+	if(altar_alignment == PLAYER)
+	{
+		used_by_player = true;
+	}
 	
 }

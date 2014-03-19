@@ -48,6 +48,10 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	lost_souls_counter = 0.0f;
 	used_lost_souls = false;
 
+	//altars
+	altar_counter = 0.0f;
+	used_altar = false;
+
 	//element change
 	element_changed = false;
 	element_changed_delay = 0.0f;
@@ -193,6 +197,17 @@ void PlayerObject::Update(float deltatime)
 					lost_souls_counter = 0.0f;
 				}
 			}
+
+			//altare counter
+			if(used_altar)
+			{
+				altar_counter += deltatime;
+				if(altar_counter > 5.0)
+				{
+					used_altar = false;
+					altar_counter = 0.0f;
+				}
+			}
 		}
 	}
 
@@ -231,23 +246,26 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 		hasLostSoul = true;
 		addSoul = true;
 	}
-	else if(collision_alignment == ALTAR)
+	else if(collision_alignment == ALTAR && !used_altar)
 	{
 		add_element = true;
 		if(fire_elements <= 0)
 		{
 			fire_elements += 1;
 			add_fire = 1;
+			used_altar = true;
 		}
 		if(water_elements <= 0)
 		{
 			water_elements += 1;
 			add_water = 1;
+			used_altar = true;
 		}
 		if(wood_elements <= 0)
 		{
 			wood_elements += 1;		
 			add_wood = 1;
+			used_altar = true;
 		}
 	}
 	else if(collision_alignment == WALL)

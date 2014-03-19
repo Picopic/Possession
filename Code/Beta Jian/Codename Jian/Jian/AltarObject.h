@@ -13,4 +13,8 @@ public:
 	void Update(float deltatime);
 
 	void OnCollision(Entity* collision_entity, Type altar_type, Vector2 offset, Alignment altar_alignment);
+
+private:
+	float used_counter;
+	bool used_by_player;
 };

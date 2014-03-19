@@ -40,6 +40,10 @@ private:
 	float lost_souls_counter;
 	bool used_lost_souls;
 
+	//altar interaction
+	float altar_counter;
+	bool used_altar;
+
 	//HUD changing element
 	bool element_changed;
 	float element_changed_delay;
