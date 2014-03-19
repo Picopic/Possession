@@ -72,6 +72,11 @@ bool Entity::IsFlaggedForDeath()
 	return flagged_for_death;
 }
 
+bool Entity::IsDead()
+{
+	return dead;
+}
+
 void Entity::FlagEntity()
 {
 	flagged_for_death = true;

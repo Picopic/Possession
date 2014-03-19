@@ -243,15 +243,15 @@ void WoodEnemyObject::Attack()
 		if(direction.x == 1)
 		{
 			distance = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
-				- (current_animation->getSprite()->getPosition().x + current_animation->getSprite()->getTextureRect().width));
+				- (collider->position.x + collider->extension.x));
 		}
 		else if(direction.x == -1)
 		{
 			distance = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
-				- current_animation->getSprite()->getPosition().x);
+				- collider->position.x);
 		}
 
-		if(distance < current_animation->getSprite()->getTextureRect().width/2)
+		if(distance < collider->extension.x && !player->IsDead())
 		{
 			created_projectile = true;
 			if(direction.x == 1 && current_animations_name != ATTACKRIGHT)

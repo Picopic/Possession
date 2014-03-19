@@ -58,6 +58,7 @@ public:
 	//death
 	bool IsFlaggedForDeath();
 	void FlagEntity();
+	bool IsDead();
 
 	//access
 	int getWidth();
