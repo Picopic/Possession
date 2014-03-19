@@ -370,12 +370,14 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 			break;
 		}
 
-		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT
+			&& current_animations_name != DEATHLEFT && current_animations_name != DEATHRIGHT)
 		{
 			SetCurrentAnimation(HITLEFT);
 			current_animations_name = HITLEFT;
 		}
-		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT
+			&& current_animations_name != DEATHLEFT && current_animations_name != DEATHRIGHT)
 		{
 			SetCurrentAnimation(HITRIGHT);
 			current_animations_name = HITRIGHT;
@@ -423,11 +425,13 @@ void PlayerObject::NextElement()
 			dead = true;
 			if(direction.x == 1)
 			{
-				SetCurrentAnimation(DEATHRIGHT);
+				if(current_animations_name != DEATHRIGHT)
+					SetCurrentAnimation(DEATHRIGHT);
 			}
 			else
 			{
-				SetCurrentAnimation(DEATHLEFT);
+				if(current_animations_name != DEATHLEFT)
+					SetCurrentAnimation(DEATHLEFT);
 			}
 		}
 		
@@ -448,11 +452,13 @@ void PlayerObject::NextElement()
 			dead = true;
 			if(direction.x == 1)
 			{
-				SetCurrentAnimation(DEATHRIGHT);
+				if(current_animations_name != DEATHRIGHT)
+					SetCurrentAnimation(DEATHRIGHT);
 			}
 			else
 			{
-				SetCurrentAnimation(DEATHLEFT);
+				if(current_animations_name != DEATHLEFT)
+					SetCurrentAnimation(DEATHLEFT);
 			}
 		}
 		break;
@@ -472,11 +478,13 @@ void PlayerObject::NextElement()
 			dead = true;
 			if(direction.x == 1)
 			{
-				SetCurrentAnimation(DEATHRIGHT);
+				if(current_animations_name != DEATHRIGHT)
+					SetCurrentAnimation(DEATHRIGHT);
 			}
 			else
 			{
-				SetCurrentAnimation(DEATHLEFT);
+				if(current_animations_name != DEATHLEFT)
+					SetCurrentAnimation(DEATHLEFT);
 			}
 		}
 		break;

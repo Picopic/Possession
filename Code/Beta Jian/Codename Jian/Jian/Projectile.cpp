@@ -13,6 +13,8 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 {
 	current_animation = nullptr;
 
+	Hit = false;
+
 	switch (shooter_entity->getType())
 	{
 	case FIRE:
@@ -38,12 +40,12 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 	if(projectile_direction.x == 1)
 	{
 		position.x = shooter_entity->getPosition().x + shooter_entity->GetSprite()->getTextureRect().width/2;
-		position.y = shooter_entity->getPosition().y;
+		position.y = (shooter_entity->getCollider()->position.y + shooter_entity->getCollider()->extension.y) - 250;
 	}
 	else if(projectile_direction.x == -1)
 	{
 		position.x = shooter_entity->getPosition().x;
-		position.y = shooter_entity->getPosition().y;
+		position.y = (shooter_entity->getCollider()->position.y + shooter_entity->getCollider()->extension.y) - 250;
 	}
 
 	start_pos = position;
@@ -90,7 +92,10 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 void Projectile::Update(float deltatime)
 {
 	current_animation->Update(deltatime);
-	position.x += deltatime * speed * direction.x;
+	if(!Hit)
+	{
+		position.x += deltatime * speed * direction.x;
+	}
 	if(hasCollider())
 	{
 		//position.x += deltatime * speed * direction.x;
@@ -122,7 +127,6 @@ void Projectile::Update(float deltatime)
 	if(dead)
 	{
 		death_animation_time += deltatime;
-		std::cout << current_animation->GetCurrentFrame() << std::endl;
 		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 		{
 			flagged_for_death = true;
@@ -132,6 +136,7 @@ void Projectile::Update(float deltatime)
 
 void Projectile::OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment enemy_alignment)
 {
+	Hit = true;
 	dead = true;
 
 	if(collider != nullptr)

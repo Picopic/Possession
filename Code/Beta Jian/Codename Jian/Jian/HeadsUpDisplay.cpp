@@ -188,6 +188,13 @@ void HeadsUpDisplay::Update(float deltatime)
 	}	
 }
 
+void HeadsUpDisplay::Restart()
+{
+	fire = 3;
+	water = 3;
+	wood = 3;
+}
+
 void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)
 {	
 	if(fire > 0 || water > 0 || wood > 0)

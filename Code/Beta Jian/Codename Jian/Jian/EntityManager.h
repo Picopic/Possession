@@ -28,10 +28,15 @@ public:
 	void DetachEntity(int entity_index);
 	void Update(float deltatime);
 
+	void CreatePlayer();
+	void ClearGameEntities();
+
 	void AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction);
 	void AttachWall(Vector2 position, int width, int height, Type wall_type);
 	void AttachLostSoul(Alignment entity_name, Entity* enemydropping, int width, int height, Type entity_type, Vector2 entity_position);
 	void AttachStaticObject(ConfigManager* ConfigMgr, std::string Object);
+
+	bool SwitchState();
 
 	void Cleanup();
 	std::vector<Entity*> game_entities;
@@ -66,4 +71,8 @@ private:
 	std::string lostsoulspritesheet;
 
 	EnemyWaves* waves;
+
+	//Game over
+	bool GAMEOVER;
+	bool switchstate;
 };

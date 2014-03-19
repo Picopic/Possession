@@ -216,6 +216,12 @@ void FireEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		if(enemy_type == WATER)
 		{
 			hitpoints -= 3;
+			can_collide = false;
+		
+			if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+				SetCurrentAnimation(HITLEFT);
+			else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+				SetCurrentAnimation(HITRIGHT);
 		}
 		else if(enemy_type == FIRE)
 		{
@@ -225,13 +231,6 @@ void FireEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		{
 			hitpoints--;
 		}
-
-		can_collide = false;
-		
-		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
-			SetCurrentAnimation(HITLEFT);
-		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
-			SetCurrentAnimation(HITRIGHT);
 	}
 	else
 	{

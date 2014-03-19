@@ -55,11 +55,19 @@
     <Filter Include="Source Files\Objects\PlayareaObjects">
       <UniqueIdentifier>{a625fc9d-9610-4222-a517-bed0178fc7f1}</UniqueIdentifier>
     </Filter>
+<<<<<<< Updated upstream
     <Filter Include="Source Files\SMObjects">
       <UniqueIdentifier>{a92deab1-3687-4f5a-a573-696149308bad}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\SMObjects">
       <UniqueIdentifier>{6392ee57-4a1f-47e2-b687-a75ac3ccf3de}</UniqueIdentifier>
+=======
+    <Filter Include="Source Files\Objects\Clouds etc">
+      <UniqueIdentifier>{31c45529-850b-48b3-aadd-e38eb456b241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Clouds etc">
+      <UniqueIdentifier>{f8814717-be80-4a90-8d03-cefc35a24f7a}</UniqueIdentifier>
+>>>>>>> Stashed changes
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,13 +122,7 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Cloud.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Gameplayarea.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="Paralax.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="FireEnemyObject.cpp">
@@ -141,9 +143,6 @@
     <ClCompile Include="HeadsUpDisplay.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
-    <ClCompile Include="Paralax2.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="LostSoulObject.cpp">
       <Filter>Source Files\Objects\Entities</Filter>
     </ClCompile>
@@ -162,9 +161,6 @@
     <ClCompile Include="EnemyWaves.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Paralax3.cpp">
-      <Filter>Source Files\Objects</Filter>
-    </ClCompile>
     <ClCompile Include="WoodEnemyObject.cpp">
       <Filter>Source Files\Objects\Entities</Filter>
     </ClCompile>
@@ -180,6 +176,7 @@
     <ClCompile Include="StaticObject.cpp">
       <Filter>Source Files\Objects\PlayareaObjects</Filter>
     </ClCompile>
+<<<<<<< Updated upstream
     <ClCompile Include="SMClouds.cpp">
       <Filter>Source Files\SMObjects</Filter>
     </ClCompile>
@@ -218,6 +215,58 @@
     </ClCompile>
     <ClCompile Include="SMPagoda.cpp">
       <Filter>Source Files\SMObjects</Filter>
+=======
+    <ClCompile Include="Cloud.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Paralax.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Paralax2.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Paralax3.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMClouds.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMFogB.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMFogF.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMHimmel.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMhowtoplay.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMMoon.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMMountainsB.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMMountainsF.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop1.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop2.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop3.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMop4.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="SMPagoda.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+>>>>>>> Stashed changes
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -284,12 +333,6 @@
     <ClInclude Include="HeadsUpDisplay.h">
       <Filter>Header Files\HUD</Filter>
     </ClInclude>
-    <ClInclude Include="Paralax.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Paralax2.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files\Managers</Filter>
     </ClInclude>
@@ -326,9 +369,6 @@
     <ClInclude Include="EnemyWaves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Paralax3.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="WoodEnemyObject.h">
       <Filter>Header Files\Objects\Entites</Filter>
     </ClInclude>
@@ -344,6 +384,7 @@
     <ClInclude Include="StaticObject.h">
       <Filter>Header Files\Objects\PlayareaObjects</Filter>
     </ClInclude>
+<<<<<<< Updated upstream
     <ClInclude Include="SMPagoda.h">
       <Filter>Header Files\SMObjects</Filter>
     </ClInclude>
@@ -382,6 +423,55 @@
     </ClInclude>
     <ClInclude Include="SMop4.h">
       <Filter>Header Files\SMObjects</Filter>
+=======
+    <ClInclude Include="Paralax.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Paralax2.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Paralax3.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMClouds.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMFogB.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMFogF.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMHimmel.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMhowtoplay.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMMoon.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMMountainsB.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMMountainsF.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop1.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop2.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop3.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMop4.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMPagoda.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+>>>>>>> Stashed changes
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -100,22 +100,46 @@ void WaveSystem::Update(float PlayerDeltaX)
 
 	if(m_fPlayerX > m_fWidth)
 	{
+		int LastWave = m_iCurrentWave;
 		m_iCurrentWave++;
 		m_fPlayerX = 0.0f;
-		ChangeWave(m_iCurrentWave);
+		ChangeWave(m_iCurrentWave, m_iCurrentWave - LastWave);
 	}
 		
 	else if(m_fPlayerX < 0.0f)
 	{
+		int LastWave = m_iCurrentWave;
 		m_iCurrentWave--;
 		m_fPlayerX = m_fWidth;
-		ChangeWave(m_iCurrentWave);
+		ChangeWave(m_iCurrentWave, m_iCurrentWave - LastWave);
 	}
 }
 
-void WaveSystem::ChangeWave(int WaveNumber)
+void WaveSystem::ChangeWave(int WaveNumber, int direction)
 {
+	//Set the object wave
 
+	//Unactivate the wave that you went away from
+	if(direction == 1 && (WaveNumber - 2) >= 0)
+	{
+		m_ObjectWaves[WaveNumber - 2]->UnActivate();
+	}
+	else if(direction == -1 && (WaveNumber + 2) < m_iNumberOfWaves)
+	{
+		m_ObjectWaves[WaveNumber + 2]->UnActivate();
+	}
+
+	//Activate the wave that you are heading to
+	if(direction == 1 && (WaveNumber + 1) < m_iNumberOfWaves)
+	{
+		m_ObjectWaves[WaveNumber + 1]->Activate();
+	}
+	else if(direction == -1 && (WaveNumber - 1) >=0)
+	{
+		m_ObjectWaves[WaveNumber - 1]->Activate();
+	}
+
+	//If the enemy wave have not been spawned yet, spawn it
 }
 
 //----------------------End of Essential Functions-------------------------------------------//

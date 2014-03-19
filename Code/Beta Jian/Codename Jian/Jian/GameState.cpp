@@ -12,6 +12,13 @@ GameState::GameState(sf::RenderWindow* GameWindow){
 	Pause = true;
 	StartPauseTimer = false;
 	PauseTimer = 0.0f;
+
+	draw_manager = nullptr;
+	sprite_manager = nullptr;
+	entity_manager = nullptr;
+	HUD = nullptr;
+	sound_manager = nullptr;
+	config_manager = nullptr;
 }
 
 GameState::~GameState(){
@@ -100,39 +107,58 @@ bool GameState::Initialize(){
 	m_view.setCenter(camera.getPosition());
 	m_view.setSize(sf::Vector2f(1920,1080));
 
-	draw_manager = new DrawManager;
+	if(draw_manager == nullptr)
+		draw_manager = new DrawManager;
 	
-	sound_manager = new SoundManager;
-	sound_manager->Initialise("../data/Sound/");
-
-	sprite_manager = new SpriteManager;
-	sprite_manager->Initialise("../data/Spritesheets2/");
-
-	//Precache the resources
-	sprite_manager->LoadTexture("MC SPRITESHEET 252p w transparency.png");
-	sprite_manager->LoadTexture("WATER SPRITESHEET 315p.png");
-	sprite_manager->LoadTexture("FIRE SPRITESHEET 315p.png");
-	sprite_manager->LoadTexture("WOOD SPRITESHEET 495x405p.png");
-	sprite_manager->LoadTexture("Projectile Spritesheet Small.png");
-	sprite_manager->LoadTexture("Lost Souls Spritesheet.png");
-
-	HUD = new HeadsUpDisplay;
-	if(!HUD->Initialise(sprite_manager))
+	if(sound_manager == nullptr)
 	{
-		return false;
+		sound_manager = new SoundManager;
+		sound_manager->Initialise("../data/Sound/");
+	}
+
+	if(sprite_manager == nullptr)
+	{
+		sprite_manager = new SpriteManager;
+		sprite_manager->Initialise("../data/Spritesheets2/");
+
+		//Precache the resources
+		sprite_manager->LoadTexture("MC SPRITESHEET 252p w transparency.png");
+		sprite_manager->LoadTexture("WATER SPRITESHEET 315p.png");
+		sprite_manager->LoadTexture("FIRE SPRITESHEET 315p.png");
+		sprite_manager->LoadTexture("WOOD SPRITESHEET 495x405p.png");
+		sprite_manager->LoadTexture("Projectile Spritesheet Small.png");
+		sprite_manager->LoadTexture("Lost Souls Spritesheet.png");
+	}
+
+	if(HUD == nullptr)
+	{
+		HUD = new HeadsUpDisplay;
+		if(!HUD->Initialise(sprite_manager))
+		{
+			return false;
+		}
 	}
 	
-	entity_manager = new EntityManager(sprite_manager, sound_manager);
+	if(entity_manager == nullptr)
+	{
+		entity_manager = new EntityManager(sprite_manager, sound_manager);
 
-	config_manager = new ConfigManager;
-	config_manager->Initialise("../data/Configs/");
-	config_manager->ReadFile("Config.txt");
-	config_manager->ReadFile("Enemywaves.txt");
+		if(config_manager == nullptr)
+		{
+			config_manager = new ConfigManager;
+			config_manager->Initialise("../data/Configs/");
+			config_manager->ReadFile("Config.txt");
+			config_manager->ReadFile("Enemywaves.txt");
+		}
+	
+		if(enemy_waves == nullptr)
+			enemy_waves = new EnemyWaves(entity_manager, config_manager);
 
-	enemy_waves = new EnemyWaves(entity_manager, config_manager);
+		entity_manager->Init(enemy_waves);
+	}
+		
 
-	entity_manager->Init(enemy_waves);
-	entity_manager->AttachEntity(PLAYER, Vector2(0, 300), FIRE);
+
 
 	previous_time = game_clock.restart();
 	deltatime = 0.01f;
@@ -151,6 +177,9 @@ bool GameState::Initialize(){
 }
 
 bool GameState::Enter(){
+	//Create player
+	entity_manager->CreatePlayer();
+	HUD->Restart();
 
 	std::cout << "Welcome to the GameState" << std::endl;
 	std::cout << "Press 4 to go back to StartMenuState" <<std::endl;
@@ -161,6 +190,8 @@ bool GameState::Enter(){
 }
 
 bool GameState::Exit(){
+	entity_manager->ClearGameEntities();
+
 	return false;
 }
 
@@ -390,6 +421,12 @@ bool GameState::Update(){
 		m_window->display();
 
 	//};
+
+		if(entity_manager->SwitchState())
+		{
+			m_next_state = "StartMenuState";
+			m_done = true;
+		}
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
 		m_next_state = "StartMenuState";

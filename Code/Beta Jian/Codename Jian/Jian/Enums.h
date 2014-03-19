@@ -49,6 +49,19 @@ enum AnimationName
 	ANIMATION_NAME_SIZE
 };
 
+enum MovementDirection
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	LEFTDOWN,
+	LEFTUP,
+	RIGHTDOWN,
+	RIGHTUP,
+	MOVEMENTDIRECTIONSIZE
+};
+
 class Enums
 {
 public: 

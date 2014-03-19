@@ -16,6 +16,7 @@ EntityManager::EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr)
 	sprite_manager = sprite_mgr;
 	sound_manager = sound_mgr;
 	config_manager = new ConfigManager;
+	GAMEOVER = false;
 }
 
 EntityManager::~EntityManager()
@@ -127,8 +128,8 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size() - 1]->AddAnimation(EATRIGHT, sprite_manager->Load(playerspritesheet, 6, 20, playerwidth, playerheight, playerwidth*0, playerheight*4));
 		game_entities[game_entities.size() - 1]->AddAnimation(EATLEFT, sprite_manager->Load(playerspritesheet, 6, 20, playerwidth, playerheight, playerwidth*0, playerheight*11));
 
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(playerspritesheet, 30, 20, playerwidth, playerheight, 0, playerheight*5));
-		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(playerspritesheet, 30, 20, playerwidth, playerheight, 0, playerheight*12));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(playerspritesheet, 30, 20, playerwidth, playerheight, playerwidth*0, playerheight*5));
+		game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(playerspritesheet, 30, 20, playerwidth, playerheight, playerwidth*0, playerheight*12));
 
 		game_entities[game_entities.size() - 1]->AddAnimation(HITRIGHT, sprite_manager->LoadReversed(playerspritesheet, 3, 3, playerwidth, playerheight, playerwidth*3, playerheight*5));
 		game_entities[game_entities.size() - 1]->AddAnimation(HITLEFT, sprite_manager->LoadReversed(playerspritesheet, 3, 3, playerwidth, playerheight, playerwidth*3, playerheight*12));
@@ -155,8 +156,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size() - 1]->AddAnimation(HITRIGHT, sprite_manager->LoadReversed(waterspritesheet, 3, 3, waterwidth, waterheight, waterwidth*3, 14*waterheight));
 
 		game_entities[game_entities.size()-1]->Init("Water enemy", entity_name, type);
-
-		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	case FIREFOE:
 		game_entities.push_back(new FireEnemyObject(config_manager, position));
@@ -175,8 +174,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size()-1]->AddAnimation(HITLEFT, sprite_manager->Load(firespritesheet, 3, 3, firewidth, fireheight, firewidth*0, fireheight*10));
 
 		game_entities[game_entities.size()-1]->Init("Fire enemy", entity_name, type);
-
-		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	case WOODFOE:
 		game_entities.push_back(new WoodEnemyObject(config_manager, position));
@@ -195,8 +192,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size()-1]->AddAnimation(HITRIGHT, sprite_manager->Load(woodspritesheet, 9, 9, woodwidth, woodheight, woodwidth*0, 7*woodheight));
 
 		game_entities[game_entities.size()-1]->Init("wood enemy", entity_name, type);
-
-		game_entities[game_entities.size()-1]->setplayer(game_entities[0]);
 		break;
 	}
 
@@ -207,6 +202,23 @@ void EntityManager::DetachEntity(int entity_index)
 	/*
 	Delete the entity, appropriate to the string that followed
 	*/
+}
+
+void EntityManager::ClearGameEntities()
+{
+	for(int i = 0; i < game_entities.size(); i ++)
+	{
+		delete game_entities[i];
+		game_entities[i] = nullptr;
+		game_entities.erase(game_entities.begin() + i);
+	}
+
+	game_entities.clear();
+}
+void EntityManager::CreatePlayer()
+{
+	GAMEOVER = false;
+	AttachEntity(PLAYER, Vector2(0, 300), FIRE);
 }
 
 void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction)
@@ -359,6 +371,7 @@ void EntityManager::Update(float deltatime)
 	int count = 0;
 	for(int i = 0; i < (game_entities.size()); i++)
 	{
+		game_entities[i]->setplayer(game_entities[0]);
 		game_entities[i]->Update(deltatime);
 
 		//iterate through the collisionmap
@@ -453,6 +466,16 @@ void EntityManager::Update(float deltatime)
 			delete game_entities[i];
 			game_entities[i] = nullptr;
 			game_entities.erase(game_entities.begin() + i);
+
+			if(i == 0)
+			{
+				GAMEOVER = true;
+			}
 		}
 	}
+}
+
+bool EntityManager::SwitchState()
+{
+	return GAMEOVER;
 }
