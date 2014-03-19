@@ -1,5 +1,5 @@
 wave1fire=0
-wave1water=0
+wave1water=1
 wave1wood=1
 
 wave2fire=0

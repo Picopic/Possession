@@ -18,4 +18,7 @@ private:
 	void Movement(float Deltatime);
 
 	void Attack();
+
+	//movement
+	bool Intercept;
 };

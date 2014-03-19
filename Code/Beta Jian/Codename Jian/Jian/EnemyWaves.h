@@ -26,6 +26,8 @@ private:
 	//värde/timer som säger hur långt spelaren ska gå innan nästa wave spawnar:
 	float SpawnTimer;
 
+	
+
 	int wavenumber;
 
 	EntityManager* entity_manager;
@@ -42,6 +44,8 @@ public:
 	void SpawnTimerAlarm(float CurrentPlayerX);
 
 	bool initialize();
+
+	void Restart();
 
 	//funktion som beskriver hur våg ser ut
 	sf::Vector3i wave();

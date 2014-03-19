@@ -28,6 +28,13 @@ EnemyWaves::~EnemyWaves(){
 		config_manager = nullptr;
 }
 
+void EnemyWaves::Restart()
+{
+	wavenumber = 0;
+	PlayerWalkDistance = 0.0f;
+	PreviousPlayerX = 0.0f;
+}
+
 //Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:
 void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 
@@ -69,6 +76,8 @@ void EnemyWaves::SpawnTimerAlarm(float CurrentPlayerX){
 	float DeltaX = CurrentPlayerX - PreviousPlayerX;
 	PreviousPlayerX = CurrentPlayerX;
 	PlayerWalkDistance +=DeltaX;
+
+	std::cout << PlayerWalkDistance << std::endl;
 
 	if(PlayerWalkDistance > SpawnTimer)
 	{

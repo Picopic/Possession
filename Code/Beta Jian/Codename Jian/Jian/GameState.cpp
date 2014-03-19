@@ -180,6 +180,7 @@ bool GameState::Enter(){
 	//Create player
 	entity_manager->CreatePlayer();
 	HUD->Restart();
+	enemy_waves->Restart();
 
 	std::cout << "Welcome to the GameState" << std::endl;
 	std::cout << "Press 4 to go back to StartMenuState" <<std::endl;
