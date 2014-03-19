@@ -65,6 +65,8 @@ public:
 	int getHeight();
 	sf::Sprite* GetSprite();
 	sf::RectangleShape GetHitbox();
+	float GetOffsetX();
+	float GetOffsetY();
 
 	//animations
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);
@@ -151,6 +153,7 @@ protected:
 	
 	//Sound
 	std::map<std::string, sf::Sound*> entity_sounds;
+	sf::Sound* CurrentSound;
 
 	//Lost Souls
 	bool drop_lostsoul;

@@ -215,54 +215,80 @@ void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 //--------------------------AI FUNCTIONS--------------------------------//
 void WoodEnemyObject::Movement(float Deltatime)
 {
-	float deltaY = position.y - player->getPosition().y+120;
-	float deltaX = position.x - player->getPosition().x-60;
-	float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
+	float deltaY = (position.y + (current_animation->getSprite()->getTextureRect().height -  height/2)) -							//Middle of wood enemy's hitbox y
+		(player->getPosition().y + (player->GetCurrentAnimation()->getSprite()->getTextureRect().height - player->getHeight()/2));	//Middle of players hitbox y
+	float deltaX = (position.x + current_animation->getSprite()->getTextureRect().width/2) -						//Middle of wood enemy's x
+		(player->getPosition().x - player->GetCurrentAnimation()->getSprite()->getTextureRect().width/2);		//Middle of players x
+	
+	float distance = sqrtf(deltaY*deltaY+deltaX*deltaX);
 
-	velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
+	//Set the direction
+	if(deltaX > 0)
+		direction.x = -1;
+	else if(deltaX < 0)
+		direction.x = 1;
 
-	if(distance <= player->GetCurrentAnimation()->getSprite()->getTextureRect().width){
-	//HIT
-	//velocity =Vector2(+60, 0);
-	velocity =Vector2(0, 0);
-	if(current_animations_name != IDLELEFT)
-		SetCurrentAnimation(IDLELEFT);
+	velocity=Vector2((deltaX/distance)*(-speed * Deltatime), (deltaY/distance)*-(speed * Deltatime));
+
+	if(distance <= player->GetCurrentAnimation()->getSprite()->getTextureRect().width/2){
+		//HIT
+		//velocity =Vector2(+60, 0);
+		velocity =Vector2(0, 0);
+		if(direction.x == -1 && current_animations_name != IDLELEFT)
+			SetCurrentAnimation(IDLELEFT);
+		else if(direction.x == 1 && current_animations_name != IDLERIGHT)
+			SetCurrentAnimation(IDLERIGHT);
 	}
 	else if(direction.x == -1 && current_animations_name != WALKLEFT)
 	{
 		SetCurrentAnimation(WALKLEFT);
 	}
+	else if(direction.x == 1 && current_animations_name != WALKRIGHT)
+		SetCurrentAnimation(WALKRIGHT);
+
+	position += velocity;
 }
 
 void WoodEnemyObject::Attack()
 {
 	if(shooting_delay == 0.001f && !created_projectile)
 	{
-		float distance = 500;
+		float distanceX = 500;
+		float distanceY = 500;
 
+		//X distance
 		if(direction.x == 1)
 		{
-			distance = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
+			distanceX = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
 				- (collider->position.x + collider->extension.x));
 		}
 		else if(direction.x == -1)
 		{
-			distance = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
+			distanceX = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
 				- collider->position.x);
 		}
 
-		if(distance < collider->extension.x && !player->IsDead())
+		//Y distance
+		distanceY = fabs((player->getPosition().y + player->GetOffsetY() + (player->getHeight()/2)) 
+			- (collider->position.y + (height/2)));
+
+		if(distanceX < collider->extension.x && !player->IsDead())
 		{
-			created_projectile = true;
-			if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
+			if(distanceY > -(height/2) && distanceY < (height/2))
 			{
-				SetCurrentAnimation(ATTACKRIGHT);
-			}
+				created_projectile = true;
+				if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
+				{
+					SetCurrentAnimation(ATTACKRIGHT);
+				}
 				
-			else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
-			{
-				SetCurrentAnimation(ATTACKLEFT);
+				else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
+				{
+					SetCurrentAnimation(ATTACKLEFT);
+				}
 			}
 		}
 	}
 }
+
+//--------------------------End of AI FUNCTIONS-------------------------//

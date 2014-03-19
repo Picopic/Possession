@@ -12,6 +12,7 @@ PlayerObject::PlayerObject()
 PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 {
 	current_animation = nullptr;
+	CurrentSound = nullptr;
 
 	//
 
@@ -190,6 +191,17 @@ void PlayerObject::Update(float deltatime)
 			//timern till lost souls
 			if(used_lost_souls)
 			{
+				//Sound
+				if(current_animations_name == EATLEFT || current_animations_name == EATRIGHT)
+				{
+					if(current_animation->GetCurrentFrame() == 2)
+					{
+						if(CurrentSound->getStatus() != sf::SoundSource::Playing)
+							CurrentSound->play();
+					}
+				}
+				//End of sound
+
 				lost_souls_counter += deltatime;
 				if(lost_souls_counter > 0.5)
 				{
@@ -411,14 +423,6 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 		collision_direction.x = -direction.x;
 		collision_direction.y = -direction.y;
 	}
-	
-	
-	
-	std::cout << "Fire: " << fire_elements << std::endl;
-	std::cout << "Water: " << water_elements << std::endl;
-	std::cout << "Wood: " << wood_elements << std::endl;
-	std::cout << "Souls: " << collectedSouls << "\n" << std::endl;
-
 }
 
 void PlayerObject::NextElement()
@@ -710,6 +714,13 @@ void PlayerObject::SacrificeSoul(Type type)
 
 		if(added_points > 0)
 		{
+			auto it = entity_sounds.find("EAT");
+
+			if(it != entity_sounds.end())
+			{
+				CurrentSound = it->second;
+			}
+
 			add_element = true;
 			collectedSouls--;
 		}
@@ -757,6 +768,7 @@ void Entity::AddSounds(SoundManager* sound_mgr)
 {
 	//Example insert
 	//entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("BoneBreak DSS01_48.wav")));
 }
 
 bool PlayerObject::CanChangeElement()

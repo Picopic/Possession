@@ -36,6 +36,19 @@ void Entity::Cleanup()
 	{
 		player = nullptr;
 	}
+
+	if(CurrentSound != nullptr)
+		CurrentSound = nullptr;
+
+	std::map<std::string, sf::Sound*>::iterator it = entity_sounds.begin();
+	while(it != entity_sounds.end())
+	{
+		delete it->second;
+		it->second = nullptr;
+		++it;
+	}
+
+	entity_sounds.clear();
 }
 
 void Entity::OnCollision(Entity* collision_entity,Type collision_type, Vector2 offset, Alignment enemy_alignment)
@@ -45,6 +58,16 @@ void Entity::OnCollision(Entity* collision_entity,Type collision_type, Vector2 o
 Collider* Entity::getCollider()
 {
 	return collider;
+}
+
+float Entity::GetOffsetX()
+{
+	return entity_offset_x;
+}
+
+float Entity::GetOffsetY()
+{
+	return entity_offset_y;
 }
 
 sf::RectangleShape Entity::GetHitbox()
