@@ -13,6 +13,8 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 {
 	current_animation = nullptr;
 
+	m_shooter_entity = shooter_entity;
+
 	Hit = false;
 
 	switch (shooter_entity->getType())
@@ -49,7 +51,7 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 	}
 
 	start_pos = position;
-	direction = projectile_direction;
+	direction.x = projectile_direction.x;
 
 	speed = 300;
 
@@ -81,12 +83,21 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 	current_animation->getSprite()->setPosition(position.x, position.y);
 	
 	//which animation?
-	if(direction.x == 1)
+	//Water enemy attack
+	if(m_shooter_entity->getAlignment() == WATERFOE)
 	{
+		float dX, dY, Hypotenusa;
+		//Home in on player
+		dX = (player->getPosition().x + player->GetOffsetX() + player->getWidth()/2) - 
+			(m_shooter_entity->getPosition().x + m_shooter_entity->GetOffsetX() + m_shooter_entity->getWidth()/2);
+		dY = (player->getPosition().y + player->GetOffsetY() + player->getHeight()/2) -
+			(m_shooter_entity->getPosition().y + m_shooter_entity->GetOffsetY() + m_shooter_entity->getHeight()/2);
+
+		Hypotenusa = sqrtf(dX * dX + dY * dY);
+
+		direction = Vector2(dX/Hypotenusa, dY/Hypotenusa);
 	}
-	else
-	{
-	}
+	//end of water enemy attack
 }
 
 void Projectile::Update(float deltatime)
@@ -95,6 +106,7 @@ void Projectile::Update(float deltatime)
 	if(!Hit)
 	{
 		position.x += deltatime * speed * direction.x;
+		position.y += deltatime * speed * direction.y;
 	}
 	if(hasCollider())
 	{
@@ -115,11 +127,11 @@ void Projectile::Update(float deltatime)
 	{
 		OutOfBounds();
 	}
-	else if((position.y + height) < 0)
+	else if((position.y + height) < (start_pos.y - 340))
 	{
 		OutOfBounds();
 	}
-	else if(position.y > 1080)
+	else if(position.y > (start_pos.y + 700))
 	{
 		OutOfBounds();
 	}

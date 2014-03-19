@@ -102,17 +102,7 @@ void WaterEnemyObject::Update(float deltatime)
 				shooting_delay += deltatime;
 			}
 
-			if(shooting_delay == 0.001f && !created_projectile)
-			{
-				create_projectile = true;
-				created_projectile = true;
-				if(current_animations_name != ATTACKLEFT)
-					SetCurrentAnimation(ATTACKLEFT);
-			}
-			else
-			{
-				create_projectile = false;
-			}
+			Attack();
 
 			if(shooting_delay > delay)
 			{
@@ -152,18 +142,7 @@ void WaterEnemyObject::Update(float deltatime)
 				//	}
 				//}
 			}
-			if (distance>=900){
-				velocity=Vector2((deltaX/distance)*-100, (deltaY/distance)*-100);
-			}
-
-			position+=velocity*deltatime;
-
-			if(position.y>=800){
-				position.y=800;
-			}
-			if (position.y<=240){
-				position.y=240;
-			}
+			Movement(deltatime);
 		}
 	}
 	else
@@ -196,61 +175,6 @@ void WaterEnemyObject::Update(float deltatime)
 		}
 	}
 
-	
-
-	////AI PLAYER CHASE
-
-
-	////följer efter spelaren i x-led
-	//if(position.x > player->getPosition().x + m_random){
-	//	velocity.x = -0.1;
-	//}
-
-	////ska följa efter spelarens y-postiion sakta
-	//if (position.y > player->getPosition().y + 200) {
-	//	velocity.y = -0.3;
-	//}  
-	////ska följa efter spelarens y-position sakta
-	//if (position.y < player -> getPosition().y - 200) {
-	//	velocity.y = +0.3;
-	//}
-
-	//////ska undvika spelarens y-postiion snabbt
-	////if (position.y <= player->getPosition().y + 10) {
-	////	velocity.y = -0.5;
-	////	//waterenemys collision med nedre kanten
-	////	if (position.y>=1080){
-	////		velocity.y = 0;
-	////		position.y = 1080;
-	////		//om spelaren också går ner till nedre kanten kommer waterenemy undivka uppåt
-	////		if (player->getPosition().y<=1070){
-	////			velocity.y = -0.5;
-	////		}
-	////	}
-	////}  
-	//////ska undvika spelarens y-position snabbt
-	////if (position.y >= player->getPosition().y - 10) {
-	////	velocity.y = +0.5;
-	////	//waterenemys collision med horisontlinjen
-	////	if (position.y<= 240){
-	////		velocity.y = 0;
-	////		position.y =240;
-	////		//om spelaren också går till horisontlinjen kommer waterenemy undivka neråt
-	////		if (player->getPosition().y>=230){
-	////			velocity.y = +0.5;
-	////		}
-	////	}
-
-	////Den ska stanna på ett visst avstånd i X-led:
-	//if (position.x < player->getPosition().x + 800) {
-	//	velocity.x = 0.1;
-	//}
-
-	////Stop the movement
-	//if(position.y < player->getPosition().y + 50 && position.y > player->getPosition().y - 50){
-	//	velocity.y = 0;
-	//}
-
 	//position += velocity;
 
 	//Lastly update the sprites position if there is a collider
@@ -263,6 +187,7 @@ void WaterEnemyObject::Update(float deltatime)
 	}
 
 }
+
 void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment)
 {
 	if(enemy_alignment == FRIENDBULLET)
@@ -307,3 +232,39 @@ void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Ve
 		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
 }
+
+//----------------------AI FUNCTION------------------------//
+
+void WaterEnemyObject::Attack()
+{
+	if(shooting_delay == 0.001f && !created_projectile)
+	{
+		create_projectile = true;
+		created_projectile = true;
+		if(current_animations_name != ATTACKLEFT)
+			SetCurrentAnimation(ATTACKLEFT);
+	}
+	else
+	{
+		create_projectile = false;
+	}
+}
+
+void WaterEnemyObject::Movement(float Deltatime)
+{
+	float deltaYUP = position.y - 240;
+	float deltaYDOWN = 700 - position.y;
+
+	if(deltaYDOWN < deltaYUP)
+	{
+		if(position.y < 700)
+			position.y += speed * Deltatime;
+	}
+	else
+	{
+		if(position.y > 240)
+			position.y -= speed * Deltatime;
+	}
+}
+
+//---------------------End of AI FUNCTION------------------//

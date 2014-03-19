@@ -241,6 +241,7 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 			game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*6));
 			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*4));
 		}
+		game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
 
 		game_entities[game_entities.size() -1]->Init("FIRE", entity_name, entity_type);
 		break;
@@ -262,6 +263,8 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
 		}
 
+		game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
 		game_entities[game_entities.size() -1]->Init("WATER", entity_name, entity_type);
 		break;
 
@@ -282,6 +285,8 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 			game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*6));
 			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*4));
 		}
+
+		game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
 
 		game_entities[game_entities.size() -1]->Init("WOOD", entity_name, entity_type);
 		break;

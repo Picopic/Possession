@@ -17,4 +17,6 @@ public:
 
 private:
 	bool Hit;
+
+	Entity* m_shooter_entity;
 };

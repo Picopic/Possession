@@ -39,7 +39,6 @@ void EnemyWaves::Restart()
 void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 
 	float spawnX = PreviousPlayerX + 650;
-	float spawnY = 200;
 
 	//enemies.x är fireleementals
 	for (int i = 0; i < enemies.x; i++){
@@ -47,6 +46,7 @@ void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 		//läggs in i varje for nedan för varierande spawn-positions-intervall
 		//int randomspawnposX = (rand()%(740-(640)+1))+(640);
 		//int randomspawnposY = (rand()%(640-(290)+1))+(290);
+		float spawnY = rand()%600 + 200;
 
 		entity_manager->AttachEntity(FIREFOE, Vector2(spawnX, spawnY), FIRE);
 	}
@@ -57,6 +57,7 @@ void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 		//läggs in i varje for nedan för varierande spawn-positions-intervall
 		//int randomspawnposX = (rand()%(640-(500)+1))+(500);
 		//int randomspawnposY = (rand()%(400-(290)+1))+(290);
+		float spawnY = rand()%600 + 200;
 			
 		entity_manager->AttachEntity(WATERFOE, Vector2(spawnX, spawnY), WATER);
 	}
@@ -65,6 +66,7 @@ void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
 	{
 		//int spawnX = (rand()%(640-(500)+1))+500;
 		//int spawnY = (rand()%(250-(150)+1))+(150);
+		float spawnY = rand()%600 + 200;
 
 		entity_manager->AttachEntity(WOODFOE, Vector2(spawnX, spawnY), WOOD);
 	}

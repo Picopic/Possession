@@ -14,4 +14,8 @@ public:
 	
 	
 	void OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment);
+
+private:
+	void Attack();
+	void Movement(float Deltatime);
 };

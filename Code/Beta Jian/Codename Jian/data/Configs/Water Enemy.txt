@@ -10,4 +10,4 @@ watershootingdelay=3
 wateroffsetx=130
 wateroffsety=220
 
-watermovementspeed=150
+watermovementspeed=100
