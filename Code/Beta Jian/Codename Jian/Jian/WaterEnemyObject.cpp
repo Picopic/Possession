@@ -270,6 +270,13 @@ void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Ve
 		if(enemy_type == WOOD)
 		{
 			hitpoints -= 3;
+
+			can_collide = false;
+		
+			if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+				SetCurrentAnimation(HITLEFT);
+			else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+				SetCurrentAnimation(HITRIGHT);
 		}
 		else if(enemy_type == WATER)
 		{
@@ -279,13 +286,6 @@ void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Ve
 		{
 			hitpoints--;
 		}
-
-		can_collide = false;
-		
-		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
-			SetCurrentAnimation(HITLEFT);
-		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
-			SetCurrentAnimation(HITRIGHT);
 	}
 	else if(enemy_alignment == PLAYER)
 	{

@@ -77,10 +77,19 @@ void WoodEnemyObject::Init(std::string object_type, Alignment enemy_alignment, T
 
 void WoodEnemyObject::Update(float deltatime)
 {
-
-
 	//Firstly update the animation
 	current_animation->Update(deltatime);
+
+	//Secondly update the sprites position if there is a collider
+	if(hasCollider())
+	{
+		current_animation->getSprite()->setPosition(position.x, position.y);
+
+		collider->position.x = position.x + entity_offset_x;
+		collider->position.y = position.y + entity_offset_y;
+	
+		hitbox.setPosition(collider->position.x, collider->position.y);
+	}
 
 	if(!dead)
 	{
@@ -96,29 +105,36 @@ void WoodEnemyObject::Update(float deltatime)
 		}
 		else
 		{
-			//*********************** KOMMENTERA BORT OM DET EJ PASSAR BETA
-			//enemy ai chase
-			float deltaY = position.y - player->getPosition().y+120;
-			float deltaX = position.x - player->getPosition().x-60;
-			float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
-
-			velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
-
-			if(distance<=150){
-				//HIT
-				//velocity =Vector2(+60, 0);
-				velocity =Vector2(0, 0);
-				if(current_animations_name != IDLELEFT)
-				SetCurrentAnimation(IDLELEFT);
-			}
-			else if(direction.x == -1 && current_animations_name != WALKLEFT)
+			//Attacking
+			if(created_projectile)
 			{
-				SetCurrentAnimation(WALKLEFT);
+				shooting_delay += deltatime;
+				if(current_animation->GetCurrentFrame() == 4 && direction.x == 1)
+				{
+					float extension = 0.0f;
+					extension = collider->extension.x;
+					collider->position.x = (position.x + extension) + extension;
+				}
+					
+				else if(current_animation->GetCurrentFrame() == 4 && direction.x == -1)
+				{
+					collider->position.x = collider->position.x - collider->extension.x;
+				}
+					
 			}
-			//*********************** tills hit
-	
 
-			position+=velocity*deltatime;
+			Attack();
+
+			if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+			{
+				shooting_delay = 0.001f;
+				created_projectile = false;
+			}
+			//end of attacking
+
+			//Movement
+			if(!created_projectile)
+				Movement(deltatime);
 		}
 	}
 	else
@@ -150,16 +166,6 @@ void WoodEnemyObject::Update(float deltatime)
 			dropped_lostsoul = false;
 		}
 	}
-
-	//Lastly update the sprites position if there is a collider
-	if(hasCollider())
-	{
-		current_animation->getSprite()->setPosition(position.x, position.y);
-
-		collider->position.x = position.x + entity_offset_x;
-		collider->position.y = position.y + entity_offset_y;
-		hitbox.setPosition(collider->position.x, collider->position.y);
-	}
 }
 
 void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment)
@@ -173,18 +179,17 @@ void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		else if(enemy_type == FIRE)
 		{
 			hitpoints -= 3;
+			can_collide = false;
+		
+			if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
+				SetCurrentAnimation(HITLEFT);
+			else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
+				SetCurrentAnimation(HITRIGHT);
 		}
 		else if(enemy_type == WOOD)
 		{
 			hitpoints -= 2;
 		}
-
-		can_collide = false;
-		
-		if(collision_entity->getDirection().x == 1 && current_animations_name != HITLEFT)
-			SetCurrentAnimation(HITLEFT);
-		else if(collision_entity->getDirection().x == -1 && current_animations_name != HITRIGHT)
-			SetCurrentAnimation(HITRIGHT);
 	}
 	else
 	{
@@ -204,5 +209,60 @@ void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 			SetCurrentAnimation(DEATHLEFT);
 
 		current_animation->getSprite()->setPosition(position.x, position.y);
+	}
+}
+
+//--------------------------AI FUNCTIONS--------------------------------//
+void WoodEnemyObject::Movement(float Deltatime)
+{
+	float deltaY = position.y - player->getPosition().y+120;
+	float deltaX = position.x - player->getPosition().x-60;
+	float distance = sqrt(deltaY*deltaY+deltaX*deltaX);
+
+	velocity=Vector2((deltaX/distance)*-250, (deltaY/distance)*-50);
+
+	if(distance <= player->GetCurrentAnimation()->getSprite()->getTextureRect().width){
+	//HIT
+	//velocity =Vector2(+60, 0);
+	velocity =Vector2(0, 0);
+	if(current_animations_name != IDLELEFT)
+		SetCurrentAnimation(IDLELEFT);
+	}
+	else if(direction.x == -1 && current_animations_name != WALKLEFT)
+	{
+		SetCurrentAnimation(WALKLEFT);
+	}
+}
+
+void WoodEnemyObject::Attack()
+{
+	if(shooting_delay == 0.001f && !created_projectile)
+	{
+		float distance = 500;
+
+		if(direction.x == 1)
+		{
+			distance = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
+				- (current_animation->getSprite()->getPosition().x + current_animation->getSprite()->getTextureRect().width));
+		}
+		else if(direction.x == -1)
+		{
+			distance = fabs((player->GetSprite()->getPosition().x + player->GetSprite()->getTextureRect().width/2)
+				- current_animation->getSprite()->getPosition().x);
+		}
+
+		if(distance < current_animation->getSprite()->getTextureRect().width/2)
+		{
+			created_projectile = true;
+			if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
+			{
+				SetCurrentAnimation(ATTACKRIGHT);
+			}
+				
+			else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
+			{
+				SetCurrentAnimation(ATTACKLEFT);
+			}
+		}
 	}
 }

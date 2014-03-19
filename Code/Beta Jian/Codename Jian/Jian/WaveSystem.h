@@ -25,7 +25,7 @@ public:
 	void Update(float PlayerDeltaX);
 
 	//See if it is time to change wave
-	void ChangeWave(int WaveNumber);
+	void ChangeWave(int WaveNumber, int direction);
 private:
 	//The length of a one wave
 	float m_fWidth;

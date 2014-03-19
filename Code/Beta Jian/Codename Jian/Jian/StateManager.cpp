@@ -42,6 +42,7 @@ void StateManager::ChangeState(){
 		if(m_states[i]->IsType(next)) {
 			m_currentstate = m_states[i];
 			m_currentstate->Enter();
+			//m_currentstate->Initialize();
 			return;
 		}
 	}
@@ -57,6 +58,7 @@ void StateManager::Update(){
 	}
 
 	if(m_currentstate->Update()){
+		//m_currentstate->Exit();
 		ChangeState();
 	}
 }

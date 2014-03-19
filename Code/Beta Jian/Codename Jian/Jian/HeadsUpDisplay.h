@@ -15,6 +15,9 @@ public:
 	void DrawHUD(sf::RenderWindow* window);
 	void Update(float deltatime);
 
+	//Restart the HUD
+	void Restart();
+
 	//move the HUD with the designated x and y values
 	void Move(float x, float y);
 

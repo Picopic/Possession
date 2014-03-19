@@ -16,4 +16,5 @@ public:
 	void OutOfBounds();
 
 private:
+	bool Hit;
 };
