@@ -64,7 +64,10 @@ void LostSoulObject::OnCollision(Entity* collision_entity, Type collision_type, 
 {
 	if(other_alignment == PLAYER)
 	{
-		flagged_for_death = true;
+		if(player->CanPickUp())
+		{
+			flagged_for_death = true;
+		}
 	}	
 
 }

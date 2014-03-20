@@ -81,6 +81,8 @@ public:
 
 	//Lost Souls
 	bool GetLostSoul();
+	int GetNumberOfSouls();
+	bool CanPickUp();
 
 	//Enemy AI to not stack on each others
 	void DontStack();
@@ -89,6 +91,8 @@ public:
 
 protected:
 	Collider *collider;
+	
+	unsigned int collectedSouls;
 
 	//Start position
 	Vector2 position;
@@ -161,6 +165,7 @@ protected:
 	float lostsoulgoahead_delay;
 	bool dropped_lostsoul;
 	int random_number;
+	bool m_CanPickUp;
 
 	//Enemy AI to not stack on each other
 	std::vector<Vector2> othersposition;

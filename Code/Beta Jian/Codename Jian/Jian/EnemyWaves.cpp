@@ -79,8 +79,6 @@ void EnemyWaves::SpawnTimerAlarm(float CurrentPlayerX){
 	PreviousPlayerX = CurrentPlayerX;
 	PlayerWalkDistance +=DeltaX;
 
-	std::cout << PlayerWalkDistance << std::endl;
-
 	if(PlayerWalkDistance > SpawnTimer)
 	{
 		PlayerWalkDistance=0;
