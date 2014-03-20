@@ -66,6 +66,12 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	addSoul = false;
 	deleteSoul = false;
 
+	//karma & sky colours
+	karma = 0;
+	red = 64;
+	green = 32;
+	blue = 48;
+
 	fire_elements = Config_Manager->ReadFloat("playerfire");
 	water_elements = Config_Manager->ReadFloat("playerwater");
 	wood_elements = Config_Manager->ReadFloat("playerwood");
@@ -872,6 +878,7 @@ void PlayerObject::Souls()
 	{
 		if(!used_lost_souls)
 		{
+			karma -= 2;
 			SacrificeSoul(type);
 			if(collectedSouls <= 0)
 			{
@@ -898,6 +905,7 @@ void PlayerObject::Souls()
 	{
 		if(!used_lost_souls)
 		{
+			karma ++;
 			ReleaseSoul();
 			if(collectedSouls <= 0)
 			{
