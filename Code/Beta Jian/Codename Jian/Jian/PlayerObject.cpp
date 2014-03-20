@@ -156,7 +156,7 @@ void PlayerObject::Update(float deltatime)
 				Souls();
 
 				//Elemental swap
-				if(sf::Keyboard::isKeyPressed(sf::Keyboard::R) && !element_changed && CanChangeElement())
+				if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl) && !element_changed && CanChangeElement())
 				{
 					element_changed = true;
 
@@ -819,7 +819,7 @@ bool PlayerObject::CanChangeElement()
 void PlayerObject::Movement(float deltatime)
 {
 	//Vertical movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		if((direction.x == 1) && current_animations_name != WALKRIGHT)
 		{
@@ -834,7 +834,7 @@ void PlayerObject::Movement(float deltatime)
 		direction.y = -1;
 	}
 
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) || sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		if(direction.x == 1 && current_animations_name != WALKRIGHT)
 		{
@@ -850,7 +850,7 @@ void PlayerObject::Movement(float deltatime)
 	}
 
 	//horizontal movement
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		if(direction.x == -1 && current_animations_name != WALKLEFT)
 		{
@@ -860,7 +860,7 @@ void PlayerObject::Movement(float deltatime)
 		position.x -= speed*deltatime;
 		direction.x = -1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		if(current_animations_name != WALKRIGHT)
 		{
@@ -870,8 +870,7 @@ void PlayerObject::Movement(float deltatime)
 		position.x += speed*deltatime;
 		direction.x = 1;
 	}
-	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !sf::Keyboard::isKeyPressed(sf::Keyboard::S) 
-		&& !sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		if(!used_lost_souls)
 		{
@@ -892,7 +891,7 @@ void PlayerObject::Movement(float deltatime)
 void PlayerObject::Souls()
 {
 	//sacrifice lost soul
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && hasLostSoul==true)
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && hasLostSoul==true)
 	{
 		if(!used_lost_souls)
 		{
@@ -916,7 +915,7 @@ void PlayerObject::Souls()
 		}
 	}
 	//free lost soul
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::E) && hasLostSoul==true)
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) && hasLostSoul==true)
 	{
 		if(!used_lost_souls)
 		{
