@@ -353,7 +353,7 @@ bool GameState::Update(){
 		m_view.setCenter(camera.getPosition());
 		m_window->setView(m_view);
 
-		m_window->clear(sf::Color(0x40, 0x20, 0x30, 0xff));
+		m_window->clear(sf::Color(64, 32, 48, 255));
 
 		paralax2.draw(m_window);
 		paralax22.draw(m_window);

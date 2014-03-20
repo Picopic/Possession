@@ -931,3 +931,35 @@ bool Entity::DeleteSoul()
 {
 	return deleteSoul;
 }
+
+
+//colours
+int PlayerObject::getRed()
+{
+	return red;
+}
+
+void PlayerObject::setRed(int newRed)
+{
+	red = newRed;
+}
+
+int PlayerObject::getGreen()
+{
+	return green;
+}
+
+void PlayerObject::setGreen(int newGreen)
+{
+	green = newGreen;
+}
+
+int PlayerObject::getBlue()
+{
+	return blue;
+}
+
+void PlayerObject::setBlue(int newBlue)
+{
+	blue = newBlue;
+}

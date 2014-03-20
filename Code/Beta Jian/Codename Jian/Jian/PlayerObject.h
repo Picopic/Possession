@@ -24,6 +24,14 @@ public:
 	bool hasLostSoul;
 	unsigned int collectedSouls;
 
+	//change the color of the sky
+	void setRed(int newRed);
+	int getRed();
+	void setGreen(int newGreen);
+	int getGreen();
+	void setBlue(int newBlue);
+	int getBlue();
+
 	void NextElement();
 	bool CanChangeElement();
 private:
@@ -52,4 +60,10 @@ private:
 	//Collision
 	float knockback_speed;
 	Vector2 collision_direction;
+
+protected:
+	//Changing the color of the sky
+	int red;
+	int green;
+	int blue;
 };
