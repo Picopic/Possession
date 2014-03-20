@@ -16,6 +16,8 @@
 #include "SoundManager.h"
 #include "ConfigManager.h"
 #include "Paralax3.h"
+#include "Moon.h"
+#include "Gradienthimmel.h"
 
 #include "EnemyWaves.h"
 
@@ -65,6 +67,8 @@ private:
 	Paralax2 paralax22;
 	Paralax3 paralax3;
 	Paralax3 paralax33;
+	Moon moon;
+	Gradienthimmel gradienthimmel;
 
 	DrawManager *draw_manager;
 	SpriteManager *sprite_manager;

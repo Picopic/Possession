@@ -60,7 +60,7 @@
     </Filter>
     <Filter Include="Header Files\SMObjects">
       <UniqueIdentifier>{6392ee57-4a1f-47e2-b687-a75ac3ccf3de}</UniqueIdentifier>
-	 </Filter>
+    </Filter>
     <Filter Include="Source Files\Objects\Clouds etc">
       <UniqueIdentifier>{31c45529-850b-48b3-aadd-e38eb456b241}</UniqueIdentifier>
     </Filter>
@@ -228,6 +228,15 @@
     <ClCompile Include="SMoptions.cpp">
       <Filter>Source Files\SMObjects</Filter>
     </ClCompile>
+    <ClCompile Include="SMpaused.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Moon.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="Gradienthimmel.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -394,6 +403,15 @@
     </ClInclude>
     <ClInclude Include="SMoptions.h">
       <Filter>Header Files\SMObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="SMpaused.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Moon.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Gradienthimmel.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

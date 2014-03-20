@@ -70,6 +70,11 @@ float Entity::GetOffsetY()
 	return entity_offset_y;
 }
 
+float Entity::getSpeed()
+{
+	return speed;
+}
+
 sf::RectangleShape Entity::GetHitbox()
 {
 	return hitbox;

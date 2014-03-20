@@ -141,12 +141,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Gradienthimmel.cpp" />
     <ClCompile Include="HeadsUpDisplay.cpp" />
     <ClCompile Include="HowToPlayState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="LostSoulObject.cpp" />
+    <ClCompile Include="Moon.cpp" />
     <ClCompile Include="ObjectWave.cpp" />
     <ClCompile Include="OptionsState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -180,6 +182,7 @@
     <ClCompile Include="SMop4.cpp" />
     <ClCompile Include="SMoptions.cpp" />
     <ClCompile Include="SMPagoda.cpp" />
+    <ClCompile Include="SMpaused.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteManager.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -233,9 +236,11 @@
     <ClInclude Include="FireEnemyObject.h" />
     <ClInclude Include="Gameplayarea.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="Gradienthimmel.h" />
     <ClInclude Include="HeadsUpDisplay.h" />
     <ClInclude Include="HowToPlayState.h" />
     <ClInclude Include="LostSoulObject.h" />
+    <ClInclude Include="Moon.h" />
     <ClInclude Include="ObjectWave.h" />
     <ClInclude Include="OptionsState.h" />
     <ClInclude Include="Paralax.h" />
@@ -257,6 +262,7 @@
     <ClInclude Include="SMop4.h" />
     <ClInclude Include="SMoptions.h" />
     <ClInclude Include="SMPagoda.h" />
+    <ClInclude Include="SMpaused.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spritemanager.h" />
     <ClInclude Include="StartMenuState.h" />

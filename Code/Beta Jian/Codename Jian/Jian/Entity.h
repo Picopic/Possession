@@ -67,6 +67,7 @@ public:
 	sf::RectangleShape GetHitbox();
 	float GetOffsetX();
 	float GetOffsetY();
+	float getSpeed();
 
 	//animations
 	void AddAnimation(AnimationName animation_name, AnimatedSprite* anim_sprite);
