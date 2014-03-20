@@ -239,3 +239,13 @@ void Entity::DontStack()
 void Entity::setplayer(Entity* p_player){
 	player = p_player;
 }
+
+int Entity::GetNumberOfSouls()
+{
+	return collectedSouls;
+}
+
+bool Entity::CanPickUp()
+{
+	return m_CanPickUp;
+}

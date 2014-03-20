@@ -26,7 +26,7 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	//Souls
 	SoulWidth = 100;
 	SoulHeight = 100;
-	SoulXPos = m_ConfigManager->ReadInt("WindowWidth") - SoulWidth;
+	SoulXPos = /*m_ConfigManager->ReadInt("WindowWidth")*/ 1920 - SoulWidth;
 	SoulYPos = 10;
 
 	//Spritemanagers
@@ -324,7 +324,7 @@ void HeadsUpDisplay::DeleteElements(sf::Vector3i elements)
 
 void HeadsUpDisplay::AddSoul()
 {
-	Souls.push_back(m_SpriteManager->Load("Lost Souls Spritesheet.png", 7, 4, SoulWidth, SoulHeight, 0, 0));
+	Souls.push_back(m_SpriteManager->Load("Lost souls icon.png", 7, 4, SoulWidth, SoulHeight, 0, 0));
 	Souls[Souls.size() - 1]->getSprite()->setPosition(SoulXPos, SoulYPos);
 	SoulXPos -= SoulWidth;
 }

@@ -22,7 +22,6 @@ public:
 	void ReleaseSoul();
 
 	bool hasLostSoul;
-	unsigned int collectedSouls;
 
 	//change the color of the sky
 	void setRed(int newRed);

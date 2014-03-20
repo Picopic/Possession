@@ -16,6 +16,8 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 
 	//
 
+	m_CanPickUp = true;
+
 	direction = Vector2(Config_Manager->ReadInt("playerdirx"), Config_Manager->ReadInt("playerdiry"));
 
 	changed_element = false;
@@ -144,8 +146,12 @@ void PlayerObject::Update(float deltatime)
 			}
 			if(shooting_delay == 0.001f || shooting_delay > 0.2)
 			{
-				//If you are not shooting, then you are able to move
-				Movement(deltatime);
+				if(!used_lost_souls)
+				{
+					//If you are not shooting, then you are able to move
+					Movement(deltatime);
+				}
+				
 				//If you are not shooting, then you are able to use souls
 				Souls();
 
@@ -260,9 +266,17 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 {
 	if(collision_alignment == LOSTSOUL)
 	{
-		collectedSouls++;
-		hasLostSoul = true;
-		addSoul = true;
+		if(collectedSouls < 5)
+		{
+			collectedSouls++;
+			hasLostSoul = true;
+			addSoul = true;
+			m_CanPickUp = true;
+		}
+		else
+		{
+			m_CanPickUp = false;
+		}
 	}
 	else if(collision_alignment == ALTAR && !used_altar)
 	{
