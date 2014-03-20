@@ -193,6 +193,18 @@ void HeadsUpDisplay::Restart()
 	fire = 3;
 	water = 3;
 	wood = 3;
+
+	//Reset:a souls
+	for(int i = 0; i < Souls.size(); i++)
+	{
+		if(Souls[i] != nullptr)
+		{
+			delete Souls[i];
+			Souls[i] = nullptr;
+		}
+	}
+
+	Souls.clear();
 }
 
 void HeadsUpDisplay::DrawHUD(sf::RenderWindow* window)

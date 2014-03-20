@@ -729,6 +729,8 @@ void PlayerObject::SacrificeSoul(Type type)
 
 			add_element = true;
 			collectedSouls--;
+			deleteSoul = true;
+			used_lost_souls = true;
 		}
 			
 	}
@@ -766,6 +768,8 @@ void PlayerObject::ReleaseSoul()
 		{
 			add_element = true;
 			collectedSouls--;
+			used_lost_souls = true;
+			deleteSoul = true;
 		}
 	}
 }
@@ -885,9 +889,6 @@ void PlayerObject::Souls()
 				hasLostSoul = false;
 			}
 
-			used_lost_souls = true;
-			deleteSoul = true;
-
 			if(direction.x == 1 && current_animations_name != EATRIGHT)
 			{
 				SetCurrentAnimation(EATRIGHT);
@@ -911,9 +912,6 @@ void PlayerObject::Souls()
 			{
 				hasLostSoul = false;
 			}
-
-			used_lost_souls = true;
-			deleteSoul = true;
 			
 			if(direction.x == 1 && current_animations_name  != RELEASERIGHT)
 			{
