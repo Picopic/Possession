@@ -13,6 +13,8 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 {
 	current_animation = nullptr;
 	CurrentSound = nullptr;
+	HitByWoodEnemy = false;
+	WoodKnockbackSpeed = 5.0;
 
 	//
 
@@ -127,13 +129,22 @@ void PlayerObject::Update(float deltatime)
 		{
 			collision_refresh_timer += deltatime;
 			
-			position.x += deltatime * knockback_speed * collision_direction.x;
-			position.y += deltatime * knockback_speed * collision_direction.y;
+			if(HitByWoodEnemy)
+			{
+				position.x += deltatime * knockback_speed * collision_direction.x * WoodKnockbackSpeed;
+				position.y += deltatime * knockback_speed * collision_direction.y * WoodKnockbackSpeed;;
+			}
+			else
+			{
+				position.x += deltatime * knockback_speed * collision_direction.x;
+				position.y += deltatime * knockback_speed * collision_direction.y;
+			}
 
 			//can collide again
 			if(collision_refresh_timer > knockback_time)
 			{
 				can_collide = true;
+				HitByWoodEnemy = false;
 				collision_refresh_timer = 0.0f;
 			}
 		}
@@ -384,6 +395,8 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 			break;
 		case WOOD:
 
+			HitByWoodEnemy = true;
+
 			if(type == FIRE)
 			{
 				fire_elements--;
@@ -440,8 +453,16 @@ void PlayerObject::OnCollision(Entity* collision_entity, Type collision_type, Ve
 	}
 	else
 	{
-		collision_direction.x = -direction.x;
-		collision_direction.y = -direction.y;
+		if(collision_alignment != WOODFOE)
+		{
+			collision_direction.x = -direction.x;
+			collision_direction.y = -direction.y;
+		}
+		else
+		{
+			collision_direction = Vector2(-1, 0);
+		}
+		
 	}
 }
 

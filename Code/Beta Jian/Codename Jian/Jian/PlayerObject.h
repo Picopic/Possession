@@ -53,5 +53,7 @@ private:
 
 	//Collision
 	float knockback_speed;
+	float WoodKnockbackSpeed;
+	bool HitByWoodEnemy;
 	Vector2 collision_direction;
 };
