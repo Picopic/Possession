@@ -39,10 +39,24 @@ public:
 	//Draw går att ha i Update, men blir snyggare som egen. Allt som visas på skärmen har man i Draw.
 	bool Draw();
 
-
+	bool LoadLevel();
 
 private:
 	std::string m_next_state;
+
+	//Andrés funktioner
+	bool LoadParallax();
+	void UpdateParallax();
+	void UpdateGameplayArea();
+
+	void CameraMovement();
+	void PlayerMovement();
+
+	void HUDUpdate();
+
+	void DrawParallax();
+	void DrawGameplayAreas();
+	//slut på Andrés funktioner
 
 	void UpdateDeltatime();
 
@@ -83,4 +97,10 @@ private:
 	bool Pause;
 	bool StartPauseTimer;
 	float PauseTimer;
+
+	//Gameplay areas
+	std::vector<Gameplayarea*> Gameplayareas;
+	float GameplayAreaWidth;
+	int CurrentArea;
+	float PreviousPlayerX, PlayerWalkDistance;
 };

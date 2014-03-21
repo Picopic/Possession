@@ -1,12 +1,14 @@
 #pragma once
 #include "stdafx.h"
 
+class SpriteManager;
+class AnimatedSprite;
+
 class Gameplayarea
 {
 private:
 	sf::Vector2f position;
-	sf::Texture texture;
-	sf::Sprite sprite;
+	AnimatedSprite* sprite;
 
 
 public:
@@ -18,6 +20,6 @@ public:
 
 	void draw(sf::RenderWindow* window);
 	
-	bool initialize();
+	bool initialize(const std::string Background, SpriteManager* sprite_mgr);
 };
 
