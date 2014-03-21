@@ -64,7 +64,7 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	woodwidth = 495;
 	woodspritesheet = "WOOD SPRITESHEET 495x405p.png";
 
-	lostsoulheight = 100;
+	lostsoulheight = 110;
 	lostsoulwidth = 100;
 	lostsoulspritesheet = "Lost Souls Spritesheet.png";
 
