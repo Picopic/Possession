@@ -369,6 +369,7 @@ bool GameState::Update(){
 
 	gradienthimmel.draw(m_window);
 
+
 	moon.draw(m_window);
 
 	paralax2.draw(m_window);
