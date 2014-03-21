@@ -307,6 +307,9 @@ void GameState::UpdateDeltatime(){
 	temp_time = game_clock.getElapsedTime();
 	deltatime = (temp_time.asSeconds() - previous_time.asSeconds());
 	previous_time = temp_time;
+
+	if(deltatime > 0.1)
+		deltatime = 0.1f;
 }
 
 
