@@ -259,11 +259,15 @@ void WaterEnemyObject::Movement(float Deltatime)
 	{
 		if(position.y < 700)
 			position.y += speed * Deltatime;
+		else if(position.y > 700)
+			position.y -= speed * Deltatime;
 	}
 	else
 	{
 		if(position.y > 240)
 			position.y -= speed * Deltatime;
+		else if(position.y < 240)
+			position.y += speed * Deltatime;
 	}
 }
 

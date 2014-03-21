@@ -194,6 +194,8 @@ void HeadsUpDisplay::Restart()
 	water = 3;
 	wood = 3;
 
+	ActiveElement = FIRE;
+
 	//Reset:a souls
 	for(int i = 0; i < Souls.size(); i++)
 	{

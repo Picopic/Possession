@@ -962,7 +962,6 @@ void PlayerObject::Souls()
 				current_animations_name = RELEASELEFT;
 			}
 		}
-			
 	}
 }
 

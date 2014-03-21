@@ -1,16 +1,16 @@
 wave1fire=0
 wave1water=0
-wave1wood=1
+wave1wood=0
 
 wave2fire=0
-wave2water=1
+wave2water=0
 wave2wood=0
 
-wave3fire=1
-wave3water=2
+wave3fire=0
+wave3water=0
 wave3wood=0
 
-wave4fire=2
+wave4fire=0
 wave4water=0
 wave4wood=0
 

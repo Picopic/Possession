@@ -1,14 +1,20 @@
 #include "stdafx.h"
 #include "Gameplayarea.h"
 
+#include "Spritemanager.h"
+#include "AnimatedSprite.h"
 
 Gameplayarea::Gameplayarea(void){
-
+	sprite = nullptr;
 }
 
 
 Gameplayarea::~Gameplayarea(void){
-
+	if(sprite != nullptr)
+	{
+		delete sprite;
+		sprite = nullptr;
+	}
 }
 
 sf::Vector2f Gameplayarea::getPosition(){
@@ -20,13 +26,15 @@ void Gameplayarea::setPosition(sf::Vector2f pos){
 }
 
 void Gameplayarea::draw(sf::RenderWindow* window){
-	sprite.setPosition(position);
-	window->draw(sprite);
+	sprite->getSprite()->setPosition(position);
+	window->draw(*sprite->getSprite());
 }
 	
-bool Gameplayarea::initialize(){
-	texture.loadFromFile("../data/Spritesheets2/BG.png");
-	sprite.setTexture(texture);
+bool Gameplayarea::initialize(const std::string Background, SpriteManager* sprite_mgr)
+{
+	sprite = sprite_mgr->Load("/Playarea/" + Background, 1, 1, 3650, 1080, 0, 0);
+	if(sprite == nullptr)
+		return false;
 
 	return true;
 }

@@ -5,7 +5,7 @@ playerx=400
 playery=400
 
 #speed
-playerspeed=200
+playerspeed=2000
 
 #start riktning
 playerdirx=1
