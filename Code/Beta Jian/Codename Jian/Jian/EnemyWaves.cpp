@@ -16,6 +16,11 @@ EnemyWaves::EnemyWaves(EntityManager* em, ConfigManager* config_mgr){
 	wavenumber = 0;
 	entity_manager = em;
 
+	currentWave.fire = 0;
+	currentWave.water = 0;
+	currentWave.wood = 0;
+	currentWave.altar = 0;
+
 	config_manager = config_mgr;
 }
 
@@ -36,39 +41,44 @@ void EnemyWaves::Restart()
 }
 
 //Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:
-void EnemyWaves::CreateEnemies(sf::Vector3i enemies){
+void EnemyWaves::CreateEnemies(){
 
 	float spawnX = PreviousPlayerX + 650;
 
 	//enemies.x är fireleementals
-	for (int i = 0; i < enemies.x; i++){
+	for (int i = 0; i < currentWave.fire; i++){
 		//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
 		//läggs in i varje for nedan för varierande spawn-positions-intervall
 		//int randomspawnposX = (rand()%(740-(640)+1))+(640);
 		//int randomspawnposY = (rand()%(640-(290)+1))+(290);
-		float spawnY = rand()%600 + 200;
+		float spawnY = rand()%400 + 400;
 
 		entity_manager->AttachEntity(FIREFOE, Vector2(spawnX, spawnY), FIRE);
 	}
 
 	//enemies.y är waterelementals
-	for (int i = 0; i < enemies.y; i++){
+	for (int i = 0; i < currentWave.water; i++){
 		//RANDOMFUNKTION = (rand()%(MAXVÄRDET-(MINIMUMVÄRDE)+1))+(MINIMUMVÄRDE);
 		//läggs in i varje for nedan för varierande spawn-positions-intervall
 		//int randomspawnposX = (rand()%(640-(500)+1))+(500);
 		//int randomspawnposY = (rand()%(400-(290)+1))+(290);
-		float spawnY = rand()%600 + 200;
+		float spawnY = rand()%400 + 400;
 			
 		entity_manager->AttachEntity(WATERFOE, Vector2(spawnX, spawnY), WATER);
 	}
 
-	for(int i = 0; i < enemies.z; i++)
+	for(int i = 0; i < currentWave.wood; i++)
 	{
 		//int spawnX = (rand()%(640-(500)+1))+500;
 		//int spawnY = (rand()%(250-(150)+1))+(150);
-		float spawnY = rand()%600 + 200;
+		float spawnY = rand()%400 + 400;
 
 		entity_manager->AttachEntity(WOODFOE, Vector2(spawnX, spawnY), WOOD);
+	}
+
+	for(int i = 0; i < currentWave.altar; i++)
+	{
+		//entity_manager->AttachEntity(ALTAR, Vector2(spawnX, 300), NONE);
 	}
 
 };
@@ -82,8 +92,8 @@ void EnemyWaves::SpawnTimerAlarm(float CurrentPlayerX){
 	if(PlayerWalkDistance > SpawnTimer)
 	{
 		PlayerWalkDistance=0;
-		sf::Vector3i Nextwave = wave();
-		CreateEnemies(Nextwave);
+		wave();
+		CreateEnemies();
 	}
 
 };
@@ -93,45 +103,13 @@ bool EnemyWaves::initialize(){
 }
 
 //Här skräddarsyr vi hur varje våg ser ut:
-sf::Vector3i EnemyWaves::wave(){
+void EnemyWaves::wave(){
 	wavenumber++;
+
+	std::string wave = std::to_string(wavenumber);
 	
-	int fire = 0;
-	int water = 0;
-	int wood = 0;
-	
-	//förklaring: sf::Vector31(X, Y, Z) där:
-	//X = FIRE, Y = WATER, Z= WOOD
-	if(wavenumber == 0)
-	{
-		fire = 0;
-		water = 0;
-		wood = 0;
-	}
-
-	if (wavenumber ==1){
-		fire = config_manager->ReadInt("wave1fire");
-		water = config_manager->ReadInt("wave1water");
-		wood = config_manager->ReadInt("wave1wood");
-	}
-
-	if (wavenumber ==2){
-		fire = config_manager->ReadInt("wave2fire");
-		water = config_manager->ReadInt("wave2water");
-		wood = config_manager->ReadInt("wave2wood");
-	}
-
-	if (wavenumber ==3){
-		fire = config_manager->ReadInt("wave3fire");
-		water = config_manager->ReadInt("wave3water");
-		wood = config_manager->ReadInt("wave3wood");
-	}
-
-	if (wavenumber ==4){
-		fire = config_manager->ReadInt("wave4fire");
-		water = config_manager->ReadInt("wave4water");
-		wood = config_manager->ReadInt("wave4wood");
-	}
-	return sf::Vector3i(fire,water,wood);
-	
+	currentWave.fire = config_manager->ReadInt("wave" + wave + "fire");
+	currentWave.water = config_manager->ReadInt("wave" + wave + "water");
+	currentWave.wood = config_manager->ReadInt("wave" + wave + "wood");
+	currentWave.altar = config_manager->ReadInt("wave" + wave + "altar");
 }

@@ -23,4 +23,6 @@ public:
 	void OnCollision(Entity* CollisionEntity,Type CollisionType, Vector2 Offset, Alignment EnemyAlignment);
 
 private:
+
+	Vector2 StaticPosition;
 };

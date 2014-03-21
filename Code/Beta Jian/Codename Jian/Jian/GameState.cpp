@@ -142,6 +142,7 @@ bool GameState::Initialize(){
 			config_manager->Initialise("../data/Configs/");
 			config_manager->ReadFile("Config.txt");
 			config_manager->ReadFile("Enemywaves.txt");
+			config_manager->ReadFile("WaveSystem.txt");
 		}
 
 		if(enemy_waves == nullptr)
@@ -171,6 +172,8 @@ bool GameState::Enter(){
 	entity_manager->CreatePlayer();
 	HUD->Restart();
 	enemy_waves->Restart();
+
+	entity_manager->AttachStaticObject(config_manager, "HITBOXTREE");
 
 	std::cout << "Welcome to the GameState" << std::endl;
 	std::cout << "Press 4 to go back to StartMenuState" <<std::endl;
@@ -485,9 +488,9 @@ void GameState::PlayerMovement()
 	};
 
 	//kan inte gå över horisontlinjen:
-	if (entity_manager->game_entities.at(0)->getPosition().y < 280){
+	if (entity_manager->game_entities.at(0)->getPosition().y < 320){
 		Vector2 vect (entity_manager->game_entities.at(0)->getPosition());
-		vect.y = 280;
+		vect.y = 320;
 		entity_manager->game_entities.at(0)->setPosition(vect);
 	};
 
@@ -577,8 +580,6 @@ void GameState::UpdateGameplayArea()
 {
 	PlayerWalkDistance += entity_manager->game_entities[0]->getPosition().x - PreviousPlayerX;
 	PreviousPlayerX = entity_manager->game_entities[0]->getPosition().x;
-
-	std::cout << PlayerWalkDistance << std::endl;
 
 	if(PlayerWalkDistance > GameplayAreaWidth)
 	{

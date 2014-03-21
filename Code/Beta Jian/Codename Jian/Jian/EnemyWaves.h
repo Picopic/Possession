@@ -9,6 +9,14 @@ class EntityManager;
 class ConfigManager;
 
 class EnemyWaves{
+	struct Wave
+	{
+		int fire;
+		int water;
+		int wood;
+		int altar;
+	};
+
 private:
 	//position ska randomisera y-och x inom visst intervall så att fienderna klumpas ihop på ett snyggt sätt:
 	sf::Vector2f position;
@@ -26,8 +34,6 @@ private:
 	//värde/timer som säger hur långt spelaren ska gå innan nästa wave spawnar:
 	float SpawnTimer;
 
-	
-
 	int wavenumber;
 
 	EntityManager* entity_manager;
@@ -38,7 +44,7 @@ public:
 	~EnemyWaves();
 	
 	//Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:
-	void CreateEnemies(sf::Vector3i enemies);
+	void CreateEnemies();
 
 	//Returnerar true när det är dags att spawna fiender; när PlayerWalkDistance uppnått sitt mål som är SpawnTimer "ringer" alarmet SpawnTimerAlarm! :D :D :D
 	void SpawnTimerAlarm(float CurrentPlayerX);
@@ -47,6 +53,8 @@ public:
 
 	void Restart();
 
+	Wave currentWave;
+
 	//funktion som beskriver hur våg ser ut
-	sf::Vector3i wave();
+	void wave();
 };

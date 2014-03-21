@@ -94,12 +94,18 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WALL, WOODFOEBULLET), 18));
 
 	//Enemy collision
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WATERFOE), 18));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WOODFOE), 19));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WATERFOE), 20));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FIREFOE), 20));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WOODFOE), 20));
-	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, WATERFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WATERFOE), 19));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, WOODFOE), 20));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WATERFOE), 21));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (FIREFOE, FIREFOE), 22));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WOODFOE, WOODFOE), 23));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (WATERFOE, WATERFOE), 24));
+
+	//Static objects
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (STATICOBJECT, WATERFOE), 25));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (STATICOBJECT, FIREFOE), 26));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (STATICOBJECT, WOODFOE), 27));
+	CollisionMap.insert(std::pair<std::pair<Alignment, Alignment>, int>(std::pair<Alignment, Alignment> (STATICOBJECT, PLAYER), 28));
 }
 
 void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type type)
@@ -215,10 +221,11 @@ void EntityManager::ClearGameEntities()
 
 	game_entities.clear();
 }
+
 void EntityManager::CreatePlayer()
 {
 	GAMEOVER = false;
-	AttachEntity(PLAYER, Vector2(0, 300), FIRE);
+	AttachEntity(PLAYER, Vector2(0, 600), FIRE);
 }
 
 void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction)
@@ -338,7 +345,8 @@ void EntityManager::AttachStaticObject(ConfigManager* ConfigMgr, std::string Obj
 	game_entities.push_back(new StaticObject(ConfigMgr, ObjectPosition, Object));
 
 	//Set the Animation
-	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load(ObjectSpritesheet, NumberOfFrames, NumberOfColums, SpriteWidth, SpriteHeight, 0, 0));
+	if(ObjectSpritesheet != "-")
+		game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load(ObjectSpritesheet, NumberOfFrames, NumberOfColums, SpriteWidth, SpriteHeight, 0, 0));
 
 	game_entities[game_entities.size() - 1]->Init("Static Object", STATICOBJECT, NONE);
 }

@@ -14,6 +14,7 @@ StaticObject::StaticObject(ConfigManager* ConfigMgr, Vector2 Position, std::stri
 {
 	//Position of the objects
 	position = Position;
+	StaticPosition = position;
 
 	//Set properties
 	width = ConfigMgr->ReadInt(Object + "Width");
@@ -56,13 +57,6 @@ void StaticObject::Update(float Deltatime)
 
 void StaticObject::OnCollision(Entity* CollisionEntity,Type CollisionType, Vector2 Offset, Alignment EnemyAlignment)
 {
-	if(EnemyAlignment == PLAYER)
-	{
-
-	}
-	else if(EnemyAlignment == FIREFOE || EnemyAlignment == WATERFOE || EnemyAlignment == WOODFOE)
-	{
-
-	}
+	
 }
 //---------------------End of Essential Inherited Functions-------------------//

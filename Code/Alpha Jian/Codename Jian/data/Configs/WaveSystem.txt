@@ -28,25 +28,27 @@ EnemyWoodWave5=0
 
 #-The objects in each wave-#
 
+//NAMN - TYPE = VALUE
+
 //How many objects in wave?
 NumberOfObjectsWave1=1
 
 //What sort of object?
-Object1Wave1Spritesheet=Shitbox
-Object1Wave1NumberOfFrames=1
-Object1Wave1NumberOfColumns=1
-Object1Wave1SpriteWidth=100
-Object1Wave1SpriteHeight=100
+HITBOXTREESpritesheet=Invisibleshit.png
+HITBOXTREENumberOfFrames=1
+HITBOXTREENumberOfColumns=1
+HITBOXTREESpriteWidth=50
+HITBOXTREESpriteHeight=50
 
 //Where is the object?
-Object1Wave1PosX=400
-Object1Wave1PosY=500
+HITBOXTREEPosX=5416
+HITBOXTREEPosY=320
 
 //How big is the objects hitbox?
-Object1Wave1Width=40
-Object1Wave1Height=50
+HITBOXTREEWidth=1000
+HITBOXTREEHeight=70
 
 //How much from the top left hand corner
 //is the hitbox?
-Object1Wave1OffsetX=200
-Object1Wave1OffsetY=300
+HITBOXTREEOffsetX=0
+HITBOXTREEOffsetY=0
