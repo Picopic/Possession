@@ -365,9 +365,9 @@ bool GameState::Update(){
 	m_view.setCenter(camera.getPosition());
 	m_window->setView(m_view);
 
-	m_window->clear(sf::Color(64, 32, 48, 255));
+	m_window->clear(sf::Color(entity_manager->game_entities.at(0)->getRed(), entity_manager->game_entities.at(0)->getGreen(), entity_manager->game_entities.at(0)->getBlue(), 255));
 
-		gradienthimmel.draw(m_window);
+	gradienthimmel.draw(m_window);
 
 	moon.draw(m_window);
 

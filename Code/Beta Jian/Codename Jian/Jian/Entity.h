@@ -90,6 +90,14 @@ public:
 	void SetPositions(Vector2 p_position);
 	void ClearPositions();
 
+	//change the color of the sky
+	void setRed(int newRed);
+	int getRed();
+	void setGreen(int newGreen);
+	int getGreen();
+	void setBlue(int newBlue);
+	int getBlue();
+
 protected:
 	Collider *collider;
 	
@@ -170,4 +178,9 @@ protected:
 
 	//Enemy AI to not stack on each other
 	std::vector<Vector2> othersposition;
+
+	//Changing the color of the sky
+	int red;
+	int green;
+	int blue;
 };

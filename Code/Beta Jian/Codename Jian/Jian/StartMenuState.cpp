@@ -151,23 +151,14 @@ bool StartMenuState::Update()
 	}
 
 
-	if(Keyboard::isKeyPressed(Keyboard::Num1)) {
-		m_next_state = "GameState";
-		m_done=true;
-
-	}
-	else if(Keyboard::isKeyPressed(Keyboard::Num2)) {
+	if(Keyboard::isKeyPressed(Keyboard::Num2)) {
 		m_next_state = "OptionsState";
 		m_done=true;
 
 	}
-	else if(Keyboard::isKeyPressed(Keyboard::Num3)) {
-		m_next_state = "HowToPlayState";
-		m_done=true;
 
-	}
 	//Go up in list of menu options
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !options_changed)
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !options_changed)
 	{
 		if(!chosenhowtoplay && !chosenoptions){
 			switch(current_option)
@@ -193,7 +184,7 @@ bool StartMenuState::Update()
 		}
 	}
 	//Go down in list of menu options
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S) && !options_changed)
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && !options_changed)
 	{
 		if(!chosenhowtoplay && !chosenoptions){
 			switch(current_option)

@@ -896,6 +896,8 @@ void PlayerObject::Souls()
 		if(!used_lost_souls)
 		{
 			karma -= 2;
+			blue -= 2;
+			red += 10;
 			SacrificeSoul(type);
 			if(collectedSouls <= 0)
 			{
@@ -920,6 +922,8 @@ void PlayerObject::Souls()
 		if(!used_lost_souls)
 		{
 			karma ++;
+			red -= 2;
+			blue += 10;
 			ReleaseSoul();
 			if(collectedSouls <= 0)
 			{
@@ -951,34 +955,33 @@ bool Entity::DeleteSoul()
 	return deleteSoul;
 }
 
-
 //colours
-int PlayerObject::getRed()
+int Entity::getRed()
 {
 	return red;
 }
 
-void PlayerObject::setRed(int newRed)
+void Entity::setRed(int newRed)
 {
 	red = newRed;
 }
 
-int PlayerObject::getGreen()
+int Entity::getGreen()
 {
 	return green;
 }
 
-void PlayerObject::setGreen(int newGreen)
+void Entity::setGreen(int newGreen)
 {
 	green = newGreen;
 }
 
-int PlayerObject::getBlue()
+int Entity::getBlue()
 {
 	return blue;
 }
 
-void PlayerObject::setBlue(int newBlue)
+void Entity::setBlue(int newBlue)
 {
 	blue = newBlue;
 }
