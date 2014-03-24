@@ -1,0 +1,5 @@
+#bleeeh
+WindowWidth=1024
+WindowHeight=720
+
+WindowAntiAliasing=4

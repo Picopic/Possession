@@ -1,0 +1,14 @@
+//Fireenemy object attributes
+
+firewidth=80
+fireheight=60
+
+firehitpoints=5
+
+fireshootingdelay=3
+
+fireoffsetx=120
+fireoffsety=240
+
+firemovementspeed=50
+
