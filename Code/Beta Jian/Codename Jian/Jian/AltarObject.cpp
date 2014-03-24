@@ -8,16 +8,16 @@ AltarObject::AltarObject()
 
 }
 
-AltarObject::AltarObject(Vector2 altar_position, int altar_width, int altar_height)
+AltarObject::AltarObject(Vector2 altar_position, ConfigManager* config_mgrt)
 {
 	current_animation = nullptr;
 
 	position = altar_position;
-	width = altar_width;
-	height = altar_height;
+	width = config_mgrt->ReadInt("altarwidth");
+	height = config_mgrt->ReadInt("altarheight");
 
-	entity_offset_x = -50; //change according to the sprites
-	entity_offset_y = -30; //^
+	entity_offset_x = config_mgrt->ReadInt("altaroffsetx");
+	entity_offset_y = config_mgrt->ReadInt("altaroffsety");
 
 	used_counter = 0.0f;
 	used_by_player = false;
@@ -27,6 +27,12 @@ AltarObject::AltarObject(Vector2 altar_position, int altar_width, int altar_heig
 	collider->position.y = position.y + entity_offset_y;
 	collider->extension = Vector2(width, height);
 
+	hitbox.setSize(sf::Vector2f(width, height));
+	hitbox.setOrigin(0, 0);
+	hitbox.setPosition(collider->position.x, collider->position.y);
+	hitbox.setFillColor(sf::Color(0,0,0,0));
+	hitbox.setOutlineThickness(1);
+	hitbox.setOutlineColor(sf::Color(255,0,0,255));
 }
 
 void AltarObject::Init(std::string object_type, Alignment altar_alignment, Type altar_type)

@@ -75,6 +75,10 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	red = 64;
 	green = 32;
 	blue = 48;
+	
+	//sounds
+	isWalking = false;
+
 
 	fire_elements = Config_Manager->ReadFloat("playerfire");
 	water_elements = Config_Manager->ReadFloat("playerwater");
@@ -161,6 +165,25 @@ void PlayerObject::Update(float deltatime)
 				{
 					//If you are not shooting, then you are able to move
 					Movement(deltatime);
+
+					//walk sound
+					if(isWalking == true)
+					{
+						if(current_animations_name == WALKLEFT || current_animations_name == WALKRIGHT)
+						{
+							if(current_animation->GetCurrentFrame() == 0)
+							{
+								if(CurrentSound->getStatus() != sf::SoundSource::Playing)
+								CurrentSound->play();
+							}
+						}
+					}
+					else
+					{
+						if(CurrentSound != nullptr)
+							CurrentSound->stop();
+					
+					}
 				}
 				
 				//If you are not shooting, then you are able to use souls
@@ -238,6 +261,15 @@ void PlayerObject::Update(float deltatime)
 			{
 				//Sound
 				if(current_animations_name == EATLEFT || current_animations_name == EATRIGHT)
+				{
+					if(current_animation->GetCurrentFrame() == 2)
+					{
+						if(CurrentSound->getStatus() != sf::SoundSource::Playing)
+							CurrentSound->play();
+					}
+				}
+
+				if(current_animations_name == RELEASELEFT || current_animations_name == RELEASERIGHT)
 				{
 					if(current_animation->GetCurrentFrame() == 2)
 					{
@@ -823,6 +855,13 @@ void PlayerObject::ReleaseSoul()
 
 		if(added_points > 0)
 		{
+			auto it = entity_sounds.find("FREE");
+
+			if(it != entity_sounds.end())
+			{
+				CurrentSound = it->second;
+			}
+
 			add_element = true;
 			collectedSouls--;
 			used_lost_souls = true;
@@ -835,7 +874,9 @@ void Entity::AddSounds(SoundManager* sound_mgr)
 {
 	//Example insert
 	//entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("BoneBreak DSS01_48.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("Sacrifice.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FREE", sound_mgr->Load("Release.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("WALK", sound_mgr->Load("Walk_test.wav")));
 }
 
 bool PlayerObject::CanChangeElement()
@@ -875,6 +916,8 @@ void PlayerObject::Movement(float deltatime)
 		
 		position.y -= speed*deltatime;
 		direction.y = -1;
+
+		isWalking = true;
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -890,6 +933,8 @@ void PlayerObject::Movement(float deltatime)
 		
 		position.y += speed*deltatime;
 		direction.y = 1;
+
+		isWalking = true;
 	}
 
 	//horizontal movement
@@ -902,6 +947,8 @@ void PlayerObject::Movement(float deltatime)
 		
 		position.x -= speed*deltatime;
 		direction.x = -1;
+
+		isWalking = true;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
@@ -912,6 +959,8 @@ void PlayerObject::Movement(float deltatime)
 
 		position.x += speed*deltatime;
 		direction.x = 1;
+
+		isWalking = true;
 	}
 	else if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && !sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
@@ -927,7 +976,18 @@ void PlayerObject::Movement(float deltatime)
 				SetCurrentAnimation(IDLELEFT);
 				direction.y = 0;
 			}
+			
+			isWalking = false;
 		}
+	}
+
+	if (isWalking == true) {
+		auto it = entity_sounds.find("WALK");
+
+			if(it != entity_sounds.end())
+			{
+				CurrentSound = it->second;
+			}
 	}
 }
 
@@ -1003,27 +1063,12 @@ int Entity::getRed()
 	return red;
 }
 
-void Entity::setRed(int newRed)
-{
-	red = newRed;
-}
-
 int Entity::getGreen()
 {
 	return green;
 }
 
-void Entity::setGreen(int newGreen)
-{
-	green = newGreen;
-}
-
 int Entity::getBlue()
 {
 	return blue;
-}
-
-void Entity::setBlue(int newBlue)
-{
-	blue = newBlue;
 }

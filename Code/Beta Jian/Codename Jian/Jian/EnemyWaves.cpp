@@ -78,7 +78,7 @@ void EnemyWaves::CreateEnemies(){
 
 	for(int i = 0; i < currentWave.altar; i++)
 	{
-		//entity_manager->AttachEntity(ALTAR, Vector2(spawnX, 300), NONE);
+		entity_manager->AttachAltar(ALTAR, NONE, Vector2(spawnX, 300)); //FIXA X OCH Y-VÄRDEN
 	}
 
 };

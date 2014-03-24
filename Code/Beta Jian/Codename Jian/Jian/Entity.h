@@ -94,11 +94,8 @@ public:
 	void ClearPositions();
 
 	//change the color of the sky
-	void setRed(int newRed);
 	int getRed();
-	void setGreen(int newGreen);
 	int getGreen();
-	void setBlue(int newBlue);
 	int getBlue();
 
 protected:
