@@ -252,7 +252,7 @@ void WaterEnemyObject::Attack()
 
 void WaterEnemyObject::Movement(float Deltatime)
 {
-	float deltaYUP = position.y - 240;
+	float deltaYUP = position.y - 280;
 	float deltaYDOWN = 700 - position.y;
 
 	if(deltaYDOWN < deltaYUP)
@@ -264,7 +264,7 @@ void WaterEnemyObject::Movement(float Deltatime)
 	}
 	else
 	{
-		if(position.y > 240)
+		if(position.y > 280)
 			position.y -= speed * Deltatime;
 		else if(position.y < 240)
 			position.y += speed * Deltatime;

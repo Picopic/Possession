@@ -228,74 +228,322 @@ void EntityManager::CreatePlayer()
 	AttachEntity(PLAYER, Vector2(0, 600), FIRE);
 }
 
-void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction)
+void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction, bool DoubleShot)
 {
+	Vector2 position;
+	float projectileHeight;
 	switch (entity_type)
 	{
 	case FIRE:
-		game_entities.push_back(new Projectile(shooter, config_manager, entity_direction));
 
-		//What animations
-		if(entity_direction.x == 1)
+		if(DoubleShot)
 		{
-			game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*1));
-			game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*2));
-			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*0));
-		}
-		else if(entity_direction.x == -1)
-		{
-			game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*5));
-			game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*6));
-			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*4));
-		}
-		game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+			projectileHeight = config_manager->ReadFloat("fireprojectileheight");
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 + (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(1, 0.1), DoubleShot, position));
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 + (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(-1, 0.1), DoubleShot, position));
+			}
 
-		game_entities[game_entities.size() -1]->Init("FIRE", entity_name, entity_type);
+			
+
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*5));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*6));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*4));
+			}
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("FIRE", entity_name, entity_type);
+
+			//Second attack
+
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 - (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(1, -0.1), DoubleShot, position));
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 - (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(-1, -0.1), DoubleShot, position));
+			}
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*5));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*6));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*4));
+			}
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("FIRE", entity_name, entity_type);
+		}
+		else
+		{
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250;
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250;
+			}
+
+			game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(entity_direction.x, 0), DoubleShot, position));
+
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*5));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(fireprojectilespritesheet, 5, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*6));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(fireprojectilespritesheet, 4, 4, fireprojectilewidth, fireprojectileheight, fireprojectilewidth*0, fireprojectileheight*4));
+			}
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("FIRE", entity_name, entity_type);
+		}
 		break;
 
 	case WATER:
-		game_entities.push_back(new Projectile(shooter, config_manager, entity_direction));
 
-		//What animations
-		if(entity_direction.x == 1)
+		if(DoubleShot)
 		{
-			game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
-			game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
-			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			projectileHeight = config_manager->ReadFloat("waterprojectileheight");
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 + (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(1, 0.1), DoubleShot, position));
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 + (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(-1, 0.1), DoubleShot, position));
+			}
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			}
+
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("WATER", entity_name, entity_type);
+
+			//Second attack
+
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 - (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(1, -0.1), DoubleShot, position));
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 - (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(-1, -0.1), DoubleShot, position));
+			}
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			}
+
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("WATER", entity_name, entity_type);
 		}
-		else if(entity_direction.x == -1)
+		else
 		{
-			game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
-			game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
-			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250;
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250;
+			}
+
+			game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(entity_direction.x, 0), DoubleShot, position));
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(waterprojectilespritesheet, 5, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(waterprojectilespritesheet, 4, 4, waterprojectilewidth, waterprojectileheight, waterprojectilewidth*8, waterprojectileheight*0));
+			}
+
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("WATER", entity_name, entity_type);
 		}
-
-		game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
-
-		game_entities[game_entities.size() -1]->Init("WATER", entity_name, entity_type);
+		
 		break;
 
 	case WOOD:
+		if(DoubleShot)
+		{
+			projectileHeight = config_manager->ReadFloat("woodprojectileheight");
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 + (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(1, 0.1), DoubleShot, position));
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 + (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(-1, 0.1), DoubleShot, position));
+			}
 
-		game_entities.push_back(new Projectile(shooter, config_manager, entity_direction));
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*5));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*6));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*4));
+			}
+
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("WOOD", entity_name, entity_type);
+
+			//Second attack
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 - (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(1, -0.1), DoubleShot, position));
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250 - (projectileHeight/2);
+				game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(-1, -0.1), DoubleShot, position));
+			}
+
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*5));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*6));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*4));
+			}
+
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+
+			game_entities[game_entities.size() -1]->Init("WOOD", entity_name, entity_type);
+		}
+		else
+		{
+			if(entity_direction.x == 1)
+			{
+				position.x = shooter->getPosition().x + shooter->GetSprite()->getTextureRect().width/2;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250;
+			}
+			else if(entity_direction.x == -1)
+			{
+				position.x = shooter->getPosition().x;
+				position.y = (shooter->getCollider()->position.y + shooter->getCollider()->extension.y) - 250;
+			}
+
+			game_entities.push_back(new Projectile(shooter, entity_type, config_manager, Vector2(entity_direction.x, 0), DoubleShot, position));
 		
-		//What animations
-		if(entity_direction.x == 1)
-		{
-			game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*1));
-			game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*2));
-			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*0));
-		}
-		else if(entity_direction.x == -1)
-		{
-			game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*5));
-			game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*6));
-			game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*4));
-		}
+			//What animations
+			if(entity_direction.x == 1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*1));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHRIGHT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*2));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTRIGHT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*0));
+			}
+			else if(entity_direction.x == -1)
+			{
+				game_entities[game_entities.size() - 1]->AddAnimation(ATTACKLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*5));
+				game_entities[game_entities.size() - 1]->AddAnimation(DEATHLEFT, sprite_manager->Load(woodprojectilespritesheet, 5, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*6));
+				game_entities[game_entities.size() - 1]->AddAnimation(FADEOUTLEFT, sprite_manager->Load(woodprojectilespritesheet, 4, 4, woodprojectilewidth, woodprojectileheight, woodprojectilewidth*4, woodprojectileheight*4));
+			}
 
-		game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
+			game_entities[game_entities.size() -1]->setplayer(game_entities[0]);
 
-		game_entities[game_entities.size() -1]->Init("WOOD", entity_name, entity_type);
+			game_entities[game_entities.size() -1]->Init("WOOD", entity_name, entity_type);
+		}
 		break;
 	}
 
@@ -431,7 +679,7 @@ void EntityManager::Update(float deltatime)
 			//create projectiles
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())
 			{
-				AttachProjectile(FRIENDBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+				AttachProjectile(FRIENDBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection(), game_entities[i]->GetDoubleShot());
 			}
 		}
 
@@ -454,13 +702,13 @@ void EntityManager::Update(float deltatime)
 				switch (game_entities[i]->getAlignment())
 				{
 				case FIREFOE:
-					AttachProjectile(FIREFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+					AttachProjectile(FIREFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection(), false);
 					break;
 				case WATERFOE:
-					AttachProjectile(WATERFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+					AttachProjectile(WATERFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection(), false);
 					break;
 				case WOODFOE:
-					AttachProjectile(WOODFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection());
+					AttachProjectile(WOODFOEBULLET, game_entities[i], 47, 37, game_entities[i]->getType(), game_entities[i]->getDirection(), false);
 					break;
 				}
 			}

@@ -8,6 +8,8 @@
 #include "SoundManager.h"
 #include "ConfigManager.h"
 
+class EntityManager;
+
 class Entity
 {
 public:
@@ -54,6 +56,7 @@ public:
 	float getDelay();
 	void setDelay(float new_delay);
 	void resetShootDelay();
+	bool GetDoubleShot();
 
 	//death
 	bool IsFlaggedForDeath();
@@ -130,6 +133,7 @@ protected:
 	float delay;
 	Vector2 direction;
 	Vector2 start_pos;
+	bool Doubleshot;
 
 	//Collisionbox
 	float entity_offset_x;

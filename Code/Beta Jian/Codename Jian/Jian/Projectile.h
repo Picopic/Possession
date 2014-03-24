@@ -6,7 +6,7 @@ class Projectile : public Entity
 {
 public:
 	Projectile();
-	Projectile(Entity* shooter_entity, ConfigManager* config_manager, Vector2 projectile_direction);
+	Projectile(Entity* shooter_entity, Type Projectiletype, ConfigManager* config_manager, Vector2 projectile_direction, bool DoubleShot, Vector2 ProjectilePosition);
 
 	void Init(std::string object_type, Alignment alignment, Type type);
 	void Update(float deltatime);
@@ -17,6 +17,8 @@ public:
 
 private:
 	bool Hit;
+	//Power up
+	float DoubleshotTimer;
 
-	Entity* m_shooter_entity;
+	Entity* m_ShooterEntity;
 };

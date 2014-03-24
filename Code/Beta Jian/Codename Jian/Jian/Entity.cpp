@@ -2,8 +2,7 @@
 
 #include "stdafx.h"
 
-
-
+#include "EntityManager.h"
 #include "Entity.h"
 
 Entity::Entity()
@@ -248,4 +247,9 @@ int Entity::GetNumberOfSouls()
 bool Entity::CanPickUp()
 {
 	return m_CanPickUp;
+}
+
+bool Entity::GetDoubleShot()
+{
+	return Doubleshot;
 }

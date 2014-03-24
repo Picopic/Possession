@@ -10,5 +10,5 @@ fireshootingdelay=3
 fireoffsetx=120
 fireoffsety=240
 
-firemovementspeed=150
+firemovementspeed=50
 

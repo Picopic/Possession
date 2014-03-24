@@ -31,7 +31,7 @@ public:
 	void CreatePlayer();
 	void ClearGameEntities();
 
-	void AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction);
+	void AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction, bool DoubleShot);
 	void AttachWall(Vector2 position, int width, int height, Type wall_type);
 	void AttachLostSoul(Alignment entity_name, Entity* enemydropping, int width, int height, Type entity_type, Vector2 entity_position);
 	void AttachStaticObject(ConfigManager* ConfigMgr, std::string Object);

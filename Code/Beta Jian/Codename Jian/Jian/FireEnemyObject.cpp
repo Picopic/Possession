@@ -109,63 +109,11 @@ void FireEnemyObject::Update(float deltatime)
 				shooting_delay += deltatime;
 			}
 
-			if(shooting_delay == 0.001f && !created_projectile)
-			{
-				create_projectile = true;
-				created_projectile = true;
-				if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
-					SetCurrentAnimation(ATTACKRIGHT);
-				else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
-					SetCurrentAnimation(ATTACKLEFT);
-			}
-			else
-			{
-				create_projectile = false;
-			}
+			Attack();
 
-			if(shooting_delay > delay)
-			{
-				shooting_delay = 0.001f;
-				created_projectile = false;
-			}
-	
-			if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
-			{
-				if(direction.x == 1 && current_animations_name != IDLERIGHT)
-				{
-					SetCurrentAnimation(IDLERIGHT);
-				}
-				else if(direction.x == -1 && current_animations_name != IDLELEFT)
-				{
-					SetCurrentAnimation(IDLELEFT);
-				}
-			}
+			Movement(deltatime);
+			
 
-			//AI PLAYER CHASE
-			//följer efter spelaren i x-led
-			if(position.x > player->getPosition().x + m_random){
-				velocity.x = -0.1;
-			}
-	
-			//ska följa efter spelarens y-postiion sakta
-			if (position.y > player->getPosition().y + 100) {
-				velocity.y = -0.15;
-			}  
-			//ska följa efter spelarens y-position sakta
-			if (position.y < player -> getPosition().y - 100) {
-				velocity.y = +0.15;
-			}
-
-			//Den ska stanna på ett visst avstånd i X-led:
-			if (position.x < player->getPosition().x + m_random) {
-				velocity.x = 0.1;
-			}
-
-			if(position.y < player ->getPosition().y + 50 && position.y > player ->getPosition().y - 50){
-				velocity.y = 0;
-			}
-
-			position += velocity;
 		}
 	}
 	else
@@ -248,5 +196,82 @@ void FireEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 		dead = true;
 		SetCurrentAnimation(DEATHLEFT);
 		current_animation->getSprite()->setPosition(position.x, position.y);
+	}
+}
+
+
+//------------AI functions------------------//
+void FireEnemyObject::Movement(float Deltatime)
+{
+	float distanceUp, distanceDown;
+
+	//X-axis movement
+	if((position.x - player->getPosition().x)  < 300)
+	{
+		position.x += speed * Deltatime;
+	}
+	else
+		position.x -= speed * Deltatime;
+
+	//Y-axis movement
+	distanceUp =  (position.y + current_animation->getSprite()->getTextureRect().height)									//Enemy bottom position
+		- (player->getPosition().y + player->GetSprite()->getTextureRect().height - (3*player->getHeight()));			//player bottom position
+
+	distanceDown = (player->getPosition().y + player->GetSprite()->getTextureRect().height + (3*player->getHeight()))	//player bottom position
+		- (position.y + current_animation->getSprite()->getTextureRect().height);										//Enemy bottom position
+
+	//Which is closer
+	if(distanceDown < distanceUp)
+	{
+		if(distanceDown > 0 && position.y < 740)
+		{
+			position.y += speed * Deltatime;
+		}
+		else
+			position.y -= speed * Deltatime;
+	}
+	else
+	{
+		if(distanceUp > 0 && position.y > 380)
+		{
+			position.y -= speed * Deltatime;
+		}
+		else
+			position.y += speed * Deltatime;
+	}
+}
+
+void FireEnemyObject::Attack()
+{
+	if(shooting_delay == 0.001f && !created_projectile)
+	{
+		create_projectile = true;
+		created_projectile = true;
+		if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
+			SetCurrentAnimation(ATTACKRIGHT);
+		else if(direction.x == -1 && current_animations_name != ATTACKLEFT)
+			SetCurrentAnimation(ATTACKLEFT);
+	}
+	else
+	{
+		create_projectile = false;
+	}
+
+	if(shooting_delay > delay)
+	{
+		shooting_delay = 0.001f;
+		created_projectile = false;
+	}
+	
+	if(shooting_delay > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
+	{
+		if(direction.x == 1 && current_animations_name != IDLERIGHT)
+		{
+			SetCurrentAnimation(IDLERIGHT);
+		}
+		else if(direction.x == -1 && current_animations_name != IDLELEFT)
+		{
+			SetCurrentAnimation(IDLELEFT);
+		}
 	}
 }

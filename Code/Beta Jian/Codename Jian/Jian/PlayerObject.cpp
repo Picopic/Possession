@@ -186,6 +186,28 @@ void PlayerObject::Update(float deltatime)
 
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !created_projectile)
 			{
+				switch (type)
+				{
+				case FIRE:
+					if(fire_elements == 10)
+						Doubleshot = true;
+					else
+						Doubleshot = false;
+					break;
+				case WATER:
+					if(water_elements == 10)
+						Doubleshot = true;
+					else
+						Doubleshot = false;
+					break;
+				case WOOD:
+					if(wood_elements == 10)
+						Doubleshot = true;
+					else
+						Doubleshot = false;
+					break;
+				}
+
 				create_projectile = true;
 				created_projectile = true;
 				if(direction.x == 1 && current_animations_name != ATTACKRIGHT)

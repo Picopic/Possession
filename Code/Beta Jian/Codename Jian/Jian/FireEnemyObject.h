@@ -17,5 +17,7 @@ public:
 	void OnCollision(Entity* collision_entity, Type enemy_type, Vector2 offset, Alignment enemy_alignment);
 
 private:
-	//Entity* player;
+	// AI functions
+	void Movement(float Deltatime);
+	void Attack();
 };

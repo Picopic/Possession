@@ -9,15 +9,19 @@ Projectile::Projectile()
 
 }
 
-Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Vector2 projectile_direction)
+Projectile::Projectile(Entity* shooter_entity, Type ProjectileType, ConfigManager* config_manager, Vector2 projectile_direction, bool DoubleShot, Vector2 ProjectilePosition)
 {
+	Doubleshot = DoubleShot;
+
 	current_animation = nullptr;
 
-	m_shooter_entity = shooter_entity;
+	type = ProjectileType;
+
+	m_ShooterEntity = shooter_entity;
 
 	Hit = false;
 
-	switch (shooter_entity->getType())
+	switch (type)
 	{
 	case FIRE:
 		entity_offset_x = config_manager->ReadInt("fireprojectileoffsetx");
@@ -39,19 +43,11 @@ Projectile::Projectile(Entity* shooter_entity, ConfigManager* config_manager, Ve
 		break;
 	}
 
-	if(projectile_direction.x == 1)
-	{
-		position.x = shooter_entity->getPosition().x + shooter_entity->GetSprite()->getTextureRect().width/2;
-		position.y = (shooter_entity->getCollider()->position.y + shooter_entity->getCollider()->extension.y) - 250;
-	}
-	else if(projectile_direction.x == -1)
-	{
-		position.x = shooter_entity->getPosition().x;
-		position.y = (shooter_entity->getCollider()->position.y + shooter_entity->getCollider()->extension.y) - 250;
-	}
+	position = ProjectilePosition;
 
 	start_pos = position;
 	direction.x = projectile_direction.x;
+	direction.y = projectile_direction.y;
 
 	speed = 300;
 
@@ -84,14 +80,14 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 	
 	//which animation?
 	//Water enemy attack
-	if(m_shooter_entity->getAlignment() == WATERFOE)
+	if(m_ShooterEntity->getAlignment() == WATERFOE)
 	{
 		float dX, dY, Hypotenusa;
 		//Home in on player
 		dX = (player->getPosition().x + player->GetOffsetX() + player->getWidth()/2) - 
-			(m_shooter_entity->getPosition().x + m_shooter_entity->GetOffsetX() + m_shooter_entity->getWidth()/2);
+			(m_ShooterEntity->getPosition().x + m_ShooterEntity->GetOffsetX() + m_ShooterEntity->getWidth()/2);
 		dY = (player->getPosition().y + player->GetOffsetY() + player->getHeight()/2) -
-			(m_shooter_entity->getPosition().y + m_shooter_entity->GetOffsetY() + m_shooter_entity->getHeight()/2);
+			(m_ShooterEntity->getPosition().y + m_ShooterEntity->GetOffsetY() + m_ShooterEntity->getHeight()/2);
 
 		Hypotenusa = sqrtf(dX * dX + dY * dY);
 
@@ -103,6 +99,7 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 void Projectile::Update(float deltatime)
 {
 	current_animation->Update(deltatime);
+
 	if(!Hit)
 	{
 		position.x += deltatime * speed * direction.x;
