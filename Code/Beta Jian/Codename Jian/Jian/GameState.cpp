@@ -209,7 +209,7 @@ bool GameState::Update(){
 	//player related HUD changes
 	HUDUpdate();
 
-	//And here comes the player movement
+	//player movement
 	PlayerMovement();
 
 	//Camera movement
@@ -260,9 +260,6 @@ bool GameState::Update(){
 			Pause = false;
 		}
 	}
-
-
-
 
 	//drawing portion of game loop
 	draw_manager->Draw(m_window, entity_manager, HUD, draw_hitbox);
@@ -375,13 +372,13 @@ bool GameState::LoadParallax()
 	cloud2.setPosition(sf::Vector2f(3840,0));
 	cloud2.initialize();
 
-	//Något annat, berg kanske?
+	//främre berg
 	paralax1.setPosition(sf::Vector2f(-150, -15+90));
 	paralax1.initialize();
 	paralax11.setPosition(sf::Vector2f(3850, -15+90));
 	paralax11.initialize();
 
-	//Något annat, himmels grej kanske?
+	//bakre berg
 	paralax2.setPosition(sf::Vector2f(-150, +50+70));
 	paralax2.initialize();
 	paralax22.setPosition(sf::Vector2f(3354, +50+70));
@@ -403,16 +400,53 @@ bool GameState::LoadParallax()
 void GameState::UpdateParallax()
 {
 	//För att molnen ska spawna och despawna på rätt positioner:
-	if(cloud.getPosition().x <= camera.getPosition().x - 4760){
-		sf::Vector2f vect = cloud.getPosition();
-		vect.x = camera.getPosition().x + 1920/2 + 1920;
-		cloud.setPosition(vect);
+	if(cloud.getPosition().x < camera.getPosition().x - 3840 - (1920/2)){
+		cloud.setPosition(sf::Vector2f(cloud2.getPosition().x + 3840, 0));
 	}
-	if(cloud2.getPosition().x <= camera.getPosition().x - 4760){
-		sf::Vector2f vect = cloud2.getPosition();
-		vect.x = camera.getPosition().x + 1920/2 + 1920;
-		cloud2.setPosition(vect);
+	if(cloud.getPosition().x > camera.getPosition().x - (1920/2) + 3840){
+		cloud.setPosition(sf::Vector2f(cloud2.getPosition().x - 3840, 0));	
 	}
+
+	if(cloud2.getPosition().x < camera.getPosition().x - 3840 - (1920/2)){
+		cloud2.setPosition(sf::Vector2f(cloud.getPosition().x + 3840, 0));
+	}
+	if(cloud2.getPosition().x > camera.getPosition().x - (1920/2) + 3840){
+		cloud2.setPosition(sf::Vector2f(cloud.getPosition().x - 3840, 0));
+	}
+
+	 //parallax1 främre berg spawn och despawn:
+	if(paralax1.getPosition().x < camera.getPosition().x - 4000 - (1920/2)){
+		paralax1.setPosition(sf::Vector2f(paralax11.getPosition().x + 4000, -15+90));
+	}
+	if(paralax1.getPosition().x > camera.getPosition().x - (1920/2) + 4000){
+		paralax1.setPosition(sf::Vector2f(paralax11.getPosition().x - 4000, -15+90));	
+	}
+
+
+	if(paralax11.getPosition().x < camera.getPosition().x - 4000 - (1920/2)){
+		paralax11.setPosition(sf::Vector2f(paralax1.getPosition().x + 4000, -15+90));
+	}
+	if(paralax11.getPosition().x > camera.getPosition().x - (1920/2) + 4000){
+		paralax11.setPosition(sf::Vector2f(paralax1.getPosition().x - 4000, -15+90));
+	}
+
+	 //parallax2 bakre berg spawn och despawn:
+	if(paralax2.getPosition().x < camera.getPosition().x - 3354 - (1920/2)){
+		paralax2.setPosition(sf::Vector2f(paralax22.getPosition().x + 3354, +50+70));
+	}
+	if(paralax2.getPosition().x > camera.getPosition().x - (1920/2) + 3354){
+		paralax2.setPosition(sf::Vector2f(paralax22.getPosition().x - 3354, +50+70));	
+	}
+
+
+	if(paralax22.getPosition().x < camera.getPosition().x - 3354 - (1920/2)){
+		paralax22.setPosition(sf::Vector2f(paralax2.getPosition().x + 3354, +50+70));
+	}
+	if(paralax22.getPosition().x > camera.getPosition().x - (1920/2) + 3354){
+		paralax22.setPosition(sf::Vector2f(paralax2.getPosition().x - 3354, +50+70));
+	}
+
+
 
 	cloud.moveX(-0.05);
 	cloud2.moveX(-0.05);
