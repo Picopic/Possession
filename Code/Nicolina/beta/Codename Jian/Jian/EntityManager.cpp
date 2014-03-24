@@ -573,6 +573,15 @@ void EntityManager::AttachLostSoul(Alignment entity_name, Entity* enemydropping,
 
 	game_entities[game_entities.size() - 1]->AddAnimation(IDLELEFT, sprite_manager->Load(lostsoulspritesheet, 7, 4, lostsoulwidth, lostsoulheight, lostsoulwidth*0, lostsoulheight*0));
 	game_entities[game_entities.size()-1]->Init("Lost soul", entity_name, entity_type);
+}
+
+void EntityManager::AttachAltar(Alignment entity_name, Type entity_type, Vector2 entity_position)
+{
+
+	game_entities.push_back(new AltarObject(entity_position, config_manager));
+
+	game_entities[game_entities.size()-1]->AddAnimation(IDLELEFT, sprite_manager->Load("altarspritesheet_small2.png", 21, 6, 270, 364, 0, 0));
+	game_entities[game_entities.size()-1]->Init("Altar", entity_name, entity_type);
 
 }
 

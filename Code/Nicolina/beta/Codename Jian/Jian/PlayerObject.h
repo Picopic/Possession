@@ -56,4 +56,7 @@ private:
 	float WoodKnockbackSpeed;
 	bool HitByWoodEnemy;
 	Vector2 collision_direction;
+
+	//sounds
+	bool isWalking;
 };

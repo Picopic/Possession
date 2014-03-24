@@ -7,7 +7,7 @@ class AltarObject : public Entity
 {
 public:
 	AltarObject();
-	AltarObject(Vector2 altar_position, int width, int height);
+	AltarObject(Vector2 altar_position, ConfigManager* config_mgrt);
 
 	void Init(std::string object_type, Alignment alignment, Type type);
 	void Update(float deltatime);
