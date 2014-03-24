@@ -1,0 +1,41 @@
+//Player related variables
+
+#start position
+playerx=400
+playery=400
+
+#speed
+playerspeed=200
+
+#start riktning
+playerdirx=1
+playerdiry=0
+
+#collision
+//Spelarens bredd och höjd
+//även hitboxens bredd och höjd
+
+playerwidth=40
+playerheight=20
+
+//offset från vänster kant och toppen av bilden
+
+playeroffsetx=100
+playeroffsety=215
+
+//återhämtningstiden mellan kollisioner
+playerknockbacktime=0.3
+playerknockbackspeed=50
+
+#shooting
+//delay mellan skotten
+playershootdelay=0.4
+
+#Element relaterade variabler
+//delay between changing elements
+playerchangedelay=0.5
+
+//start elements
+playerfire=3
+playerwater=3
+playerwood=3
