@@ -652,7 +652,7 @@ void EntityManager::Update(float deltatime)
 					{
 						if(game_entities[i]->CanCollide() && game_entities[j]->CanCollide())
 						{
-							game_entities[i]->OnCollision(game_entities[j],game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
+ 							game_entities[i]->OnCollision(game_entities[j],game_entities[j]->getType(), offset, game_entities[j]->getAlignment());
 							game_entities[j]->OnCollision(game_entities[i],game_entities[i]->getType(), offset, game_entities[i]->getAlignment());
 						}
 					}
