@@ -245,6 +245,15 @@ void PlayerObject::Update(float deltatime)
 							CurrentSound->play();
 					}
 				}
+
+				if(current_animations_name == RELEASELEFT || current_animations_name == RELEASERIGHT)
+				{
+					if(current_animation->GetCurrentFrame() == 2)
+					{
+						if(CurrentSound->getStatus() != sf::SoundSource::Playing)
+							CurrentSound->play();
+					}
+				}
 				//End of sound
 
 				lost_souls_counter += deltatime;
@@ -649,6 +658,7 @@ void PlayerObject::SacrificeSoul(Type type)
 		{
 			if(water_elements + 3 >= 10)
 			{
+
 				add_water = abs(water_elements - 10);
 				added_points += abs(water_elements - 10);
 				water_elements = 10;
@@ -823,6 +833,13 @@ void PlayerObject::ReleaseSoul()
 
 		if(added_points > 0)
 		{
+			auto it = entity_sounds.find("FREE");
+
+			if(it != entity_sounds.end())
+			{
+				CurrentSound = it->second;
+			}
+
 			add_element = true;
 			collectedSouls--;
 			used_lost_souls = true;
@@ -835,7 +852,9 @@ void Entity::AddSounds(SoundManager* sound_mgr)
 {
 	//Example insert
 	//entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("BoneBreak DSS01_48.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("Sacrifice.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FREE", sound_mgr->Load("Release.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("WALK", sound_mgr->Load("Walk_better loop.wav")));
 }
 
 bool PlayerObject::CanChangeElement()
