@@ -446,6 +446,23 @@ void GameState::UpdateParallax()
 		paralax22.setPosition(sf::Vector2f(paralax2.getPosition().x - 3354, +50+70));
 	}
 
+	 //parallax3 gräs:
+	if(paralax3.getPosition().x < camera.getPosition().x - 3250 - (1920/2)){
+		paralax3.setPosition(sf::Vector2f(paralax33.getPosition().x + 3250, +1080-65));
+	}
+	if(paralax3.getPosition().x > camera.getPosition().x - (1920/2) + 3250){
+		paralax3.setPosition(sf::Vector2f(paralax33.getPosition().x - 3250, +1080-65));	
+	}
+
+
+	if(paralax33.getPosition().x < camera.getPosition().x - 3250 - (1920/2)){
+		paralax33.setPosition(sf::Vector2f(paralax3.getPosition().x + 3250, +1080-65));
+	}
+	if(paralax33.getPosition().x > camera.getPosition().x - (1920/2) + 3250){
+		paralax33.setPosition(sf::Vector2f(paralax3.getPosition().x - 3250, +1080-65));
+	}
+
+
 
 
 	cloud.moveX(-0.05);
@@ -481,8 +498,8 @@ void GameState::CameraMovement()
 		paralax11.moveX((entity_manager->game_entities.at(0)->getSpeed()*deltatime-0.5)/2);
 		paralax2.moveX(entity_manager->game_entities.at(0)->getSpeed()*deltatime-0.5);
 		paralax22.moveX(entity_manager->game_entities.at(0)->getSpeed()*deltatime-0.5);
-		paralax3.moveX(-0.1);
-		paralax33.moveX(-0.1);
+		paralax3.moveX(-0.3);
+		paralax33.moveX(-0.3);
 		moon.moveX(entity_manager->game_entities.at(0)->getSpeed()*deltatime);
 	}
 
@@ -509,8 +526,8 @@ void GameState::CameraMovement()
 		paralax11.moveX((-entity_manager->game_entities.at(0)->getSpeed()*deltatime+0.5)/2);
 		paralax2.moveX(-entity_manager->game_entities.at(0)->getSpeed()*deltatime+0.5);
 		paralax22.moveX(-entity_manager->game_entities.at(0)->getSpeed()*deltatime+0.5);
-		paralax3.moveX(+0.1);
-		paralax33.moveX(+0.1);
+		paralax3.moveX(+0.3);
+		paralax33.moveX(+0.3);
 		moon.moveX(-entity_manager->game_entities.at(0)->getSpeed()*deltatime);
 	}
 }

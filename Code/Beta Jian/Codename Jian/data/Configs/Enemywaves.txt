@@ -3,24 +3,24 @@ wave0water=0
 wave0wood=0
 wave0altar=0
 
-wave1fire=2
+wave1fire=0
 wave1water=0
-wave1wood=1
+wave1wood=0
 wave1altar=0
 
-wave2fire=2
+wave2fire=0
 wave2water=0
 wave2wood=0
 wave2altar=0
 
-wave3fire=2
-wave3water=1
+wave3fire=0
+wave3water=0
 wave3wood=0
 wave3altar=0
 
-wave4fire=1
-wave4water=1
-wave4wood=1
+wave4fire=0
+wave4water=0
+wave4wood=0
 wave4altar=0
 
 wave5fire=0
