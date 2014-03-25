@@ -877,6 +877,8 @@ void Entity::AddSounds(SoundManager* sound_mgr)
 	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("Sacrifice.wav")));
 	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FREE", sound_mgr->Load("Release.wav")));
 	entity_sounds.insert(std::pair<std::string, sf::Sound*>("WALK", sound_mgr->Load("Walk_test.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FIRE SHOOT", sound_mgr->Load("Fire Attack.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FIRE HIT", sound_mgr->Load("Fire Hit_nertonad.wav")));
 }
 
 bool PlayerObject::CanChangeElement()

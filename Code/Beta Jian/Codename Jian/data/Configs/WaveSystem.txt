@@ -31,7 +31,7 @@ EnemyWoodWave5=0
 //NAMN - TYPE = VALUE
 
 //How many objects in wave?
-NumberOfObjectsWave1=1
+NumberOfObjectsWave1=2
 
 //What sort of object?
 HITBOXTREESpritesheet=Invisibleshit.png
@@ -52,3 +52,24 @@ HITBOXTREEHeight=70
 //is the hitbox?
 HITBOXTREEOffsetX=0
 HITBOXTREEOffsetY=200
+
+
+//What sort of object?
+HITBOXHANGEDBODYSpritesheet=TreeHangedBody150x570p.png
+HITBOXHANGEDBODYNumberOfFrames=1
+HITBOXHANGEDBODYNumberOfColumns=1
+HITBOXHANGEDBODYSpriteWidth=150
+HITBOXHANGEDBODYSpriteHeight=570
+
+//Where is the object?
+HITBOXHANGEDBODYPosX=850
+HITBOXHANGEDBODYPosY=200
+
+//How big is the objects hitbox?
+HITBOXHANGEDBODYWidth=150
+HITBOXHANGEDBODYHeight=20
+
+//How much from the top left hand corner
+//is the hitbox?
+HITBOXHANGEDBODYOffsetX=0
+HITBOXHANGEDBODYOffsetY=550
