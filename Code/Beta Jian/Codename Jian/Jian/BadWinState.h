@@ -1,15 +1,15 @@
-//HowToPlayState.h
-//Enter this state from the StartMenuState.
+//BadWinState.h
+//You can choose to enter "Options" from the StartMenuState.
 //You can only go back to StartMenuState from here.
 
 #pragma once
 #include "stdafx.h"
 #include "State.h"
 
-class HowToPlayState:public State{
+class BadWinState:public State{
 public:
-	HowToPlayState(sf::RenderWindow* StartMenuWindow);
-	~HowToPlayState();
+	BadWinState(sf::RenderWindow* StartMenuWindow);
+	~BadWinState();
 	bool Initialize();
 	bool Enter();
 	bool Exit();
@@ -26,6 +26,9 @@ public:
 
 private:
 	std::string m_next_state;
+
+	sf::Texture badwintexture;
+	sf::Sprite badwinsprite;
 
 	//m_done är false tills man är klar med statet
 	bool m_done;

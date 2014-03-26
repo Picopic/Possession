@@ -11,6 +11,7 @@
 using namespace sf;
 
 StartMenuState::StartMenuState(sf::RenderWindow* StartMenuWindow){
+
 	m_window = StartMenuWindow;
 	chosenhowtoplay = false;
 	chosenoptions = false;
@@ -22,6 +23,8 @@ StartMenuState::~StartMenuState(){
 }
 
 bool StartMenuState::Initialize(){
+
+	sprite_manager=new SpriteManager; //lägg till directory
 
 	smclouds.setPosition(sf::Vector2f(0, 0));
 	smclouds.initialize();
@@ -69,7 +72,7 @@ bool StartMenuState::Initialize(){
 	smhowtoplay.initialize();
 
 	smoptions.setPosition(sf::Vector2f(0,0));
-	smoptions.initialize();
+	smoptions.initialize(sprite_manager);
 
 	m_done = false;
 	current_option = PLAY;

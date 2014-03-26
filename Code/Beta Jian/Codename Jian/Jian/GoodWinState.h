@@ -1,15 +1,15 @@
-//OptionsState.h
-//You can choose to enter "Options" from the StartMenuState.
+//GoodWinState.h
+//Enter this state from the Gamestate.
 //You can only go back to StartMenuState from here.
 
 #pragma once
 #include "stdafx.h"
 #include "State.h"
 
-class OptionsState:public State{
+class GoodWinState:public State{
 public:
-	OptionsState(sf::RenderWindow* StartMenuWindow);
-	~OptionsState();
+	GoodWinState(sf::RenderWindow* StartMenuWindow);
+	~GoodWinState();
 	bool Initialize();
 	bool Enter();
 	bool Exit();
@@ -26,6 +26,10 @@ public:
 
 private:
 	std::string m_next_state;
+
+	sf::Texture goodwintexture;
+
+	sf::Sprite goodwinsprite;
 
 	//m_done är false tills man är klar med statet
 	bool m_done;
