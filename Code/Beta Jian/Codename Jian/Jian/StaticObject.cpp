@@ -48,6 +48,8 @@ void StaticObject::Init(std::string Object, Alignment ObjectAlignment, Type Obje
 {
 	alignment = ObjectAlignment;
 	type = ObjectType;
+
+	current_animation->getSprite()->setPosition(position.x, position.y);
 }
 
 void StaticObject::Update(float Deltatime)
