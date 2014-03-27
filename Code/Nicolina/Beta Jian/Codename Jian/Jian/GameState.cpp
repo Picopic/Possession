@@ -280,12 +280,6 @@ bool GameState::Update(){
 		m_next_state = "StartMenuState";
 		m_done = true;
 	}
-
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-		m_next_state = "StartMenuState";
-		m_done=true;
-
-	};
 	return m_done;
 }
 

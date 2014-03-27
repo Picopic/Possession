@@ -225,7 +225,7 @@ void EntityManager::ClearGameEntities()
 void EntityManager::CreatePlayer()
 {
 	GAMEOVER = false;
-	AttachEntity(PLAYER, Vector2(0, 600), FIRE);
+	AttachEntity(PLAYER, Vector2(400, 400), FIRE);
 }
 
 void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int width, int height, Type entity_type, Vector2 entity_direction, bool DoubleShot)
