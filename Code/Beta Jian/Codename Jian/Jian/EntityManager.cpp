@@ -685,6 +685,13 @@ void EntityManager::Update(float deltatime)
 		//Player associated actions
 		if(game_entities[i]->getAlignment() == PLAYER)
 		{
+			if(game_entities[i]->Sacrificed())
+			{
+				AttachEntity(FIREFOE, Vector2(game_entities[i]->getPosition().x + 650, 300), FIRE);
+				AttachEntity(WATERFOE, Vector2(game_entities[i]->getPosition().x + 650, 500), WATER);
+				AttachEntity(WOODFOE, Vector2(game_entities[i]->getPosition().x + 550, game_entities[i]->getPosition().y), WOOD);
+			}
+
 			waves->SpawnTimerAlarm(game_entities[i]->getPosition().x);
 			//create projectiles
 			if(game_entities[i]->getShootDelay() == 0.001f && game_entities[i]->CreateProjectile())

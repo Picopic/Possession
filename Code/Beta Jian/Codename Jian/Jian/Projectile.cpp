@@ -49,7 +49,7 @@ Projectile::Projectile(Entity* shooter_entity, Type ProjectileType, ConfigManage
 	direction.x = projectile_direction.x;
 	direction.y = projectile_direction.y;
 
-	speed = 300;
+	speed = 400;
 
 	dead = false;
 	death_animation_time = 0.0f;
@@ -116,11 +116,11 @@ void Projectile::Update(float deltatime)
 	current_animation->getSprite()->setPosition(position.x, position.y);
 
 	//out of screen actions
-	if((position.x + width) < (start_pos.x-680))
+	if((position.x + width) < (start_pos.x-880))
 	{
 		OutOfBounds();
 	}
-	else if(position.x > (start_pos.x+680))
+	else if(position.x > (start_pos.x+880))
 	{
 		OutOfBounds();
 	}

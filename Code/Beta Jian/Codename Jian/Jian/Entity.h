@@ -87,6 +87,7 @@ public:
 	bool GetLostSoul();
 	int GetNumberOfSouls();
 	bool CanPickUp();
+	bool Sacrificed();
 
 	//Enemy AI to not stack on each others
 	void DontStack();
@@ -176,6 +177,7 @@ protected:
 	bool dropped_lostsoul;
 	int random_number;
 	bool m_CanPickUp;
+	bool m_Sacrificed;
 
 	//Enemy AI to not stack on each other
 	std::vector<Vector2> othersposition;
