@@ -35,6 +35,7 @@ void EntityManager::Init(EnemyWaves* enemywavesptr)
 	config_manager->ReadFile("Water Enemy.txt");
 	config_manager->ReadFile("Wood Enemy.txt");
 	config_manager->ReadFile("LostSoul.txt");
+	config_manager->ReadFile("Altar.txt");
 
 	//Spritesheet width and height
 	playerheight = 252;

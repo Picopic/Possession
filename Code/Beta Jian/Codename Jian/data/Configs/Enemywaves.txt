@@ -6,76 +6,76 @@ wave0altar=0
 wave1fire=0
 wave1water=0
 wave1wood=0
-wave1altar=0
+wave1altar=1
 
-wave2fire=30
+wave2fire=1
 wave2water=0
 wave2wood=0
 wave2altar=0
 
-wave3fire=1
+wave3fire=0
 wave3water=0
 wave3wood=1
 wave3altar=0
 
-wave4fire=2
+wave4fire=0
 wave4water=1
 wave4wood=0
 wave4altar=0
 
 wave5fire=0
-wave5water=2
-wave5wood=2
-wave5altar=0
+wave5water=0
+wave5wood=0
+wave5altar=1
 
-wave6fire=0
-wave6water=3
-wave6wood=3
+wave6fire=1
+wave6water=0
+wave6wood=1
 wave6altar=0
 
 wave7fire=0
 wave7water=0
-wave7wood=5
-wave7altar=0
+wave7wood=0
+wave7altar=1
 
-wave8fire=10
-wave8water=0
+wave8fire=1
+wave8water=1
 wave8wood=0
 wave8altar=0
 
 wave9fire=0
-wave9water=0
-wave9wood=7
+wave9water=1
+wave9wood=1
 wave9altar=0
 
 wave10fire=0
 wave10water=0
-wave10wood=15
-wave10altar=0
+wave10wood=0
+wave10altar=1
 
-wave11fire=0
-wave11water=0
-wave11wood=0
+wave11fire=1
+wave11water=1
+wave11wood=1
 wave11altar=0
 
-wave12fire=0
-wave12water=0
-wave12wood=0
+wave12fire=2
+wave12water=1
+wave12wood=1
 wave12altar=0
 
-wave13fire=0
-wave13water=0
-wave13wood=0
+wave13fire=3
+wave13water=1
+wave13wood=1
 wave13altar=0
 
 wave14fire=0
 wave14water=0
 wave14wood=0
-wave14altar=0
+wave14altar=1
 
-wave15fire=0
-wave15water=0
-wave15wood=0
+wave15fire=3
+wave15water=2
+wave15wood=1
 wave15altar=0
 
 wave16fire=0
@@ -83,9 +83,9 @@ wave16water=0
 wave16wood=0
 wave16altar=0
 
-wave17fire=0
-wave17water=0
-wave17wood=0
+wave17fire=3
+wave17water=3
+wave17wood=1
 wave17altar=0
 
 wave18fire=0
@@ -93,9 +93,9 @@ wave18water=0
 wave18wood=0
 wave18altar=0
 
-wave19fire=0
-wave19water=0
-wave19wood=0
+wave19fire=3
+wave19water=3
+wave19wood=2
 wave19altar=0
 
 wave20fire=0

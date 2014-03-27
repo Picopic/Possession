@@ -43,7 +43,7 @@ void EnemyWaves::Restart()
 //Tar en parameter; fire, water eller wood och spawnar den den blir tillsagd att spawna:
 void EnemyWaves::CreateEnemies(){
 
-	float spawnX = PreviousPlayerX + 650;
+	float spawnX = PreviousPlayerX + 1250;
 
 	//enemies.x är fireleementals
 	for (int i = 0; i < currentWave.fire; i++){

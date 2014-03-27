@@ -226,8 +226,10 @@ void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Ve
 			collider = nullptr;
 		}
 		dead = true;
-		if(current_animations_name != DEATHLEFT)
+		if(direction.x == -1 && current_animations_name != DEATHLEFT)
 			SetCurrentAnimation(DEATHLEFT);
+		else if(direction.x == 1 && current_animations_name != DEATHRIGHT)
+			SetCurrentAnimation(DEATHRIGHT);
 
 		current_animation->getSprite()->setPosition(position.x, position.y);
 	}
@@ -241,8 +243,10 @@ void WaterEnemyObject::Attack()
 	{
 		create_projectile = true;
 		created_projectile = true;
-		if(current_animations_name != ATTACKLEFT)
+		if(direction.x == -1 && current_animations_name != ATTACKLEFT)
 			SetCurrentAnimation(ATTACKLEFT);
+		else if(direction.x == 1 && current_animations_name != ATTACKRIGHT)
+			SetCurrentAnimation(ATTACKRIGHT);
 	}
 	else
 	{
@@ -254,6 +258,21 @@ void WaterEnemyObject::Movement(float Deltatime)
 {
 	float deltaYUP = position.y - 280;
 	float deltaYDOWN = 700 - position.y;
+
+	//vertical movement
+	float distance = player->getPosition().x  - position.x;
+	if(distance < 0)
+	{
+		direction.x = -1;
+		if(distance < -700)
+			position.x += direction.x * speed * Deltatime;
+	}
+	else
+	{
+		if(distance > 700)
+			position.x += direction.x * speed * Deltatime;
+		direction.x = 1;
+	}
 
 	if(deltaYDOWN < deltaYUP)
 	{
