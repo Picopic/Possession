@@ -17,7 +17,6 @@ public:
 
 	sf::Sprite* GetSliderSprite();
 	sf::Sprite* GetSliderSprite2();
-	sf::Sprite* GetonoffSprite();
 
 	bool GetType();
 	std::string GetSliderType();
@@ -27,12 +26,10 @@ private:
 
 	sf::Texture texture;
 	sf::Texture texture2;
-	sf::Texture texture3;
 
 	sf::Sprite m_slider;
 	sf::Sprite sliderbase;
-	sf::Sprite fullscreenoption;
-	sf::Sprite onoff;
+
 
 	sf::Vector2f m_sliderposition;
 
