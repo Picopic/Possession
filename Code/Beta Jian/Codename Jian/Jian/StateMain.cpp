@@ -40,8 +40,8 @@ int main()
 	m_sInputString = config_manager->GetValueFromKey("WindowAntiAliasing");
 	window_settings.antialiasingLevel = std::stoi(m_sInputString);
 
-//	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Fullscreen, window_settings);
-	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Default, window_settings);
+	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Fullscreen, window_settings);
+	//m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Default, window_settings);
 	
 
 	StateManager st_mgr;
