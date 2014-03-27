@@ -232,7 +232,20 @@ void WaterEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Ve
 			SetCurrentAnimation(DEATHRIGHT);
 
 		current_animation->getSprite()->setPosition(position.x, position.y);
+
+		auto it = entity_sounds.find("DEATH");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		}
 	}
+}
+
+void WaterEnemyObject::AddSounds(SoundManager* sound_mgr)
+{
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("DEATH", sound_mgr->Load("\Deaths/Water Enemy Death.wav")));
 }
 
 //----------------------AI FUNCTION------------------------//

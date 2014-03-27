@@ -219,7 +219,20 @@ void WoodEnemyObject::OnCollision(Entity* collision_entity, Type enemy_type, Vec
 			SetCurrentAnimation(DEATHLEFT);
 
 		current_animation->getSprite()->setPosition(position.x, position.y);
+
+		auto it = entity_sounds.find("DEATH");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		}
 	}
+}
+
+void WoodEnemyObject::AddSounds(SoundManager* sound_mgr)
+{
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("DEATH", sound_mgr->Load("\Deaths/Wood Enemy Death.wav")));
 }
 
 //--------------------------AI FUNCTIONS--------------------------------//

@@ -258,3 +258,8 @@ bool Entity::Sacrificed()
 {
 	return m_Sacrificed;
 }
+
+void Entity::AddSounds(SoundManager* sound_mgr)
+{
+
+}

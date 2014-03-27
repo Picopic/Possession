@@ -140,9 +140,6 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 
 		game_entities[game_entities.size() - 1]->AddAnimation(HITRIGHT, sprite_manager->LoadReversed(playerspritesheet, 3, 3, playerwidth, playerheight, playerwidth*3, playerheight*5));
 		game_entities[game_entities.size() - 1]->AddAnimation(HITLEFT, sprite_manager->LoadReversed(playerspritesheet, 3, 3, playerwidth, playerheight, playerwidth*3, playerheight*12));
-		
-		//sounds
-		game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 
 		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
 		break;
@@ -201,7 +198,8 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size()-1]->Init("wood enemy", entity_name, type);
 		break;
 	}
-
+	//sounds
+	game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 }
 
 void EntityManager::DetachEntity(int entity_index)
@@ -547,6 +545,8 @@ void EntityManager::AttachProjectile(Alignment entity_name, Entity* shooter, int
 		}
 		break;
 	}
+
+	game_entities[game_entities.size() - 1]->AddSounds(sound_manager);
 
 }
 

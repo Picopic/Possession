@@ -13,6 +13,8 @@ public:
 
 	void OnCollision(Entity* collision_entity, Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
+	void AddSounds(SoundManager* sound_mgr);
+
 	void OutOfBounds();
 
 private:

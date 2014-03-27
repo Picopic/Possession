@@ -7,6 +7,7 @@ class PlayerObject : public Entity
 {
 public:
 	PlayerObject();
+	~PlayerObject();
 
 	PlayerObject(ConfigManager* Config_Manager);
 
@@ -22,6 +23,8 @@ public:
 	void ReleaseSoul();
 
 	bool hasLostSoul;
+
+	void AddSounds(SoundManager* sound_mgr);
 
 	void NextElement();
 	bool CanChangeElement();
@@ -59,4 +62,5 @@ private:
 
 	//sounds
 	bool isWalking;
+	sf::Sound* ExtraWave;
 };

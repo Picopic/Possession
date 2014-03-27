@@ -9,11 +9,21 @@ PlayerObject::PlayerObject()
 
 }
 
+PlayerObject::~PlayerObject()
+{
+	if(ExtraWave != nullptr)
+	{
+		delete ExtraWave;
+		ExtraWave = nullptr;
+	}
+}
+
 PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 {
 	current_animation = nullptr;
 	CurrentSound = nullptr;
 	HitByWoodEnemy = false;
+	ExtraWave = nullptr;
 	WoodKnockbackSpeed = 5.0;
 
 	m_Sacrificed = false;
@@ -138,6 +148,16 @@ void PlayerObject::Update(float deltatime)
 			
 			if(HitByWoodEnemy)
 			{
+				if(CurrentSound->getStatus() != sf::Sound::Status::Playing)
+				{
+					auto it = entity_sounds.find("HITBYWOOD");
+
+					if(it != entity_sounds.end())
+					{
+						CurrentSound = it->second;
+						CurrentSound->play();
+					}
+				}
 				position.x += deltatime * knockback_speed * collision_direction.x * WoodKnockbackSpeed;
 				position.y += deltatime * knockback_speed * collision_direction.y * WoodKnockbackSpeed;;
 			}
@@ -269,6 +289,8 @@ void PlayerObject::Update(float deltatime)
 					{
 						if(CurrentSound->getStatus() != sf::SoundSource::Playing)
 							CurrentSound->play();
+						if(ExtraWave->getStatus() != sf::SoundSource::Playing)
+							ExtraWave->play();
 					}
 				}
 
@@ -312,6 +334,23 @@ void PlayerObject::Update(float deltatime)
 			collider = nullptr;
 		}
 		death_animation_time += deltatime;
+
+		if(current_animation->GetCurrentFrame() == 17)
+		{
+			if(CurrentSound->getStatus() != sf::SoundSource::Playing)
+			{
+				auto it = entity_sounds.find("DEATH");
+
+				if(it != entity_sounds.end())
+				{
+					CurrentSound = it->second;
+				}
+
+				CurrentSound->play();
+			}
+				
+		}
+
 		if(death_animation_time > current_animation->GetNumberOfFrames() * current_animation->GetFrameDuration())
 		{
 			flagged_for_death = true;
@@ -882,15 +921,17 @@ void PlayerObject::ReleaseSoul()
 	}
 }
 
-void Entity::AddSounds(SoundManager* sound_mgr)
+void PlayerObject::AddSounds(SoundManager* sound_mgr)
 {
 	//Example insert
 	//entity_sounds.insert(std::pair<std::string, sf::Sound*>("ATTACK", sound_mgr->Load("wizhit.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("Sacrifice.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FREE", sound_mgr->Load("Release.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("WALK", sound_mgr->Load("Walk_test.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FIRE SHOOT", sound_mgr->Load("Fire Attack.wav")));
-	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FIRE HIT", sound_mgr->Load("Fire Hit_nertonad.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("EAT", sound_mgr->Load("\Player/Sacrifice.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("FREE", sound_mgr->Load("\Player/Release.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("WALK", sound_mgr->Load("\Player/Walk_better loop.wav")));
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("DEATH", sound_mgr->Load("\Player/Death MaskHitsGround.wav")));
+	
+	entity_sounds.insert(std::pair<std::string, sf::Sound*>("HITBYWOOD", sound_mgr->Load("Wood enemy hit.wav")));
+	ExtraWave = sound_mgr->Load("/Player/Enemy spawn.wav");
 }
 
 bool PlayerObject::CanChangeElement()
@@ -998,10 +1039,10 @@ void PlayerObject::Movement(float deltatime)
 	if (isWalking == true) {
 		auto it = entity_sounds.find("WALK");
 
-			if(it != entity_sounds.end())
-			{
-				CurrentSound = it->second;
-			}
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+		}
 	}
 }
 

@@ -11,6 +11,7 @@ Projectile::Projectile()
 
 Projectile::Projectile(Entity* shooter_entity, Type ProjectileType, ConfigManager* config_manager, Vector2 projectile_direction, bool DoubleShot, Vector2 ProjectilePosition)
 {
+	
 	Doubleshot = DoubleShot;
 
 	current_animation = nullptr;
@@ -94,6 +95,27 @@ void Projectile::Init(std::string object_type, Alignment projectile_alignment, T
 		direction = Vector2(dX/Hypotenusa, dY/Hypotenusa);
 	}
 	//end of water enemy attack
+
+	if(type == FIRE)
+	{
+		auto it = entity_sounds.find("FIRE SHOOT");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		} 
+	}
+	else if(type == WOOD)
+	{
+		auto it = entity_sounds.find("WOOD SHOOT");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		}
+	}
 }
 
 void Projectile::Update(float deltatime)
@@ -162,6 +184,37 @@ void Projectile::OnCollision(Entity* collision_entity, Type collision_type, Vect
 	{
 		SetCurrentAnimation(DEATHLEFT);
 	}
+
+	if(type == FIRE)
+	{
+		auto it = entity_sounds.find("FIRE HIT");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		} 
+	}
+	else if(type == WOOD)
+	{
+		auto it = entity_sounds.find("WOOD HIT");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		}
+	}
+	else
+	{
+		auto it = entity_sounds.find("WATER HIT");
+
+		if(it != entity_sounds.end())
+		{
+			CurrentSound = it->second;
+			CurrentSound->play();
+		}
+	}
 }
 
 void Projectile::OutOfBounds()
@@ -187,5 +240,23 @@ void Projectile::OutOfBounds()
 	else
 	{
 
+	}
+}
+
+void Projectile::AddSounds(SoundManager* sound_mgr)
+{
+	switch (type)
+	{
+	case FIRE:
+		entity_sounds.insert(std::pair<std::string, sf::Sound*>("FIRE SHOOT", sound_mgr->Load("\Attacks/Fire Attack.wav")));
+		entity_sounds.insert(std::pair<std::string, sf::Sound*>("FIRE HIT", sound_mgr->Load("\Attacks/Fire Hit_nertonad.wav")));
+		break;
+	case WATER:
+		entity_sounds.insert(std::pair<std::string, sf::Sound*>("WATER HIT", sound_mgr->Load("\Attacks/Water Hit_nertonad.wav")));
+		break;
+	case WOOD:
+		entity_sounds.insert(std::pair<std::string, sf::Sound*>("WOOD SHOOT", sound_mgr->Load("\Attacks/Wood Attack.wav")));
+		entity_sounds.insert(std::pair<std::string, sf::Sound*>("WOOD HIT", sound_mgr->Load("\Attacks/Wood projectile hit.wav")));
+		break;
 	}
 }

@@ -81,7 +81,7 @@ public:
 	virtual void OnCollision(Entity* collision_entity,Type collision_type, Vector2 offset, Alignment enemy_alignment);
 
 	//Sounds
-	void AddSounds(SoundManager* sound_mgr);
+	virtual void AddSounds(SoundManager* sound_mgr);
 
 	//Lost Souls
 	bool GetLostSoul();
