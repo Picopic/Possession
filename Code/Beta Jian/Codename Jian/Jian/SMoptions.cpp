@@ -12,7 +12,18 @@ SMoptions::SMoptions(){
 
 	smslider3= new SMslider("soundlevel", sf::Vector2f(1480,640),50);
 
-	onoff=new SMslider("fullscreen", sf::Vector2f(1640, 780), 50);
+	texture3.loadFromFile("../data/f/SMoptionsejon.png");
+	texture4.loadFromFile("../data/f/SMoptionsvald.png");
+
+	onoff.setTexture(texture3);
+	onoff.setOrigin(onoff.getLocalBounds().width/2, onoff.getLocalBounds().height/2);
+	onoff.setPosition(1640, 780);
+
+	vald.setTexture(texture4);
+	vald.setOrigin(vald.getLocalBounds().width/2, vald.getLocalBounds().height/2);
+	vald.setPosition(1480,310);
+	//onoff=new SMslider("fullscreen", sf::Vector2f(1640, 780), 50);
+	//vald =new SMslider ("vald", sf::Vector2f(1480,310),50);
 }
 
 
@@ -27,8 +38,11 @@ SMoptions::~SMoptions(void){
 	delete smslider3;
 	smslider3 = nullptr;
 
-	delete onoff;
-	onoff =nullptr;
+	////delete onoff;
+	//onoff =nullptr;
+
+	//delete vald;
+	//vald =nullptr;
 
 }
 
@@ -53,7 +67,11 @@ void SMoptions::draw(sf::RenderWindow* window){
 	window->draw(*smslider2->GetSliderSprite());
 	window->draw(*smslider3->GetSliderSprite());
 
-	window->draw(*onoff->GetonoffSprite());
+	window->draw(vald);
+	window->draw(onoff);
+	//window->draw(*vald->GetvaldSprite());
+
+	//window->draw(*onoff->GetonoffSprite());
 }
 
 bool SMoptions::initialize(SpriteManager* spritemanager){
