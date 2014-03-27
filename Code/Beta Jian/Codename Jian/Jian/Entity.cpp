@@ -253,3 +253,8 @@ bool Entity::GetDoubleShot()
 {
 	return Doubleshot;
 }
+
+bool Entity::Sacrificed()
+{
+	return m_Sacrificed;
+}

@@ -16,6 +16,8 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	HitByWoodEnemy = false;
 	WoodKnockbackSpeed = 5.0;
 
+	m_Sacrificed = false;
+
 	//
 
 	m_CanPickUp = true;
@@ -112,6 +114,7 @@ void PlayerObject::Init(std::string object_type, Alignment entity_alignment, Typ
 void PlayerObject::Update(float deltatime)
 {
 	changed_element = false;
+	m_Sacrificed = false;
 
 	destroy_fire = 0;
 	destroy_water = 0;
@@ -809,6 +812,11 @@ void PlayerObject::SacrificeSoul(Type type)
 
 		if(added_points > 0)
 		{
+			m_Sacrificed = true;
+
+			karma -= 2;
+			blue -= 2;
+			red += 10;
 			auto it = entity_sounds.find("EAT");
 
 			if(it != entity_sounds.end())
@@ -855,6 +863,10 @@ void PlayerObject::ReleaseSoul()
 
 		if(added_points > 0)
 		{
+			karma ++;
+			red -= 2;
+			blue += 10;
+
 			auto it = entity_sounds.find("FREE");
 
 			if(it != entity_sounds.end())
@@ -1000,9 +1012,6 @@ void PlayerObject::Souls()
 	{
 		if(!used_lost_souls)
 		{
-			karma -= 2;
-			blue -= 2;
-			red += 10;
 			SacrificeSoul(type);
 			if(collectedSouls <= 0)
 			{
@@ -1026,9 +1035,6 @@ void PlayerObject::Souls()
 	{
 		if(!used_lost_souls)
 		{
-			karma ++;
-			red -= 2;
-			blue += 10;
 			ReleaseSoul();
 			if(collectedSouls <= 0)
 			{
