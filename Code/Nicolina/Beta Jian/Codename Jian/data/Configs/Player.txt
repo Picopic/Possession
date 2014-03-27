@@ -1,8 +1,8 @@
 //Player related variables
 
 #start position
-playerx=400
-playery=400
+playerx=1033
+playery=513
 
 #speed
 playerspeed=300
