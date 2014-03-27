@@ -40,8 +40,17 @@ int main()
 	m_sInputString = config_manager->GetValueFromKey("WindowAntiAliasing");
 	window_settings.antialiasingLevel = std::stoi(m_sInputString);
 
-//	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Fullscreen, window_settings);
-	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Possession", sf::Style::Default, window_settings);
+	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Jian", sf::Style::Fullscreen, window_settings);
+//	m_window = new sf::RenderWindow(VideoMode(window_width,window_height), "Jian", sf::Style::Default, window_settings);
+
+	sf::Texture splashtexture;
+	sf::Sprite splashsprite;
+	splashtexture.loadFromFile("../data/spritesheets2/Splashscreen.png");
+	
+	splashsprite.setTexture(splashtexture);
+
+	m_window->draw(splashsprite);
+	m_window->display();
 	
 
 	StateManager st_mgr;

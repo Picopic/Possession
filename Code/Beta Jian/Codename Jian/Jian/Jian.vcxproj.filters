@@ -96,12 +96,6 @@
     <ClCompile Include="GameState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
-    <ClCompile Include="HowToPlayState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionsState.cpp">
-      <Filter>Source Files\States</Filter>
-    </ClCompile>
     <ClCompile Include="StartMenuState.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
@@ -237,6 +231,18 @@
     <ClCompile Include="Gradienthimmel.cpp">
       <Filter>Source Files\Objects\Clouds etc</Filter>
     </ClCompile>
+    <ClCompile Include="SMslider.cpp">
+      <Filter>Source Files\Objects\Clouds etc</Filter>
+    </ClCompile>
+    <ClCompile Include="GoodWinState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="BadWinState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="DeadState.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -261,12 +267,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameState.h">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="HowToPlayState.h">
-      <Filter>Header Files\States</Filter>
-    </ClInclude>
-    <ClInclude Include="OptionsState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
     <ClInclude Include="StartMenuState.h">
@@ -412,6 +412,18 @@
     </ClInclude>
     <ClInclude Include="Gradienthimmel.h">
       <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="SMslider.h">
+      <Filter>Header Files\Objects\Clouds etc</Filter>
+    </ClInclude>
+    <ClInclude Include="GoodWinState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="BadWinState.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="DeadState.h">
+      <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
