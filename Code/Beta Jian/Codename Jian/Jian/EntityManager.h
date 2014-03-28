@@ -36,6 +36,7 @@ public:
 	void AttachLostSoul(Alignment entity_name, Entity* enemydropping, int width, int height, Type entity_type, Vector2 entity_position);
 	void AttachAltar(Alignment entity_name, Type entity_type, Vector2 entity_position);
 	void AttachStaticObject(ConfigManager* ConfigMgr, std::string Object);
+	void AttachTutorial(Vector2 position, int width, int height, Type type);
 
 	bool SwitchState();
 

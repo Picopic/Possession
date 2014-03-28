@@ -202,6 +202,17 @@ bool Entity::GetLostSoul()
 	return drop_lostsoul;
 }
 
+bool Entity::FirstLostSoul()
+{
+	return showtutorial;
+}
+
+
+int Entity::GetFirstSoul()
+{
+	return alltimecollectedsouls;
+}
+
 //Enemy AI to avoid each other:
 void Entity::SetPositions(Vector2 p_position)
 {

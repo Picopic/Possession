@@ -3,7 +3,7 @@
 firewidth=80
 fireheight=60
 
-firehitpoints=5
+firehitpoints=7
 
 fireshootingdelay=3
 

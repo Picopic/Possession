@@ -141,6 +141,8 @@ void EntityManager::AttachEntity(Alignment entity_name, Vector2 position, Type t
 		game_entities[game_entities.size() - 1]->AddAnimation(HITRIGHT, sprite_manager->LoadReversed(playerspritesheet, 3, 3, playerwidth, playerheight, playerwidth*3, playerheight*5));
 		game_entities[game_entities.size() - 1]->AddAnimation(HITLEFT, sprite_manager->LoadReversed(playerspritesheet, 3, 3, playerwidth, playerheight, playerwidth*3, playerheight*12));
 
+		game_entities[game_entities.size() - 1]->AddAnimation(SPAWN, sprite_manager->Load("MC SPAWN ANIMATION 348x438p.png", 15, 9, 348, 438, 0, 0));
+
 		game_entities[game_entities.size() - 1]->Init("Player", PLAYER, FIRE);
 		break;
 	case WATERFOE:

@@ -16,6 +16,7 @@ BadWinState::BadWinState(sf::RenderWindow* OptionWindow){
 	badwinsprite.setPosition(0,0);
 
 	m_window = OptionWindow;
+	m_clock = nullptr;
 }
 
 BadWinState::~BadWinState(){
@@ -40,11 +41,14 @@ bool BadWinState::Update(){
 
 	m_done = false;
 
-	if(Keyboard::isKeyPressed(Keyboard::Space)) {
-		m_next_state = "StartMenuState";
-		m_done=true;
-		
-	};
+	std::cout << "Welcome to the GoodWinState" << std::endl;
+
+	if (m_clock != nullptr)
+	{
+		delete m_clock;
+	}
+
+	m_clock = new sf::Clock();
 	return m_done;
 }
 
@@ -57,10 +61,12 @@ bool BadWinState::IsType(const std::string& Type){
 }
 
 bool BadWinState::Draw(){
+	m_window->setView(m_window->getDefaultView());
+	
+	m_window->clear();
 
 	m_window->draw(badwinsprite);
-	
-	m_window->clear(Color(0x99, 0xff, 0x55, 0xff));
+
 	m_window->display();
 	return false;
 }

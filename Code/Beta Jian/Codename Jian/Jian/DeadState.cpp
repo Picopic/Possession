@@ -15,6 +15,7 @@ DeadState::DeadState(sf::RenderWindow* DeadState){
 	deadsprite.setPosition(0,0);
 
 	m_window = DeadState;
+	m_clock = nullptr;
 }
 
 DeadState::~DeadState(){
@@ -27,7 +28,15 @@ bool DeadState::Initialize(){
 }
 
 bool DeadState::Enter(){
-	std::cout << "Welcome to the BadWinState" << std::endl;
+	
+	if (m_clock != nullptr)
+	{
+		delete m_clock;
+	}
+
+	m_clock = new sf::Clock();
+
+	std::cout << "Welcome to the DeadState" << std::endl;
 	return false;
 }
 
@@ -39,7 +48,7 @@ bool DeadState::Update(){
 
 	m_done = false;
 
-	if(Keyboard::isKeyPressed(Keyboard::Space)) {
+	if(Keyboard::isKeyPressed(Keyboard::Space) || m_clock->getElapsedTime().asSeconds() > 3.0f) {
 		m_next_state = "StartMenuState";
 		m_done=true;
 		
@@ -57,9 +66,13 @@ bool DeadState::IsType(const std::string& Type){
 
 bool DeadState::Draw(){
 
-	m_window->draw(deadsprite);
 	
-	m_window->clear(Color(0x99, 0xff, 0x55, 0xff));
+	m_window->setView(m_window->getDefaultView());
+	
+	m_window->clear();
+
+	m_window->draw(deadsprite);
+
 	m_window->display();
 	return false;
 }

@@ -16,6 +16,7 @@ GoodWinState::GoodWinState(sf::RenderWindow* GoodwinWindow){
 	goodwinsprite.setPosition(0,0);
 
 	m_window = GoodwinWindow;
+	m_clock = nullptr;
 }
 
 GoodWinState::~GoodWinState(){
@@ -31,6 +32,13 @@ bool GoodWinState::Enter(){
 	
 	std::cout << "Welcome to the GoodWinState" << std::endl;
 
+	if (m_clock != nullptr)
+	{
+		delete m_clock;
+	}
+
+	m_clock = new sf::Clock();
+
 	return false;
 }
 
@@ -42,11 +50,12 @@ bool GoodWinState::Update(){
 
 	m_done = false;
 
-	if(Keyboard::isKeyPressed(Keyboard::Space)) {
+if(Keyboard::isKeyPressed(Keyboard::Space) || m_clock->getElapsedTime().asSeconds() > 3.0f) {
 		m_next_state = "StartMenuState";
 		m_done=true;
 		
 	};
+
 	return m_done;
 }
 
@@ -59,10 +68,12 @@ bool GoodWinState::IsType(const std::string& Type){
 }
 
 bool GoodWinState::Draw(){
+	m_window->setView(m_window->getDefaultView());
 	
+	m_window->clear();
+
 	m_window->draw(goodwinsprite);
-	
-	m_window->clear(Color(0x99, 0x55, 0x99, 0xff));
+
 	m_window->display();
 	return false;
 }

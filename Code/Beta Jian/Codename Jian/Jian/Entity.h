@@ -89,6 +89,9 @@ public:
 	bool CanPickUp();
 	bool Sacrificed();
 
+	bool FirstLostSoul();
+	int GetFirstSoul();
+
 	//Enemy AI to not stack on each others
 	void DontStack();
 	void SetPositions(Vector2 p_position);
@@ -178,6 +181,10 @@ protected:
 	int random_number;
 	bool m_CanPickUp;
 	bool m_Sacrificed;
+
+	int alltimecollectedsouls;
+	bool showtutorial;
+	bool tutorialshown;
 
 	//Enemy AI to not stack on each other
 	std::vector<Vector2> othersposition;

@@ -42,7 +42,7 @@ FireEnemyObject::FireEnemyObject(ConfigManager* config_manager, Vector2 enemy_po
 	lostsouldrop_delay = 0.001f;
 	lostsoulgoahead_delay = 1.0f;
 	dropped_lostsoul  = false;
-	random_number = (rand()%(4-(0)+1))+(0);
+	random_number = (rand()%(20-(0)+1))+(0);
 
 	//collision
 	entity_offset_x = config_manager->ReadInt("fireoffsetx");

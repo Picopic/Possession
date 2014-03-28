@@ -34,4 +34,6 @@ private:
 	//m_done är false tills man är klar med statet
 	bool m_done;
 	sf::RenderWindow* m_window;
+
+	sf::Clock *m_clock;
 };

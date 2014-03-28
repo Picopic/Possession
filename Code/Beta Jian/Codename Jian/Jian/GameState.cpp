@@ -9,7 +9,7 @@
 
 GameState::GameState(sf::RenderWindow* GameWindow){
 	m_window = GameWindow;
-	Pause = true;
+	Pause = false;
 	StartPauseTimer = false;
 	PauseTimer = 0.0f;
 
@@ -89,7 +89,7 @@ bool GameState::Initialize(){
 
 
 	//View port
-	camera.setPosition(sf::Vector2f(1920/2, 1080/2));
+	camera.setPosition(sf::Vector2f(1250, 1080/2));
 	cameras_last_position = camera.getPosition();
 
 	m_view.setCenter(camera.getPosition());
@@ -171,6 +171,7 @@ bool GameState::Enter(){
 	//Create player
 	entity_manager->CreatePlayer();
 	HUD->Restart();
+	HUD->Move(1250 - 1920 / 2, 0);
 	enemy_waves->Restart();
 
 	entity_manager->AttachStaticObject(config_manager, "HITBOXTREE");
@@ -277,7 +278,7 @@ bool GameState::Update(){
 
 	if(entity_manager->SwitchState())
 	{
-		m_next_state = "StartMenuState";
+		m_next_state = "DeadState";
 		m_done = true;
 	}
 

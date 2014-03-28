@@ -28,6 +28,8 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 
 	m_Sacrificed = false;
 
+	hasSpawned = false;
+
 	//
 
 	m_CanPickUp = true;
@@ -110,6 +112,8 @@ PlayerObject::PlayerObject(ConfigManager* Config_Manager)
 	hitbox.setFillColor(sf::Color(0,0,0,0));
 	hitbox.setOutlineThickness(1);
 	hitbox.setOutlineColor(sf::Color(255,0,0,255));
+
+	
 }
 
 void PlayerObject::Init(std::string object_type, Alignment entity_alignment, Type entity_type)
@@ -118,11 +122,38 @@ void PlayerObject::Init(std::string object_type, Alignment entity_alignment, Typ
 	type = entity_type;
 	arrow = type;
 
+	
+
+	
+	SetCurrentAnimation(SPAWN);
+
+	position.x = 870;
+	position.y = 319;
+
 	current_animation->getSprite()->setPosition(position.x, position.y);
+	
 }
 
 void PlayerObject::Update(float deltatime)
 {
+	if (!hasSpawned)
+	{
+		current_animation->Update(deltatime);
+
+		
+
+		if (current_animation->GetCurrentFrame() == current_animation->GetNumberOfFrames() - 1)
+		{
+			hasSpawned = true;
+
+			position.x = 1033;
+			position.y = 513;
+		}
+			
+
+		return;
+	}
+
 	changed_element = false;
 	m_Sacrificed = false;
 

@@ -62,5 +62,7 @@ private:
 
 	//sounds
 	bool isWalking;
+
+	bool hasSpawned;
 	sf::Sound* ExtraWave;
 };

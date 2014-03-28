@@ -3,7 +3,7 @@
 waterwidth=60
 waterheight=60
 
-waterhitpoints=5
+waterhitpoints=7
 
 watershootingdelay=3
 
