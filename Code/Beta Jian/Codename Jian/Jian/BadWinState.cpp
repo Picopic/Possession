@@ -30,6 +30,13 @@ bool BadWinState::Initialize(){
 
 bool BadWinState::Enter(){
 	std::cout << "Welcome to the BadWinState" << std::endl;
+
+	if (m_clock != nullptr)
+	{
+		delete m_clock;
+	}
+
+	m_clock = new sf::Clock();
 	return false;
 }
 
@@ -40,6 +47,12 @@ bool BadWinState::Exit(){
 bool BadWinState::Update(){
 
 	m_done = false;
+
+	if(Keyboard::isKeyPressed(Keyboard::Space) || m_clock->getElapsedTime().asSeconds() > 3.0f) {
+		m_next_state = "StartMenuState";
+		m_done=true;
+		
+	};
 
 	std::cout << "Welcome to the GoodWinState" << std::endl;
 

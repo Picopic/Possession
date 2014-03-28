@@ -747,7 +747,7 @@ void EntityManager::Update(float deltatime)
 	{
 		if(game_entities[0]->getPosition().x > 21200)
 		{
-			if(game_entities[0]->GetKarma() > 0)
+			if(game_entities[0]->GetKarma() < 0)
 			{
 				BADEND = true;
 			}
