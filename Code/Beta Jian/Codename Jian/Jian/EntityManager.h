@@ -40,6 +40,9 @@ public:
 
 	bool SwitchState();
 
+	bool GoodEnding();
+	bool BadEnding();
+
 	void Cleanup();
 	std::vector<Entity*> game_entities;
 private:
@@ -77,4 +80,7 @@ private:
 	//Game over
 	bool GAMEOVER;
 	bool switchstate;
+
+	bool GOODEND;
+	bool BADEND;
 };

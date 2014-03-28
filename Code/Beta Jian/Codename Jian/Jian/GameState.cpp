@@ -282,11 +282,17 @@ bool GameState::Update(){
 		m_done = true;
 	}
 
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-		m_next_state = "StartMenuState";
-		m_done=true;
+	if(entity_manager->GoodEnding())
+	{
+		m_next_state = "GoodWinState";
+		m_done = true;
+	}
+	if(entity_manager->BadEnding())
+	{
+		m_next_state = "BadWinState";
+		m_done = true;
+	}
 
-	};
 	return m_done;
 }
 

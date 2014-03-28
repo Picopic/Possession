@@ -760,3 +760,13 @@ bool EntityManager::SwitchState()
 {
 	return GAMEOVER;
 }
+
+bool EntityManager::GoodEnding()
+{
+	return GOODEND;
+}
+
+bool EntityManager::BadEnding()
+{
+	return BADEND;
+}
