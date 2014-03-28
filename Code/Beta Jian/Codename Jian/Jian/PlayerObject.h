@@ -30,7 +30,6 @@ public:
 	bool CanChangeElement();
 
 	//karma
-	int karma;
 private:
 	//movement
 	void Movement(float deltatime);

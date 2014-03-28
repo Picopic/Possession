@@ -123,8 +123,6 @@ void PlayerObject::Init(std::string object_type, Alignment entity_alignment, Typ
 	arrow = type;
 
 	
-
-	
 	SetCurrentAnimation(SPAWN);
 
 	position.x = 870;
@@ -1151,4 +1149,9 @@ int Entity::getGreen()
 int Entity::getBlue()
 {
 	return blue;
+}
+
+int Entity::GetKarma()
+{
+	return karma;
 }

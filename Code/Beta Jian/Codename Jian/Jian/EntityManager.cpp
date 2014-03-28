@@ -17,6 +17,8 @@ EntityManager::EntityManager(SpriteManager* sprite_mgr, SoundManager* sound_mgr)
 	sound_manager = sound_mgr;
 	config_manager = new ConfigManager;
 	GAMEOVER = false;
+	GOODEND = false;
+	BADEND = false;
 }
 
 EntityManager::~EntityManager()
@@ -226,6 +228,8 @@ void EntityManager::ClearGameEntities()
 void EntityManager::CreatePlayer()
 {
 	GAMEOVER = false;
+	GOODEND = false;
+	BADEND = false;
 	AttachEntity(PLAYER, Vector2(0, 600), FIRE);
 }
 
@@ -735,6 +739,21 @@ void EntityManager::Update(float deltatime)
 			if(game_entities[i]->GetLostSoul())
 			{
 				AttachLostSoul(LOSTSOUL, game_entities[i], 100, 100, game_entities[i]->getType(), game_entities[i]->getPosition());
+			}
+		}
+	}
+
+	if(game_entities[0]->getAlignment() == PLAYER)
+	{
+		if(game_entities[0]->getPosition().x > 21200)
+		{
+			if(game_entities[0]->GetKarma() > 0)
+			{
+				BADEND = true;
+			}
+			else
+			{
+				GOODEND = true;
 			}
 		}
 	}

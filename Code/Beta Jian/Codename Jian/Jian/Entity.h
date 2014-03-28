@@ -101,6 +101,7 @@ public:
 	int getRed();
 	int getGreen();
 	int getBlue();
+	int GetKarma();
 
 protected:
 	Collider *collider;
@@ -181,6 +182,7 @@ protected:
 	int random_number;
 	bool m_CanPickUp;
 	bool m_Sacrificed;
+	int karma;
 
 	int alltimecollectedsouls;
 	bool showtutorial;
