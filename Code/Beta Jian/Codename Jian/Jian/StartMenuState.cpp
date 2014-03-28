@@ -232,7 +232,7 @@ bool StartMenuState::Update()
 			m_done=true;
 			break; */
 		case QUIT:
-
+			m_window->close();
 			break;
 		}
 	}

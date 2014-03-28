@@ -69,9 +69,10 @@ int main()
 			if(event.type == Event::Closed) {
 				m_window->close();
 			};
+			/*
 			if(Keyboard::isKeyPressed(Keyboard::Escape)) {
 				m_window->close();
-			}
+			}*/
 			if(Keyboard::isKeyPressed(Keyboard::F2))
 			{
 				if(st_mgr.GetState("GameState")->draw_hitbox)

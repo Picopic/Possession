@@ -199,6 +199,11 @@ bool GameState::Update(){
 	//while (window->isOpen()) {
 	sf::Event event;
 	if(m_window->pollEvent(event)) {
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+			
+		}
+
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F2))
 		{
 			if(draw_hitbox)
@@ -542,8 +547,10 @@ void GameState::CameraMovement()
 
 void GameState::PlayerMovement()
 {
+	
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-		m_window->close();
+		m_next_state = "StartMenuState";
+		m_done = true;
 	};
 
 	//kan inte gå över horisontlinjen:
