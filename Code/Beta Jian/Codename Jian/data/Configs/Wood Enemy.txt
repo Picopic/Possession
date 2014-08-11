@@ -5,7 +5,7 @@
 woodwidth=115
 woodheight=60
 
-woodhitpoints=20
+woodhitpoints=15
 
 woodshootingdelay=3
 

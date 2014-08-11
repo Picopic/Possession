@@ -214,7 +214,7 @@ bool StartMenuState::Update()
 	}
 
 	//Choose in list of menu options
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !options_changed)
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !options_changed)
 	{
 		switch(current_option)
 		{
@@ -292,12 +292,12 @@ bool StartMenuState::Draw(){
 	/* ************ HOW TO PLAY */
 	else if (current_option == HOWTOPLAY){
 		// Säger att man går in i How to play om den är markerad:
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
 			chosenhowtoplay = true;
 			previousisdown = true;
 		}
 		// Säger att man går ur How to play om man är inne i den och trycker space:
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
 			chosenhowtoplay = false;
 			previousisdown = true;
 		}
@@ -310,12 +310,12 @@ bool StartMenuState::Draw(){
 	/* ************ OPTIONS */
 	else if (current_option == OPTIONS){
 		// Säger att den går in i Options om den är markerad och man trycker Space:
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !chosenhowtoplay && !previousisdown && !chosenoptions && !chosenquit){
 			chosenoptions = true;
 			previousisdown = true;
 		}
 		// Säger att man går ur Options om man är inne i den och trycker Space:
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && chosenoptions && !chosenquit){
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !chosenhowtoplay && !previousisdown && chosenoptions && !chosenquit){
 			chosenoptions = false;
 			previousisdown = true;
 		}
@@ -331,7 +331,7 @@ bool StartMenuState::Draw(){
 	else if (current_option == QUIT){
 		//smop4.draw(m_window);
 		// Säger att den ska sätta Quit till true om den är markerad:
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !chosenhowtoplay && !previousisdown && !chosenoptions){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return) && !chosenhowtoplay && !previousisdown && !chosenoptions){
 			chosenoptions = true;
 			previousisdown = true;
 		}
@@ -342,7 +342,7 @@ bool StartMenuState::Draw(){
 		else smop4.draw(m_window);
 	}
 
-	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) previousisdown = false;
+	if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Return)) previousisdown = false;
 
 	m_window->display();
 	return false;
