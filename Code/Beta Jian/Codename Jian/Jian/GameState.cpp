@@ -130,6 +130,8 @@ bool GameState::Initialize(){
 		{
 			return false;
 		}
+		
+		HUD->Move(1250 - 1920 / 2, 0);
 	}
 
 	if(entity_manager == nullptr)
@@ -171,11 +173,15 @@ bool GameState::Enter(){
 	//Create player
 	entity_manager->CreatePlayer();
 	HUD->Restart();
-	HUD->Move(1250 - 1920 / 2, 0);
 	enemy_waves->Restart();
 
 	entity_manager->AttachStaticObject(config_manager, "HITBOXTREE");
 	entity_manager->AttachStaticObject(config_manager, "HITBOXHANGEDBODY");
+
+	GameplayAreaWidth = 3650;
+	CurrentArea = 0;
+	PreviousPlayerX = 0.0f;
+	PlayerWalkDistance = 0.0f;
 
 	std::cout << "Welcome to the GameState" << std::endl;
 	std::cout << "Press 4 to go back to StartMenuState" <<std::endl;

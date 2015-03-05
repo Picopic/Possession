@@ -48,7 +48,7 @@ bool DeadState::Update(){
 
 	m_done = false;
 
-	if(Keyboard::isKeyPressed(Keyboard::Space) || m_clock->getElapsedTime().asSeconds() > 3.0f) {
+	if(Keyboard::isKeyPressed(Keyboard::Return) || m_clock->getElapsedTime().asSeconds() > 3.0f) {
 		m_next_state = "StartMenuState";
 		m_done=true;
 		

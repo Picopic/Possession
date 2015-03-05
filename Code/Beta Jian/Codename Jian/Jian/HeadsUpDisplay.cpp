@@ -26,7 +26,7 @@ bool HeadsUpDisplay::Initialise(SpriteManager* sprite_mgr)
 	//Souls
 	SoulWidth = 100;
 	SoulHeight = 100;
-	SoulXPos = /*m_ConfigManager->ReadInt("WindowWidth")*/ 1850 - SoulWidth;
+	SoulXPos = /*m_ConfigManager->ReadInt("WindowWidth")*/ 1920 - SoulWidth;
 	SoulYPos = 10;
 
 	//Spritemanagers
