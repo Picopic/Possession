@@ -194,6 +194,8 @@ void HeadsUpDisplay::Restart()
 	water = 3;
 	wood = 3;
 
+	//SoulXPos = 1850 - SoulWidth;
+
 	ActiveElement = FIRE;
 
 	//Reset:a souls
